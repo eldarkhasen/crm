@@ -1,0 +1,76 @@
+@extends('layouts.master')
+
+@section('title', '| Редатировать должность')
+
+@section('content')
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Добавить новую должность</h1>
+                </div>
+
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fliud">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+
+                        {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
+
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Наименование</label>
+                                    <input type="text" class="form-control" id="inputName" name = "name" value = "{{$role->name}}">
+                                </div>
+                                @if(!$permissions->isEmpty())
+                                    <div class="form-group">
+                                        <label for="#inputRoles">Дать доступ</label>
+                                        <div class="form-check" id="inputRoles">
+                                            @foreach($permissions as $permission)
+                                                {{Form::checkbox('permissions[]',  $permission->id, $role->permissions , ['class' => 'form-check-input']) }}
+                                                <label class="form-check-label" for = "{{$permission->name}}">{{$permission->name}}</label> <br>
+                                            @endforeach
+                                        </div>
+                                        @endif
+                                    </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{--<div class='col-lg-4 col-lg-offset-4'>--}}
+        {{--<h1><i class='fa fa-key'></i> Edit Role: {{$role->name}}</h1>--}}
+        {{--<hr>--}}
+
+        {{--{{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}--}}
+
+        {{--<div class="form-group">--}}
+            {{--{{ Form::label('name', 'Role Name') }}--}}
+            {{--{{ Form::text('name', null, array('class' => 'form-control')) }}--}}
+        {{--</div>--}}
+
+        {{--<h5><b>Assign Permissions</b></h5>--}}
+        {{--@foreach ($permissions as $permission)--}}
+
+            {{--{{Form::checkbox('permissions[]',  $permission->id, $role->permissions , ['class' => 'form-check-input']) }}--}}
+            {{--{{Form::label($permission->name, ucfirst($permission->name)),['class' => 'form-check-label'] }}<br>--}}
+
+        {{--@endforeach--}}
+        {{--<br>--}}
+        {{--{{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}--}}
+
+        {{--{{ Form::close() }}--}}
+    {{--</div>--}}
+
+@endsection
