@@ -6,9 +6,13 @@
  */
 
 require('./bootstrap');
+import Vue from 'vue'
+const VueInputMask = require('vue-inputmask').default;
+const VueValidate = require('vee-validate').default;
 
 window.Vue = require('vue');
-
+Vue.use(VueInputMask);
+Vue.use(VueValidate);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -36,8 +40,12 @@ const app = new Vue({
 });
 
 var users = new Vue({
-    el: '#users',
+    el: '#addEmployee',
     data:{
         checked:false
     }
+});
+
+$(document).ready(function() {
+    $('.select2').select2();
 });

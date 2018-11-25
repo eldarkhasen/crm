@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'accepted' => 'The :attribute must be accepted.',
+    'accepted' => 'Поле :attribute должно быть принято',
     'active_url' => 'The :attribute is not a valid URL.',
     'after' => 'The :attribute must be a date after :date.',
     'after_or_equal' => 'The :attribute must be a date after or equal to :date.',
@@ -93,7 +93,7 @@ return [
     'numeric' => 'The :attribute must be a number.',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
-    'required' => 'The :attribute field is required.',
+    'required' => 'Поле ":attribute" должно быть заполнено',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',
@@ -143,7 +143,12 @@ return [
     */
 
     'attributes' => [
-
+        'name'=>'имя',
+        'phone'=>'телефон',
+        'surname'=>'фамилия',
+        'patronymic'=>'отчество',
+        'password'=>'пароль',
+        'birth_date'=>'Дата рождения'
     ],
 
 ];

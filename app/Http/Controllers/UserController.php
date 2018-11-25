@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Position;
 use Illuminate\Http\Request;
 
 use Session;
@@ -20,7 +21,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth']);
+        $this->middleware(['auth','isAdmin','hasPerToEmp']);
     }
 
 
@@ -42,8 +43,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::get();
-        return view('users.create', ['roles'=>$roles]);
+        $positions = Position::all();
+
+        $permissions = Permission::get();
+        return view('users.create', ['positions'=>$positions, 'permissions'=>$permissions]);
     }
 
     /**
@@ -52,7 +55,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
+    
     public function store(Request $request)
     {
         //Validate name, email and password fields

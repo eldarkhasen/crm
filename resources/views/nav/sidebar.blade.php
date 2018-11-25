@@ -9,15 +9,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="/img/crm.png" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
-            </div>
-        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -26,8 +17,8 @@
                      with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
-                    <a href="/home" class="nav-link {{ Request::is('home') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt "></i>
+                    <a href="/home" class="nav-link {{ Request::is('home*')||Request::is('/') ? 'active' : '' }}">
+                       <div class="nav-icon fas fa-tachometer-alt"></div>
                         <p>
                             Главная
                         </p>
@@ -36,7 +27,7 @@
 
                 @if(Auth::user()->hasPermissionTo('users'))
                 <li class="nav-item">
-                    <a href="/users" class="nav-link  {{ Request::is('users') ? 'active' : '' }}">
+                    <a href="/users" class="nav-link  {{ Request::is('users*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Сотрудники
@@ -48,7 +39,7 @@
 
                 @if(Auth::user()->hasPermissionTo('permissions'))
                 <li class="nav-item">
-                    <a href="/permissions" class="nav-link  {{ Request::is('permissions') ? 'active' : '' }}">
+                    <a href="/permissions" class="nav-link  {{ Request::is('permissions*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-accessible-icon"></i>
                         <p>
                             Доступы
@@ -60,7 +51,7 @@
 
                 @if(Auth::user()->hasPermissionTo('roles'))
                 <li class="nav-item">
-                    <a href="/roles" class="nav-link  {{ Request::is('roles') ? 'active' : '' }}">
+                    <a href="/roles" class="nav-link  {{ Request::is('roles*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Должности

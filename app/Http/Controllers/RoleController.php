@@ -14,7 +14,7 @@ use Session;
 class RoleController extends Controller {
 
     public function __construct() {
-        $this->middleware(['auth']);//isAdmin middleware lets only users with a //specific permission permission to access these resources
+        $this->middleware(['auth','isAdmin']);//isAdmin middleware lets only users with a //specific permission permission to access these resources
     }
 
     /**
@@ -49,7 +49,6 @@ class RoleController extends Controller {
         //Validate name and permissions field
         $this->validate($request, [
                 'name'=>'required|unique:roles|max:10',
-                'permissions' =>'required',
             ]
         );
 
@@ -61,12 +60,15 @@ class RoleController extends Controller {
 
         $role->save();
         //Looping thru selected permissions
-        foreach ($permissions as $permission) {
-            $p = Permission::where('id', '=', $permission)->firstOrFail();
-            //Fetch the newly created role and assign permission
-            $role = Role::where('name', '=', $name)->first();
-            $role->givePermissionTo($p);
+        if($permissions!=null){
+            foreach ($permissions as $permission) {
+                $p = Permission::where('id', '=', $permission)->firstOrFail();
+                //Fetch the newly created role and assign permission
+                $role = Role::where('name', '=', $name)->first();
+                $role->givePermissionTo($p);
+            }
         }
+
 
         return redirect()->route('roles.index')
             ->with('flash_message',
@@ -109,23 +111,25 @@ class RoleController extends Controller {
         //Validate name and permission fields
         $this->validate($request, [
             'name'=>'required|max:10|unique:roles,name,'.$id,
-            'permissions' =>'required',
+
         ]);
 
         $input = $request->except(['permissions']);
         $permissions = $request['permissions'];
         $role->fill($input)->save();
+        if($permissions!=null){
+            $p_all = Permission::all();//Get all permissions
 
-        $p_all = Permission::all();//Get all permissions
+            foreach ($p_all as $p) {
+                $role->revokePermissionTo($p); //Remove all permissions associated with role
+            }
 
-        foreach ($p_all as $p) {
-            $role->revokePermissionTo($p); //Remove all permissions associated with role
+            foreach ($permissions as $permission) {
+                $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
+                $role->givePermissionTo($p);  //Assign permission to role
+            }
         }
 
-        foreach ($permissions as $permission) {
-            $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
-            $role->givePermissionTo($p);  //Assign permission to role
-        }
 
         return redirect()->route('roles.index')
             ->with('flash_message',
