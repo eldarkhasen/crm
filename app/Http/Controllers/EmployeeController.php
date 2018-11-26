@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Position;
 use Illuminate\Http\Request;
 use App\User;
 //Importing laravel-permission models
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
 {
@@ -52,21 +54,6 @@ class EmployeeController extends Controller
             '3' => 'Женский'
         ];
 
-        $user = new User();
-
-        if(request()->createUser){
-            $this->validate($request, [
-                'name'=>'required|max:120',
-                'email'=>'required|email|unique:users',
-                'password'=>'required|min:6|confirmed'
-            ]);
-            $user = User::create([
-                'name'=>request()->name,
-                'email'=>request()->email,
-                'password'=>\request()->password
-            ]);
-        }
-
         $this->validate($request, [
             'name'=>'required|max:120',
             'surname'=>'required|max:120',
@@ -83,14 +70,51 @@ class EmployeeController extends Controller
             'birth_date'=>request()->birth_date,
             'gender'=> $gender[request()->gender]
         ]);
-        $roles = $request['roles'];
 
-        if(isset($roles)){
-            foreach ($roles as $role) {
-                $role_r = Role::where('id', '=', $role)->firstOrFail();
-                $employee->assignRole($role_r); //Assigning role to user
-            }
+        $positions = $request['positions'];
+        $pos = array();
+        if(isset($positions)){
+            $employee->positions()->attach($positions);
         }
+
+        if(request()->createUser){
+
+            $this->validate($request, [
+                'email'=>'required|email|unique:users',
+                'password'=>'required|min:6|confirmed'
+            ]);
+
+            $user = User::create([
+                'name'=>request()->name,
+                'email'=>request()->email,
+                'password'=>request()->password
+            ]);
+
+            $permissions = $request['permissions'];
+
+            if($permissions!=null){
+
+                $p_all = Permission::all();//Get all permissions
+
+                foreach ($p_all as $p) {
+                    $user->revokePermissionTo($p); //Remove all permissions associated with role
+                }
+
+                foreach ($permissions as $permission) {
+                    $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
+                    $user->givePermissionTo($p);  //Assign permission to role
+                }
+            }
+
+            $user->employee()->save($employee);
+
+        }
+
+        //Redirect to the users.index view and display message
+        return redirect()->route('users.index')
+            ->with('flash_message',
+                'User successfully added.');
+
 
     }
 

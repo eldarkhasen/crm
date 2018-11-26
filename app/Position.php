@@ -8,7 +8,8 @@ class Position extends Model
 {
     protected $guarded = [];
     protected $table = 'positions';
+
     public function employee(){
-        $this->belongsTo(Employee::class);
+        return $this->belongsToMany(Employee::class);
     }
 }

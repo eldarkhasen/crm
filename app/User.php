@@ -29,4 +29,12 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+    public function isActive(){
+        return $this->is_active;
+    }
+
+    public function employee(){
+        return $this->hasOne(Employee::class);
+    }
 }

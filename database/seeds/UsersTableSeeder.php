@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
         app()['cache']->forget('spatie.permission.cache');
 
         // create permissions
+        Permission::create(['name' => 'admin', 'alias'=>'Admin']);
         Permission::create(['name' => 'users', 'alias'=>'Сотрудники']);
         Permission::create(['name' => 'roles','alias'=>'Должности']);
         Permission::create(['name' => 'finance','alias'=>'Финансы']);

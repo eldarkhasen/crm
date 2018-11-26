@@ -3,10 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\User;
-use Illuminate\Support\Facades\Auth;
 
-class EmployeesPermissionMiddleware
+class UserIsActiveMiddleware
 {
     /**
      * Handle an incoming request.
@@ -20,12 +18,11 @@ class EmployeesPermissionMiddleware
         $user = User::all()->count();
 
         if (!($user == 1)) {
-            if (!Auth::user()->hasPermissionTo('users')) //If user does //not have this permission
+            if (!Auth::user()->isActive()) //If user does //not have this permission
             {
                 abort('401');
             }
         }
-
         return $next($request);
     }
 }

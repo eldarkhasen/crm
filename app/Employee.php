@@ -15,11 +15,22 @@ class Employee extends Model
 
     protected $table = 'employees';
 
+    public function account(){
+        return $this->belongsTo(User::class);
+    }
+
     public function hasAccount(){
-        $this->hasOne(User::class);
+
+        $account = $this->account()->count();
+
+        if($account>=1){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function positions(){
-        $this->hasMany(Position::class);
+       return $this->belongsToMany(Position::class);
     }
 }
