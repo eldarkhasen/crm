@@ -17,7 +17,7 @@ class EmployeeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','isAdmin','hasPerToEmp']);
+        $this->middleware(['auth','isAdmin']);
     }
 
     /**
@@ -27,7 +27,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employees = Employee::latest()->paginate(15);
+        return view('employees.index',compact('employees'));
     }
 
     /**
@@ -105,7 +106,7 @@ class EmployeeController extends Controller
                     $user->givePermissionTo($p);  //Assign permission to role
                 }
             }
-
+            $user->assignRole('staff');
             $user->employee()->save($employee);
 
         }
@@ -135,9 +136,15 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee)
+    public function edit($id)
     {
-        //
+
+        $hasAccount = false;
+        $employee = Employee::findOrFail($id);
+        $hasUser = $employee->hasUser();
+//        dd($hasUser);
+        return view('employees.edit', compact('employee', 'user','hasUser'));
+
     }
 
     /**

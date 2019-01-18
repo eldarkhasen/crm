@@ -15,13 +15,13 @@ class Employee extends Model
 
     protected $table = 'employees';
 
-    public function account(){
+    public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function hasAccount(){
+    public function hasUser(){
 
-        $account = $this->account()->count();
+        $account = $this->user()->count();
 
         if($account>=1){
             return true;

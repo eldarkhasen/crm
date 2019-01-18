@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Редактировать сотрудника</h1>
+                    <h1>Редактировать сотрудника </h1>
 
                 </div>
 
@@ -17,7 +17,14 @@
     
     <section class="content">
         <div class="container-fliud" id = "app">
-            <edit-emp-component ></edit-emp-component>
+            <edit-emp-component name = "{{$employee->name}}"
+                                surname = "{{$employee->surname}}"
+                                patronymic = "{{$employee->patronymic}}"
+                                phone = "{{$employee->phone}}"
+                                gender="{{$employee->gender}}"
+                                birthdate = "{{$employee->birth_date}}"
+                                hasUser = "{{$hasUser}}"
+            ></edit-emp-component>
             @include('errors.list')
         </div>
     </section>

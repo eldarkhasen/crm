@@ -101,6 +101,11 @@ class UserController extends Controller
         return redirect('users');
     }
 
+    public function getUserById($id){
+        $user = User::findOrFail($id);
+        return $user;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

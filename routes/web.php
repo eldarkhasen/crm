@@ -21,7 +21,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('users', 'UserController');
 
 Route::resource('roles', 'RoleController');
+Route::resource('employees', 'EmployeeController');
+
+Route::get('getroles',"RoleController@getRoles");
+
+Route::get('getUserById',"UserController@getUserById");
 
 Route::resource('permissions', 'PermissionController');
-Route::resource('employees', 'EmployeeController');
+
+
 

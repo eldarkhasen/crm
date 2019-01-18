@@ -10,6 +10,10 @@ import Vue from 'vue'
 const VueInputMask = require('vue-inputmask').default;
 const VueValidate = require('vee-validate').default;
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
 window.Vue = require('vue');
 Vue.use(VueInputMask);
 Vue.use(VueValidate);
@@ -22,6 +26,7 @@ Vue.use(VueValidate);
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('edit-emp-component', require('./components/EditEmployeeComponent.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 

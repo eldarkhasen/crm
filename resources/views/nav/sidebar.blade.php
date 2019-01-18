@@ -30,11 +30,18 @@
                     <a href="/users" class="nav-link  {{ Request::is('users*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
-                            Сотрудники
-
+                            Аккаунты
                         </p>
                     </a>
                 </li>
+                    <li class="nav-item">
+                        <a href="/employees" class="nav-link  {{ Request::is('employees*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Сотрудники
+                            </p>
+                        </a>
+                    </li>
                 @endif
 
                 @if(Auth::user()->hasPermissionTo('permissions'))

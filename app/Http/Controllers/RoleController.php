@@ -23,7 +23,7 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $roles = Role::all();//Get all roles
+        $roles = Role::all(); //Get all roles
 
         return view('roles.index')->with('roles', $roles);
     }
@@ -152,4 +152,10 @@ class RoleController extends Controller {
                 'Role deleted!');
 
     }
+
+    public function getRoles(){
+        return Role::all();
+    }
+
+
 }
