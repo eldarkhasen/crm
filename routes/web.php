@@ -29,6 +29,7 @@ Route::get('getpermissions',"PermissionController@getPermissions");
 
 
 Route::get('getUserById/{id}',"UserController@getUserById");
+Route::get('getPermissionsByUserId/{id}',"PermissionController@getPermissionsByUserId");
 
 Route::resource('permissions', 'PermissionController');
 

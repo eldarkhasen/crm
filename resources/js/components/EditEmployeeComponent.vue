@@ -43,11 +43,11 @@
                                 <div class="form-group" v-if="hasAccount">
                                     <label>Доступы</label>
                                     <div class="form-check" v-for="permission in permissions">
-                                        <input name = "permissions[]" class="form-check-input" type="checkbox" value="">
-                                        <label class="form-check-label" v-text="permission.alias"> </label> <br>
+                                        <input name = "permissions[]" class="form-check-input" type="checkbox" value="" :checked="checkPermissions(permission)">
+                                        <label class="form-check-label" v-text="permission.alias" > </label> <br>
                                     </div>
                                 </div>
-                                
+
                             </transition>
                         </div>
                     </div>
@@ -82,6 +82,7 @@
                 user:{
                     type:Object
                 },
+                usersPermissions:[]
 
             }
         },
@@ -105,9 +106,19 @@
                     this.hasAccount = true;
                     var id = this.employee.user_id;
                     axios.get('/getUserById/'+id).then(({data})=>this.user = data);
+                    axios.get('/getPermissionsByUserId/'+id).then(({data})=>this.usersPermissions = data);
                     // this.$toaster.success('Your toaster success message.')
                 }
+            },
+            checkPermissions(perm){
+                for(var i =0;i<this.usersPermissions.length;i++){
+                    if(this.usersPermissions[i].id == perm.id){
+                        return true;
+                    }
+                }
+                return false;
             }
+
         }
     }
 </script>

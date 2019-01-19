@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -43,6 +44,11 @@ class PermissionController extends Controller
 
     public function getPermissions(){
         return Permission::all();
+    }
+
+    public function getPermissionsByUserId($id){
+        $user = User::findOrFail($id);
+        return $user->permissions;
     }
 
     public function store(Request $request) {

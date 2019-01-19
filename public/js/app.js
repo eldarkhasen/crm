@@ -62545,7 +62545,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             hasAccount: false,
             user: {
                 type: Object
-            }
+            },
+            usersPermissions: []
 
         };
     },
@@ -62585,8 +62586,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var data = _ref3.data;
                     return _this3.user = data;
                 });
+                axios.get('/getPermissionsByUserId/' + id).then(function (_ref4) {
+                    var data = _ref4.data;
+                    return _this3.usersPermissions = data;
+                });
                 // this.$toaster.success('Your toaster success message.')
             }
+        },
+        checkPermissions: function checkPermissions(perm) {
+            for (var i = 0; i < this.usersPermissions.length; i++) {
+                if (this.usersPermissions[i].id == perm.id) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 });
@@ -62892,6 +62905,9 @@ var render = function() {
                                     name: "permissions[]",
                                     type: "checkbox",
                                     value: ""
+                                  },
+                                  domProps: {
+                                    checked: _vm.checkPermissions(permission)
                                   }
                                 }),
                                 _vm._v(" "),
