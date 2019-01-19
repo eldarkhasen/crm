@@ -25,7 +25,10 @@ Route::resource('employees', 'EmployeeController');
 
 Route::get('getroles',"RoleController@getRoles");
 
-Route::get('getUserById',"UserController@getUserById");
+Route::get('getpermissions',"PermissionController@getPermissions");
+
+
+Route::get('getUserById/{id}',"UserController@getUserById");
 
 Route::resource('permissions', 'PermissionController');
 

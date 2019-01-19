@@ -41,6 +41,10 @@ class PermissionController extends Controller
         return view('permissions.create')->with('roles', $roles);
     }
 
+    public function getPermissions(){
+        return Permission::all();
+    }
+
     public function store(Request $request) {
         $this->validate($request, [
             'name'=>'required|max:40',

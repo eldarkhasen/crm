@@ -139,11 +139,10 @@ class EmployeeController extends Controller
     public function edit($id)
     {
 
-        $hasAccount = false;
+
         $employee = Employee::findOrFail($id);
-        $hasUser = $employee->hasUser();
-//        dd($hasUser);
-        return view('employees.edit', compact('employee', 'user','hasUser'));
+        
+        return view('employees.edit', compact('employee', 'user'));
 
     }
 
