@@ -18,6 +18,7 @@ class EmployeeController extends Controller
     public function __construct()
     {
         $this->middleware(['auth','isAdmin']);
+
     }
 
     /**
@@ -155,7 +156,10 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+//        dd($employee);
+        $employees = Employee::latest()->paginate(15);
+        return view('employees.index',compact('employees'));
+//        return redirect()->route('employees.index',['employees'=>$employees]);
     }
 
     /**
