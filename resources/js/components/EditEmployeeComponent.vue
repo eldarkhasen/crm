@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card card-primary" >
-                <form method ="POST" action = "" autocomplete="off">
+                <form autocomplete="off" @submit.prevent="submit">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="inputName">Имя</label>
@@ -102,12 +102,12 @@
                 axios.get('/getpermissions').then(({data})=>this.permissions = data);
             },
             checkAccount(){
-                if(this.employee.user_id!=" "){
+                if(this.employee.user_id!=null){
                     this.hasAccount = true;
                     var id = this.employee.user_id;
                     axios.get('/getUserById/'+id).then(({data})=>this.user = data);
                     axios.get('/getPermissionsByUserId/'+id).then(({data})=>this.usersPermissions = data);
-                    // this.$toaster.success('Your toaster success message.')
+                    // this.$toaster.success('Your toaster success message.');
                 }
             },
             checkPermissions(perm){
@@ -117,6 +117,14 @@
                     }
                 }
                 return false;
+            },
+            submit(){
+                axios.put('/employees/'+this.employee.id,this.employee).then(function (response) {
+                    if(response.status === 200) {
+                        window.location.href = '/employees';
+                    }
+                });
+
             }
 
         }

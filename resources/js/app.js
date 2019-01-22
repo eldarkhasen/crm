@@ -12,6 +12,8 @@ const VueValidate = require('vee-validate').default;
 import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
 
+
+
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -20,6 +22,7 @@ window.Vue = require('vue');
 Vue.use(VueInputMask);
 Vue.use(VueValidate);
 Vue.use(Toaster, {timeout: 3000})
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
