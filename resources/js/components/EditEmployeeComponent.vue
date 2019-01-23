@@ -22,8 +22,8 @@
                         </div>
                         <div class="form-group">
                             <label>Пол</label>
-                            <select class="form-control" name = "gender" :required="true">
-                                <option v-for="genOption in genOptions" value="" v-bind:selected="employee.gender=== genOption.gen" :value="genOption.value"> {{genOption.gen}}</option>
+                            <select class="form-control" name = "gender" :required="true" v-model="employee.gender">
+                                <option v-for="genOption in genOptions" v-bind:selected="employee.gender=== genOption.gen" :value = "genOption.gen"> {{genOption.gen}}</option>
                             </select>
                         </div>
                         <div class="form-group" >
@@ -41,9 +41,15 @@
                             </transition>
                             <transition name = "fade">
                                 <div class="form-group" v-if="hasAccount">
+                                    <label for="inputPassword">Пароль</label>
+                                    <input type="password" class="form-control" id="inputPassword" name = "password" v-model="user.password">
+                                </div>
+                            </transition>
+                            <transition name = "fade">
+                                <div class="form-group" v-if="hasAccount">
                                     <label>Доступы</label>
                                     <div class="form-check" v-for="permission in permissions">
-                                        <input name = "permissions[]" class="form-check-input" type="checkbox" value="" :checked="checkPermissions(permission)">
+                                        <input name = "permissions[]" class="form-check-input" type="checkbox" :value="permission"  v-model = "usersPermissions">
                                         <label class="form-check-label" v-text="permission.alias" > </label> <br>
                                     </div>
                                 </div>
@@ -53,8 +59,9 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Добавить</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -82,7 +89,8 @@
                 user:{
                     type:Object
                 },
-                usersPermissions:[]
+                usersPermissions:[],
+                checkedPermissions:[],
 
             }
         },
@@ -107,23 +115,32 @@
                     var id = this.employee.user_id;
                     axios.get('/getUserById/'+id).then(({data})=>this.user = data);
                     axios.get('/getPermissionsByUserId/'+id).then(({data})=>this.usersPermissions = data);
-                    // this.$toaster.success('Your toaster success message.');
+
                 }
-            },
-            checkPermissions(perm){
-                for(var i =0;i<this.usersPermissions.length;i++){
-                    if(this.usersPermissions[i].id == perm.id){
-                        return true;
-                    }
-                }
-                return false;
             },
             submit(){
-                axios.put('/employees/'+this.employee.id,this.employee).then(function (response) {
-                    if(response.status === 200) {
-                        window.location.href = '/employees';
-                    }
-                });
+                if(this.hasAccount){
+                    axios.put('/employees/'+this.employee.id,{
+                        employee: this.employee,
+                        permissions: this.usersPermissions,
+                        hasAccount: this.hasAccount,
+                        user: this.user,
+                    }).then(function (response) {
+                        if(response.status === 200) {
+                            window.location.href = '/employees';
+                        }
+                    });
+                }else{
+                    axios.put('/employees/'+this.employee.id,{
+                        employee: this.employee,
+                        hasAccount: this.hasAccount,
+                    }).then(function (response) {
+                        if(response.status === 200) {
+                            window.location.href = '/employees';
+                        }
+                    });
+                }
+
 
             }
 

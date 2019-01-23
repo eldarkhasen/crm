@@ -9,6 +9,7 @@ use App\User;
 //Importing laravel-permission models
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -17,7 +18,7 @@ class EmployeeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','isAdmin']);
+        $this->middleware(['auth',]);
 
     }
 
@@ -74,7 +75,7 @@ class EmployeeController extends Controller
         ]);
 
         $positions = $request['positions'];
-        $pos = array();
+
         if(isset($positions)){
             $employee->positions()->attach($positions);
         }
@@ -154,12 +155,52 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request)
     {
-//        dd($employee);
-        $employees = Employee::latest()->paginate(15);
-        return view('employees.index',compact('employees'));
-//        return redirect()->route('employees.index',['employees'=>$employees]);
+          $employee = Employee::findOrFail($request['employee.id']);
+          $hasAccount = $request['hasAccount'];
+
+          if($hasAccount){
+              $permissions = $request['permissions'];
+              $user = null;
+
+              if($employee->user_id!=null){
+                  $user = User::findOrFail($employee->user_id);
+                  $user->fill($request['user']);
+                  $user->save();
+              }else{
+                  $user = User::create([
+                      'name'=>$request['employee.name'],
+                      'email'=>$request['user.email'],
+                      'password'=>$request['user.email']
+                  ]);
+              }
+
+              $p_all = Permission::all();//Get all permissions
+              foreach ($p_all as $p) {
+                  $user->revokePermissionTo($p); //Remove all permissions associated with user
+              }
+              foreach ($permissions as $permission) {
+                  $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
+                  $user->givePermissionTo($p);  //Assign permission to user
+              }
+              
+              $employee->fill($request['employee']);
+              $employee->save();
+              $user->save();
+              $user->employee()->save($employee);
+
+          }else{
+              $employee->fill($request['employee']);
+              if($employee->user_id!=null){
+                  $user = User::findOrFail($employee->user_id);
+                  $employee->user_id = null;
+                  $user->delete();
+              }
+              $employee->save();
+          }
+
+
     }
 
     /**

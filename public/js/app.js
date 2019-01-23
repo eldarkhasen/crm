@@ -63116,6 +63116,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -63134,7 +63141,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             user: {
                 type: Object
             },
-            usersPermissions: []
+            usersPermissions: [],
+            checkedPermissions: []
 
         };
     },
@@ -63178,23 +63186,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var data = _ref4.data;
                     return _this3.usersPermissions = data;
                 });
-                // this.$toaster.success('Your toaster success message.');
             }
-        },
-        checkPermissions: function checkPermissions(perm) {
-            for (var i = 0; i < this.usersPermissions.length; i++) {
-                if (this.usersPermissions[i].id == perm.id) {
-                    return true;
-                }
-            }
-            return false;
         },
         submit: function submit() {
-            axios.put('/employees/' + this.employee.id, this.employee).then(function (response) {
-                if (response.status === 200) {
-                    window.location.href = '/employees';
-                }
-            });
+            if (this.hasAccount) {
+                axios.put('/employees/' + this.employee.id, {
+                    employee: this.employee,
+                    permissions: this.usersPermissions,
+                    hasAccount: this.hasAccount,
+                    user: this.user
+                }).then(function (response) {
+                    if (response.status === 200) {
+                        window.location.href = '/employees';
+                    }
+                });
+            } else {
+                axios.put('/employees/' + this.employee.id, {
+                    employee: this.employee,
+                    hasAccount: this.hasAccount
+                }).then(function (response) {
+                    if (response.status === 200) {
+                        window.location.href = '/employees';
+                    }
+                });
+            }
         }
     }
 });
@@ -63349,17 +63364,43 @@ var render = function() {
                 _c(
                   "select",
                   {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.employee.gender,
+                        expression: "employee.gender"
+                      }
+                    ],
                     staticClass: "form-control",
-                    attrs: { name: "gender", required: true }
+                    attrs: { name: "gender", required: true },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.employee,
+                          "gender",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
                   },
                   _vm._l(_vm.genOptions, function(genOption) {
                     return _c(
                       "option",
                       {
-                        attrs: { value: "" },
                         domProps: {
                           selected: _vm.employee.gender === genOption.gen,
-                          value: genOption.value
+                          value: genOption.gen
                         }
                       },
                       [_vm._v(" " + _vm._s(genOption.gen))]
@@ -63494,6 +63535,46 @@ var render = function() {
                   _vm._v(" "),
                   _c("transition", { attrs: { name: "fade" } }, [
                     _vm.hasAccount
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c("label", { attrs: { for: "inputPassword" } }, [
+                            _vm._v("Пароль")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.user.password,
+                                expression: "user.password"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "password",
+                              id: "inputPassword",
+                              name: "password"
+                            },
+                            domProps: { value: _vm.user.password },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.user,
+                                  "password",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("transition", { attrs: { name: "fade" } }, [
+                    _vm.hasAccount
                       ? _c(
                           "div",
                           { staticClass: "form-group" },
@@ -63503,14 +63584,51 @@ var render = function() {
                             _vm._l(_vm.permissions, function(permission) {
                               return _c("div", { staticClass: "form-check" }, [
                                 _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.usersPermissions,
+                                      expression: "usersPermissions"
+                                    }
+                                  ],
                                   staticClass: "form-check-input",
                                   attrs: {
                                     name: "permissions[]",
-                                    type: "checkbox",
-                                    value: ""
+                                    type: "checkbox"
                                   },
                                   domProps: {
-                                    checked: _vm.checkPermissions(permission)
+                                    value: permission,
+                                    checked: Array.isArray(_vm.usersPermissions)
+                                      ? _vm._i(
+                                          _vm.usersPermissions,
+                                          permission
+                                        ) > -1
+                                      : _vm.usersPermissions
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.usersPermissions,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = permission,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            (_vm.usersPermissions = $$a.concat([
+                                              $$v
+                                            ]))
+                                        } else {
+                                          $$i > -1 &&
+                                            (_vm.usersPermissions = $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1)))
+                                        }
+                                      } else {
+                                        _vm.usersPermissions = $$c
+                                      }
+                                    }
                                   }
                                 }),
                                 _vm._v(" "),
@@ -63550,7 +63668,7 @@ var staticRenderFns = [
       _c(
         "button",
         { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Добавить")]
+        [_vm._v("Сохранить")]
       )
     ])
   }

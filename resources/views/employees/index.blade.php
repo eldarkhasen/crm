@@ -29,14 +29,18 @@
                                 <tbody>
                                 <tr>
                                     <th>Имя</th>
+                                    <th>Фамилия</th>
+                                    <th>Отчество</th>
                                     <th>Дата добавления</th>
                                     <th>Должность</th>
-                                    <th>Номер телефона</th>
+                                    <th>Действие</th>
                                 </tr>
                                 @foreach ($employees as $emp)
                                 <tr>
 
                                 <td>{{ $emp->name }}</td>
+                                <td>{{ $emp->surname }}</td>
+                                <td>{{ $emp->patronymic }}</td>
                                 <td>{{ $emp->created_at->toDateTimeString() }}</td>
                                 <td>{{ $emp->positions()->pluck('name')->implode(' ') }}</td>
                                 <td>
