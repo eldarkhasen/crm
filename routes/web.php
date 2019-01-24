@@ -11,27 +11,21 @@
 |
 */
 
-
-
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('users', 'UserController');
-
 Route::resource('roles', 'RoleController');
 Route::resource('employees', 'EmployeeController');
 
-Route::get('getroles',"RoleController@getRoles");
-
-Route::get('getpermissions',"PermissionController@getPermissions");
-
-
-Route::get('getUserById/{id}',"UserController@getUserById");
-Route::get('getPermissionsByUserId/{id}',"PermissionController@getPermissionsByUserId");
-
 Route::resource('permissions', 'PermissionController');
 
+
+Route::get('getroles',"RoleController@getRoles");
+Route::get('getpermissions',"PermissionController@getPermissions");
+Route::get('getUserById/{id}',"UserController@getUserById");
+Route::get('getPermissionsByUserId/{id}',"PermissionController@getPermissionsByUserId");
 
 

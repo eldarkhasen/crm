@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
 
         // create permissions
         Permission::create(['name' => 'admin', 'alias'=>'Admin']);
-        Permission::create(['name' => 'users', 'alias'=>'Сотрудники']);
+        Permission::create(['name' => 'employees', 'alias'=>'Сотрудники']);
         Permission::create(['name' => 'roles','alias'=>'Должности']);
         Permission::create(['name' => 'finance','alias'=>'Финансы']);
         Permission::create(['name' => 'schedule','alias'=>'График']);
@@ -30,8 +30,9 @@ class UsersTableSeeder extends Seeder
 //        $permission_roles = factory(Permission::class,'permission_roles',1)->create();
 
         $role = Role::create(['name'=>'admin']);
-        Role::create(['name' => 'staff']);
+
         $role->givePermissionTo(Permission::all());
+        Role::create(['name' => 'staff']);
 
         $admin = User::create(['name'=>'admin','email'=>'admin@crm.com','password'=>'123456']);
         $admin->assignRole($role);

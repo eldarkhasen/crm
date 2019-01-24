@@ -25,7 +25,7 @@
                     </a>
                 </li>
 
-                @if(Auth::user()->hasPermissionTo('users'))
+                @if(Auth::user()->hasPermissionTo('employees'))
                 <li class="nav-item">
                     <a href="/users" class="nav-link  {{ Request::is('users*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
