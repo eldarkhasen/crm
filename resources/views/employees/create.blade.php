@@ -53,6 +53,16 @@
                                     <label for="inputEmail">Дата рождения</label>
                                     <input class = "form-control" type="tel" v-mask="'##/##/####'"  name = "birth_date" placeholder="ДД/ММ/ГГГГ"/>
                                 </div>
+                                <div class="form-group">
+                                    <label>Должности</label>
+                                    @if(!$positions->isEmpty())
+                                        <select name = "positions[]" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                            @foreach($positions as $position)
+                                                <option value="{{$position->id}}" >{{$position->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                </div>
 
                                 <div class="form-group" >
                                     <input type="checkbox" id="checkbox"  v-model="checked" name = "createUser">
@@ -101,16 +111,7 @@
                                             {{--@endforeach--}}
                                         {{--</div>--}}
                                     {{--</div>--}}
-                                    <div class="form-group">
-                                        <label>Должности</label>
-                                        @if(!$positions->isEmpty())
-                                        <select name = "positions[]" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                            @foreach($positions as $position)
-                                                    <option value="{{$position->id}}" >{{$position->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        @endif
-                                    </div>
+
 
 
                             </div>

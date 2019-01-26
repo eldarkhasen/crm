@@ -14,8 +14,9 @@ class CreateEmployeePositionTable extends Migration
     public function up()
     {
         Schema::create('employee_position', function (Blueprint $table) {
-            $table->integer('employee_id');
-            $table->integer('position_id');
+            $table->increments('id');
+            $table->unsignedInteger('employee_id')->index();
+            $table->unsignedInteger('position_id')->index();
             $table->timestamps();
         });
     }

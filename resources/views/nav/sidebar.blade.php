@@ -13,8 +13,6 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
                     <a href="/home" class="nav-link {{ Request::is('home*')||Request::is('/') ? 'active' : '' }}">
@@ -26,14 +24,14 @@
                 </li>
 
                 @if(Auth::user()->hasPermissionTo('employees'))
-                <li class="nav-item">
-                    <a href="/users" class="nav-link  {{ Request::is('users*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Аккаунты
-                        </p>
-                    </a>
-                </li>
+                {{--<li class="nav-item">--}}
+                    {{--<a href="/users" class="nav-link  {{ Request::is('users*') ? 'active' : '' }}">--}}
+                        {{--<i class="nav-icon fas fa-users"></i>--}}
+                        {{--<p>--}}
+                            {{--Аккаунты--}}
+                        {{--</p>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
                     <li class="nav-item">
                         <a href="/employees" class="nav-link  {{ Request::is('employees*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-users"></i>
@@ -44,21 +42,9 @@
                     </li>
                 @endif
 
-                @if(Auth::user()->hasPermissionTo('permissions'))
+                @if(Auth::user()->hasPermissionTo('positions'))
                 <li class="nav-item">
-                    <a href="/permissions" class="nav-link  {{ Request::is('permissions*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-accessible-icon"></i>
-                        <p>
-                            Доступы
-
-                        </p>
-                    </a>
-                </li>
-                @endif
-
-                @if(Auth::user()->hasPermissionTo('roles'))
-                <li class="nav-item">
-                    <a href="/roles" class="nav-link  {{ Request::is('roles*') ? 'active' : '' }}">
+                    <a href="/positions" class="nav-link  {{ Request::is('positions*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Должности

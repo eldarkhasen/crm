@@ -26,6 +26,13 @@
                                 <option v-for="genOption in genOptions" v-bind:selected="employee.gender=== genOption.gen" :value = "genOption.gen"> {{genOption.gen}}</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Должности</label>
+                            <!--<multiselect v-model="employeePositions" :options="positions" :multiple="true" :close-on-select="true" :clear-on-select="true" :preserve-search="true" track-by="name" ></multiselect>-->
+                            <multiselect v-model="employeePositions" :options="positions" :multiple="true" :close-on-select="true" :clear-on-select="true"  placeholder="Выбери должность" label="name" track-by="name" :preselect-first="true" selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано" deselectLabel="Нажмите чтобы убрать"></multiselect>
+
+
+                        </div>
                         <div class="form-group" >
                             <label for="inputEmail">Дата рождения</label>
                             <input class = "form-control" type="tel" v-mask="'##/##/####'"  name = "birth_date" placeholder="ДД/ММ/ГГГГ" v-model="employee.birth_date"/>
@@ -67,6 +74,7 @@
         </div>
     </div>
 </template>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
     export default {
         props: {
@@ -80,6 +88,7 @@
             return{
                 roles: [],
                 permissions:[],
+                positions:[],
                 genOptions:[
                     {value:1, gen:"Не указано"},
                     {value:2, gen:"Мужской"},
@@ -90,7 +99,7 @@
                     type:Object
                 },
                 usersPermissions:[],
-                checkedPermissions:[],
+                employeePositions:[],
 
             }
         },
@@ -101,6 +110,8 @@
             this.getRoles();
             this.checkAccount();
             this.getAllPermissions();
+            this.getAllPositions();
+            this.getEmpPositions();
         },
         methods:{
             getRoles(){
@@ -108,6 +119,13 @@
             },
             getAllPermissions(){
                 axios.get('/getpermissions').then(({data})=>this.permissions = data);
+            },
+            getAllPositions(){
+                axios.get('/getpositions').then(({data})=>this.positions = data);
+            },
+            getEmpPositions(){
+                var id  = this.employee.id;
+                axios.get('/getpositionsByEmpId/'+id).then(({data})=>this.employeePositions = data);
             },
             checkAccount(){
                 if(this.employee.user_id!=null){
@@ -125,6 +143,7 @@
                         permissions: this.usersPermissions,
                         hasAccount: this.hasAccount,
                         user: this.user,
+                        positions: this.employeePositions,
                     }).then(function (response) {
                         if(response.status === 200) {
                             window.location.href = '/employees';
@@ -134,14 +153,13 @@
                     axios.put('/employees/'+this.employee.id,{
                         employee: this.employee,
                         hasAccount: this.hasAccount,
+                        positions: this.employeePositions,
                     }).then(function (response) {
                         if(response.status === 200) {
                             window.location.href = '/employees';
                         }
                     });
                 }
-
-
             }
 
         }
