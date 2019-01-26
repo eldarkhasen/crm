@@ -18,7 +18,7 @@ class EmployeeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth',]);
+        $this->middleware(['auth','hasPerToEmp']);
 
     }
 
@@ -29,7 +29,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::latest()->paginate(15);
+        $employees = Employee::orderBy('name')->paginate(15);
         return view('employees.index',compact('employees'));
     }
 
@@ -40,14 +40,18 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        $positions = Position::all();
+        $permissions = Permission::get();
 
+        return view('employees.create', ['positions'=>$positions, 'permissions'=>$permissions]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
@@ -114,7 +118,7 @@ class EmployeeController extends Controller
         }
 
         //Redirect to the users.index view and display message
-        return redirect()->route('users.index')
+        return redirect()->route('employees.index')
             ->with('flash_message',
                 'User successfully added.');
 
@@ -138,12 +142,10 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
-
-
         $employee = Employee::findOrFail($id);
-        
         return view('employees.edit', compact('employee', 'user'));
 
     }
@@ -159,11 +161,20 @@ class EmployeeController extends Controller
     {
           $employee = Employee::findOrFail($request['employee.id']);
           $hasAccount = $request['hasAccount'];
+          $positions = $request['positions'];
+
+          $p_all = $employee->positions;
+
+          foreach ($p_all as $p){
+              $employee->positions()->detach($p->id);
+          }
+          foreach ($positions as $pos){
+              $employee->positions()->attach($pos['id']);
+          }
 
           if($hasAccount){
               $permissions = $request['permissions'];
               $user = null;
-
               if($employee->user_id!=null){
                   $user = User::findOrFail($employee->user_id);
                   $user->fill($request['user']);
@@ -177,6 +188,7 @@ class EmployeeController extends Controller
               }
 
               $p_all = Permission::all();//Get all permissions
+
               foreach ($p_all as $p) {
                   $user->revokePermissionTo($p); //Remove all permissions associated with user
               }
@@ -184,11 +196,14 @@ class EmployeeController extends Controller
                   $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
                   $user->givePermissionTo($p);  //Assign permission to user
               }
-              
+
+
+
               $employee->fill($request['employee']);
               $employee->save();
               $user->save();
               $user->employee()->save($employee);
+
 
           }else{
               $employee->fill($request['employee']);
@@ -212,5 +227,10 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         //
+    }
+
+    public function getPositionsById($id){
+        $employee = Employee::findOrFail($id);
+        return $employee->positions;
     }
 }

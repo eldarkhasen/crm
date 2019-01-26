@@ -12,7 +12,7 @@ class Employee extends Model
     use Notifiable;
 
     protected $guarded = [];
-
+    protected $hidden = array('pivot');
     protected $table = 'employees';
 
     public function account(){
@@ -31,6 +31,6 @@ class Employee extends Model
     }
 
     public function positions(){
-       return $this->belongsToMany(Position::class);
+       return $this->belongsToMany(Position::class)->withTimestamps();
     }
 }
