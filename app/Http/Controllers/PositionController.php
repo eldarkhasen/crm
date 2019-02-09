@@ -103,9 +103,11 @@ class PositionController extends Controller
      * @param  \App\Position  $position
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Position $position)
+    public function destroy($id)
     {
-        //
+        $position = Position::findOrFail($id);
+        $position->delete();
+        return redirect()->route('positions.index');
     }
 
     public function getPositions(){

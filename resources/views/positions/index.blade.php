@@ -40,7 +40,11 @@
                                         <td>
                                             <a href="{{ URL::to('positions/'.$position->id.'/edit') }}"><i class="fa fa-edit"></i></a>
                                             /
-                                            <a href="{{ URL::to('positions/'.$position->id.'/edit') }}"><i class="fa fa-trash-alt"></i></a>
+                                            <a href="" onclick="event.preventDefault();
+                                                     document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>
+                                            {{ Form::open(array('route' => array('positions.destroy', $position->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
+                                            <button type="submit" ><i class="fa fa-trash-alt"></i></button>
+                                            {{ Form::close() }}
                                         </td>
                                     </tr>
                                 @endforeach
