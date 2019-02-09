@@ -114,7 +114,7 @@ class EmployeeController extends Controller
         }
 
         //Redirect to the users.index view and display message
-        return redirect()->route('users.index')
+        return redirect()->route('employees.index')
             ->with('flash_message',
                 'User successfully added.');
 
@@ -209,8 +209,16 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy($id)
     {
-        //
+        $emp = Employee::findOrFail($id);
+        if($emp->hasAccount()){
+            $user = User::findOrFail($emp->user_id);
+            $user->delete();
+        }
+        $emp->delete();
+
+        return redirect()->route('employees.index');
+
     }
 }

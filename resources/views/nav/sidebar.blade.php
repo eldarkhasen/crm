@@ -56,9 +56,9 @@
                 </li>
                 @endif
 
-                @if(Auth::user()->hasPermissionTo('roles'))
+                @if(Auth::user()->hasPermissionTo('positions'))
                 <li class="nav-item">
-                    <a href="/roles" class="nav-link  {{ Request::is('roles*') ? 'active' : '' }}">
+                    <a href="/roles" class="nav-link  {{ Request::is('positions*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Должности
