@@ -224,9 +224,17 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy($id)
     {
-        //
+        $emp = Employee::findOrFail($id);
+        if($emp->hasAccount()){
+            $user = User::findOrFail($emp->user_id);
+            $user->delete();
+        }
+        $emp->delete();
+
+        return redirect()->route('employees.index');
+
     }
 
     public function getPositionsById($id){
