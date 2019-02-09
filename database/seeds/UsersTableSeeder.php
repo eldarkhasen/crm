@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
         // create permissions
         Permission::create(['name' => 'admin', 'alias'=>'Admin']);
         Permission::create(['name' => 'employees', 'alias'=>'Сотрудники']);
-        Permission::create(['name' => 'roles','alias'=>'Должности']);
+        Permission::create(['name' => 'positions','alias'=>'Должности']);
         Permission::create(['name' => 'finance','alias'=>'Финансы']);
         Permission::create(['name' => 'schedule','alias'=>'График']);
         Permission::create(['name' => 'permissions','alias'=>'Доступы']);

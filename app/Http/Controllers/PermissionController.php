@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 
 //Importing laravel-permission models
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -52,9 +53,12 @@ class PermissionController extends Controller
     }
 
     public function store(Request $request) {
-        $this->validate($request, [
-            'name'=>'required|max:40',
-        ]);
+        try {
+            $this->validate($request, [
+                'name' => 'required|max:40',
+            ]);
+        } catch (ValidationException $e) {
+        }
 
         $name = $request['name'];
         $permission = new Permission();

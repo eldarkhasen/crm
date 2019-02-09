@@ -14,7 +14,8 @@ class PositionController extends Controller
      */
     public function index()
     {
-        //
+        $positions = Position::latest()->paginate(15);
+        return view('positions.index',compact('positions'));
     }
 
     /**
@@ -24,18 +25,31 @@ class PositionController extends Controller
      */
     public function create()
     {
-        //
+        return view('positions.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+
+
+        $this->validate($request, [
+            'name'=>'required|max:120'
+        ]);
+
+        Position::create([
+            'name'=> $request->name,
+            'description'=>$request->description
+        ]);
+
+        return redirect()->route('positions.index');
+
     }
 
     /**
@@ -55,21 +69,32 @@ class PositionController extends Controller
      * @param  \App\Position  $position
      * @return \Illuminate\Http\Response
      */
-    public function edit(Position $position)
+    public function edit($id)
     {
-        //
+        $position = Position::findOrFail($id);
+        return view('positions.edit',compact('position'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Position  $position
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Position $position
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Position $position)
+    public function update(Request $request, $id)
     {
-        //
+        $position = Position::findOrFail($id);
+        $this->validate($request, [
+            'name'=>'required|max:120'
+        ]);
+
+        $input = $request->all();
+        $position->fill($input)->save();
+
+        return redirect()->route('positions.index');
+
     }
 
     /**
@@ -78,8 +103,14 @@ class PositionController extends Controller
      * @param  \App\Position  $position
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Position $position)
+    public function destroy($id)
     {
-        //
+        $position = Position::findOrFail($id);
+        $position->delete();
+        return redirect()->route('positions.index');
+    }
+
+    public function getPositions(){
+        return Position::all();
     }
 }
