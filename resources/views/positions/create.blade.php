@@ -23,9 +23,10 @@
                         <form method ="POST" action = "{{ URL::to('positions') }}">
                             @csrf
                             <div class="card-body">
-                                <div class="form-group">
+                                <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
                                     <label for="exampleInputEmail1">Наименование</label>
                                     <input type="text" class="form-control" id="inputName" name = "name">
+                                    {!! $errors->first('name', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Описание</label>
@@ -36,9 +37,9 @@
 
                             <!-- /.card-body -->
 
-                            <div class="card-footer">
+                            <div class="card-body">
                                 <button type="submit" class="btn btn-primary">Добавить</button>
-                                @include('errors.list')
+
                             </div>
 
                         </form>

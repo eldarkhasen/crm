@@ -13,8 +13,8 @@ import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
 import Multiselect from 'vue-multiselect'
 
-
-
+import 'datatables.net'
+import  'datatables.net-bs4'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'

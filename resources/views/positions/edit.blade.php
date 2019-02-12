@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <!-- /.card-body -->
-                        <div class="card-footer">
+                        <div class="card-body">
                             <button type="submit" class="btn btn-primary">Сохранить</button>
                         </div>
                         {{ Form::close() }}

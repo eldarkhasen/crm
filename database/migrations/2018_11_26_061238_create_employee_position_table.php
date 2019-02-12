@@ -16,7 +16,9 @@ class CreateEmployeePositionTable extends Migration
         Schema::create('employee_position', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('employee_id')->index();
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->unsignedInteger('position_id')->index();
+            $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -1,74 +1,80 @@
-
+{{-- \resources\views\users\index.blade.php --}}
 @extends('layouts.master')
 
-@section('title', '| Должности')
+@section('title', '| Пациенты')
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Список должностей</h1>
+                    <h3>Список пациентов</h3>
                 </div>
                 <div class="col-sm-6">
                     <ul class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ URL::to('positions/create') }}"  type = "button" class = "btn btn-block btn-outline-primary">Добавить должность</a></li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('patients/create') }}"  type = "button" class = "btn btn-block btn-outline-primary">Добавить пациента</a></li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </div><!-- /.container-fluid -->
     </section>
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover dataTable" id = "positions" role="grid">
-                                <thead>
-                                <tr>
-                                    <th>Доступ</th>
-                                    {{--<th>Доступы</th>--}}
-                                    <th>Описание</th>
-                                    <th>Операция</th>
-                                </tr>
-                                </thead>
 
-                                <tbody>
-                                @foreach ($positions as $position)
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover dataTable" id = "patients" role="grid">
+
+                                <thead>
                                     <tr>
-                                        <td>{{ $position->name }}</td>
-                                        {{--<td>{{ str_replace(array('[',']','"'),'', $role->permissions()->pluck('name')) }}</td>--}}
-                                        <td>{{$position->description}}</td>
+                                        <th>Имя</th>
+                                        <th>Фамилия</th>
+                                        <th>Отчество</th>
+                                        <th>Дата рождения</th>
+                                        <th>Действие</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($patients as $patient)
+                                    <tr>
+                                        <td>{{ $patient->name }}</td>
+                                        <td>{{ $patient->surname }}</td>
+                                        <td>{{ $patient->patronymic }}</td>
+                                        <td>{{ $patient->birth_date }}</td>
+
                                         <td>
-                                            <a href="{{ URL::to('positions/'.$position->id.'/edit') }}"><i class="fa fa-edit"></i></a>
-                                            /
-                                            <a href="" onclick="event.preventDefault();
-                                                     document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>
-                                            {{ Form::open(array('route' => array('positions.destroy', $position->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
-                                            <button type="submit" ><i class="fa fa-trash-alt"></i></button>
-                                            {{ Form::close() }}
+                                            <a href="{{ route('patients.edit', $patient->id) }}"><i class="fa fa-edit"></i></a>
+
+                                            {{--<a href="" onclick="event.preventDefault();--}}
+                                            {{--document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>--}}
+                                            {{--{{ Form::open(array('route' => array('employees.destroy', $emp->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}--}}
+                                            {{--<button type="submit" ><i class="fa fa-trash-alt"></i></button>--}}
+                                            {{--{{ Form::close() }}--}}
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
+
                             </table>
                         </div>
+
                     </div>
                     <!-- /.card -->
                 </div>
             </div>
+
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
-
 
 @endsection
 
 @section('script')
     <script>
         $(document).ready(function () {
-            $('#positions').DataTable({
+            $('#patients').DataTable({
                 "processing": true,
                 "responsive": true,
                 "language": {

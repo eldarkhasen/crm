@@ -56,7 +56,7 @@
                                 <div class="form-group">
                                     <label>Должности</label>
                                     @if(!$positions->isEmpty())
-                                        <select name = "positions[]" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                        <select name = "positions[]" class="form-control select2 select2-hidden-accessible" multiple="" style="width: 100%;" tabindex="-1" aria-hidden="true">
                                             @foreach($positions as $position)
                                                 <option value="{{$position->id}}" >{{$position->name}}</option>
                                             @endforeach

@@ -14,7 +14,7 @@ class PositionController extends Controller
      */
     public function index()
     {
-        $positions = Position::latest()->paginate(15);
+        $positions = Position::all();
         return view('positions.index',compact('positions'));
     }
 
@@ -48,7 +48,9 @@ class PositionController extends Controller
             'description'=>$request->description
         ]);
 
-        return redirect()->route('positions.index');
+        return redirect()->route('positions.index')
+            ->with('flash_message',
+                'Patient successfully added.');
 
     }
 

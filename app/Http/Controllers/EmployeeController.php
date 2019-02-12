@@ -29,7 +29,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::orderBy('name')->paginate(15);
+        $employees = Employee::all();
         return view('employees.index',compact('employees'));
     }
 
@@ -117,7 +117,7 @@ class EmployeeController extends Controller
 
         }
 
-        //Redirect to the users.index view and display message
+        //Redirect to the employees.index view and display message
         return redirect()->route('employees.index')
             ->with('flash_message',
                 'User successfully added.');
@@ -146,7 +146,7 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
-        return view('employees.edit', compact('employee', 'user'));
+        return view('employees.edit', compact('employee'));
 
     }
 

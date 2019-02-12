@@ -22,6 +22,9 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.5.0",
         "admin-lte": "^3.0.0-alpha.2",
+        "datatables.net": "^1.10.19",
+        "datatables.net-bs4": "^1.10.19",
+        "datatables.net-dt": "^1.10.19",
         "select2": "^4.0.6-rc.1",
         "v-msgx": "^1.0.2",
         "v-toaster": "^1.0.3",

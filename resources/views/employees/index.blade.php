@@ -25,8 +25,8 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <tbody>
+                            <table class="table table-bordered table-hover dataTable" id = "employees" role="grid">
+                                <thead>
                                 <tr>
                                     <th>Имя</th>
                                     <th>Фамилия</th>
@@ -35,6 +35,9 @@
                                     <th>Должности</th>
                                     <th>Действие</th>
                                 </tr>
+                                </thead>
+
+                                <tbody>
                                 @foreach ($employees as $emp)
                                 <tr>
 
@@ -57,11 +60,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="card-footer clearfix">
-                            <ul class="pagination pagination-sm m-0 float-right">
-                                {!! $employees->render() !!}
-                            </ul>
-                        </div>
                     </div>
                     <!-- /.card -->
                 </div>
@@ -71,4 +69,36 @@
         </div><!-- /.container-fluid -->
     </div>
 
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $('#employees').DataTable({
+                "processing": true,
+                "responsive": true,
+                "language": {
+                    "processing": "Подождите...",
+                    "search": "Поиск:",
+                    "lengthMenu": "Показать _MENU_ записей",
+                    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "infoPostFix": "",
+                    "loadingRecords": "Загрузка записей...",
+                    "zeroRecords": "Записи отсутствуют.",
+                    "emptyTable": "В таблице отсутствуют данные",
+                    "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                    },
+                    "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                    }
+                }
+            });     //capital "D"
+        });
+    </script>
 @endsection

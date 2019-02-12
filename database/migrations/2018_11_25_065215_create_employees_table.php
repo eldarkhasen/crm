@@ -13,10 +13,10 @@ class CreateEmployeesTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('employees');
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->nullable();
+//            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
             $table->string('name');
             $table->string('surname');
             $table->string('patronymic');

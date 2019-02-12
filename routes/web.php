@@ -21,6 +21,7 @@ Route::resource('roles', 'RoleController');
 Route::resource('employees', 'EmployeeController');
 Route::resource('permissions', 'PermissionController');
 Route::resource('positions', 'PositionController');
+Route::resource('patients', 'PatientController');
 
 Route::get('getroles',"RoleController@getRoles");
 Route::get('getpermissions',"PermissionController@getPermissions");
