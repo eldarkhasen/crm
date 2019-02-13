@@ -30,7 +30,7 @@
                                     <th>Доступ</th>
                                     {{--<th>Доступы</th>--}}
                                     <th>Описание</th>
-                                    <th>Операция</th>
+                                    <th>Действия</th>
                                 </tr>
                                 </thead>
 
@@ -39,7 +39,12 @@
                                     <tr>
                                         <td>{{ $position->name }}</td>
                                         {{--<td>{{ str_replace(array('[',']','"'),'', $role->permissions()->pluck('name')) }}</td>--}}
-                                        <td>{{$position->description}}</td>
+                                        @if(isset($position->description))
+                                            <td>
+                                                {{$position->description}}</td>
+                                        @else
+                                            <td>Нет данных </td>
+                                        @endif
                                         <td>
                                             <a href="{{ URL::to('positions/'.$position->id.'/edit') }}"><i class="fa fa-edit"></i></a>
                                             /
