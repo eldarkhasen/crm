@@ -26,26 +26,34 @@
 
                         <div class="card-body">
                             <table class="table table-bordered table-hover dataTable" id = "patients" role="grid">
-
                                 <thead>
                                     <tr>
-                                        <th>Имя</th>
-                                        <th>Фамилия</th>
-                                        <th>Отчество</th>
+                                        <th>ФИО</th>
+                                        <th>Контакты</th>
                                         <th>Дата рождения</th>
+                                        <th>ИИН</th>
+                                        <th>Последний визит</th>
+                                        <th>Выручка</th>
                                         <th>Действие</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($patients as $patient)
                                     <tr>
-                                        <td>{{ $patient->name }}</td>
-                                        <td>{{ $patient->surname }}</td>
-                                        <td>{{ $patient->patronymic }}</td>
+                                        <td><a href="{{ route('patients.show', $patient->id) }}">{{ $patient->name }} {{ $patient->surname }} {{ $patient->patronymic }}</a></td>
+                                        <td>{{$patient->phone}}</td>
                                         <td>{{ $patient->birth_date }}</td>
-
+                                        @if(isset($patient->id_card))
                                         <td>
-                                            <a href="{{ route('patients.edit', $patient->id) }}"><i class="fa fa-edit"></i></a>
+                                            {{$patient->id_card}}</td>
+                                        @else
+                                            <td>Нет данных </td>
+                                        @endif
+                                        <td>Нет данных </td>
+                                        <td>Нет данных </td>
+                                        <td>
+                                        <a href="{{ route('patients.edit', $patient->id) }}"><i class="fa fa-edit"></i></a>
 
                                             {{--<a href="" onclick="event.preventDefault();--}}
                                             {{--document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>--}}

@@ -18,12 +18,14 @@ import  'datatables.net-bs4'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import 'toastr'
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');
 Vue.use(VueInputMask);
 Vue.use(VueValidate);
 Vue.use(Toaster, {timeout: 3000});
+
 // register globally
 Vue.component('multiselect', Multiselect);
 /**

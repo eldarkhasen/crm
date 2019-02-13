@@ -48,9 +48,12 @@ class PositionController extends Controller
             'description'=>$request->description
         ]);
 
+        $notification = array(
+            'message' => 'Должность добавлена',
+            'alert-type' => 'success'
+        );
         return redirect()->route('positions.index')
-            ->with('flash_message',
-                'Patient successfully added.');
+            ->with($notification);
 
     }
 
@@ -109,7 +112,12 @@ class PositionController extends Controller
     {
         $position = Position::findOrFail($id);
         $position->delete();
-        return redirect()->route('positions.index');
+        $notification = array(
+            'message' => 'Должность удалена',
+            'alert-type' => 'info'
+        );
+        return redirect()->route('positions.index')
+            ->with($notification);
     }
 
     public function getPositions(){

@@ -67,10 +67,12 @@ class PatientController extends Controller
             'city'=>request()->city,
             'discount'=>request()->discount
         ]);
-
+        $notification = array(
+            'message' => 'Пациент добавлен!',
+            'alert-type' => 'success'
+        );
         return redirect()->route('patients.index')
-            ->with('flash_message',
-                'Patient successfully added.');
+            ->with($notification);
     }
 
     /**
@@ -79,9 +81,10 @@ class PatientController extends Controller
      * @param  \App\Patient  $patients
      * @return \Illuminate\Http\Response
      */
-    public function show(Patient $patients)
+    public function show($id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        return view('patients.show',compact('patient'));
     }
 
     /**
