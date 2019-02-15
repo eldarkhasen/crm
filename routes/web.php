@@ -26,9 +26,7 @@ Route::resource('patients', 'PatientController');
 Route::get('getroles',"RoleController@getRoles");
 Route::get('getpermissions',"PermissionController@getPermissions");
 Route::get('getpositions',"PositionController@getPositions");
-
 Route::get('getpositionsByEmpId/{id}',"EmployeeController@getPositionsById");
-
 Route::get('getUserById/{id}',"UserController@getUserById");
 Route::get('getPermissionsByUserId/{id}',"PermissionController@getPermissionsByUserId");
 
