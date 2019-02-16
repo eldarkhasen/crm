@@ -35,6 +35,6 @@ class Employee extends Model
     }
 
     public function services(){
-        return $this->belongsToMany(Employee::class)->withTimestamps();
+        return $this->belongsToMany(Service::class)->withTimestamps();
     }
 }
