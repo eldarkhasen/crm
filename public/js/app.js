@@ -79453,13 +79453,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             roles: [],
             permissions: [],
             positions: [],
+            services: [],
             genOptions: [{ value: 1, gen: "Не указано" }, { value: 2, gen: "Мужской" }, { value: 3, gen: "Женский" }],
             hasAccount: false,
             user: {
                 type: Object
             },
             usersPermissions: [],
-            employeePositions: []
+            employeePositions: [],
+            employeeServices: []
 
         };
     },
@@ -79472,6 +79474,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.getAllPermissions();
         this.getAllPositions();
         this.getEmpPositions();
+        this.getAllServices();
+        this.getEmpServices();
     },
 
     methods: {
@@ -79503,24 +79507,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this4 = this;
 
             var id = this.employee.id;
+
             axios.get('/getpositionsByEmpId/' + id).then(function (_ref4) {
                 var data = _ref4.data;
                 return _this4.employeePositions = data;
             });
         },
-        checkAccount: function checkAccount() {
+        getAllServices: function getAllServices() {
             var _this5 = this;
+
+            axios.get('/getServices').then(function (_ref5) {
+                var data = _ref5.data;
+                return _this5.services = data;
+            });
+        },
+        getEmpServices: function getEmpServices() {
+            var _this6 = this;
+
+            var id = this.employee.id;
+
+            axios.get('/getServicesByEmpId/' + id).then(function (_ref6) {
+                var data = _ref6.data;
+                return _this6.employeeServices = data;
+            });
+        },
+        checkAccount: function checkAccount() {
+            var _this7 = this;
 
             if (this.employee.user_id != null) {
                 this.hasAccount = true;
                 var id = this.employee.user_id;
-                axios.get('/getUserById/' + id).then(function (_ref5) {
-                    var data = _ref5.data;
-                    return _this5.user = data;
+                axios.get('/getUserById/' + id).then(function (_ref7) {
+                    var data = _ref7.data;
+                    return _this7.user = data;
                 });
-                axios.get('/getPermissionsByUserId/' + id).then(function (_ref6) {
-                    var data = _ref6.data;
-                    return _this5.usersPermissions = data;
+                axios.get('/getPermissionsByUserId/' + id).then(function (_ref8) {
+                    var data = _ref8.data;
+                    return _this7.usersPermissions = data;
                 });
             }
         },
