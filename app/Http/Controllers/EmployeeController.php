@@ -41,7 +41,7 @@ class EmployeeController extends Controller
     public function create()
     {
         $positions = Position::all();
-        $permissions = Permission::get();
+        $permissions = Permission::where('name','<>','admin')->get();
 
         return view('employees.create', ['positions'=>$positions, 'permissions'=>$permissions]);
     }
