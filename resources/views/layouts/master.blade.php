@@ -16,7 +16,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/adminlte.css.map') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">

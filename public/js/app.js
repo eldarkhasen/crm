@@ -79439,6 +79439,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -79554,7 +79560,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     permissions: this.usersPermissions,
                     hasAccount: this.hasAccount,
                     user: this.user,
-                    positions: this.employeePositions
+                    positions: this.employeePositions,
+                    services: this.employeeServices
                 }).then(function (response) {
                     if (response.status === 200) {
                         window.location.href = '/employees';
@@ -79564,7 +79571,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.put('/employees/' + this.employee.id, {
                     employee: this.employee,
                     hasAccount: this.hasAccount,
-                    positions: this.employeePositions
+                    positions: this.employeePositions,
+                    services: this.employeeServices
                 }).then(function (response) {
                     if (response.status === 200) {
                         window.location.href = '/employees';
@@ -79796,6 +79804,38 @@ var render = function() {
                         _vm.employeePositions = $$v
                       },
                       expression: "employeePositions"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("label", [_vm._v("Услуги")]),
+                  _vm._v(" "),
+                  _c("multiselect", {
+                    attrs: {
+                      options: _vm.services,
+                      multiple: true,
+                      "close-on-select": true,
+                      "clear-on-select": true,
+                      placeholder: "Выбери Услуги",
+                      label: "name",
+                      "track-by": "name",
+                      "preselect-first": true,
+                      selectLabel: "Нажмите чтобы выбрать",
+                      selectedLabel: "Выбрано",
+                      deselectLabel: "Нажмите чтобы убрать"
+                    },
+                    model: {
+                      value: _vm.employeeServices,
+                      callback: function($$v) {
+                        _vm.employeeServices = $$v
+                      },
+                      expression: "employeeServices"
                     }
                   })
                 ],

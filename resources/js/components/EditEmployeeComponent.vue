@@ -31,6 +31,12 @@
                             <!--<multiselect v-model="employeePositions" :options="positions" :multiple="true" :close-on-select="true" :clear-on-select="true" :preserve-search="true" track-by="name" ></multiselect>-->
                             <multiselect v-model="employeePositions" :options="positions" :multiple="true" :close-on-select="true" :clear-on-select="true"  placeholder="Выбери должность" label="name" track-by="name" :preselect-first="true" selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано" deselectLabel="Нажмите чтобы убрать"></multiselect>
 
+                        </div>
+
+                        <div class="form-group">
+                            <label>Услуги</label>
+                            <!--<multiselect v-model="employeePositions" :options="positions" :multiple="true" :close-on-select="true" :clear-on-select="true" :preserve-search="true" track-by="name" ></multiselect>-->
+                            <multiselect v-model="employeeServices" :options="services" :multiple="true" :close-on-select="true" :clear-on-select="true"  placeholder="Выбери Услуги" label="name" track-by="name" :preselect-first="true" selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано" deselectLabel="Нажмите чтобы убрать"></multiselect>
 
                         </div>
                         <div class="form-group" >
@@ -89,6 +95,7 @@
                 roles: [],
                 permissions:[],
                 positions:[],
+                services:[],
                 genOptions:[
                     {value:1, gen:"Не указано"},
                     {value:2, gen:"Мужской"},
@@ -100,6 +107,7 @@
                 },
                 usersPermissions:[],
                 employeePositions:[],
+                employeeServices:[]
 
             }
         },
@@ -112,6 +120,8 @@
             this.getAllPermissions();
             this.getAllPositions();
             this.getEmpPositions();
+            this.getAllServices();
+            this.getEmpServices();
         },
         methods:{
             getRoles(){
@@ -125,7 +135,16 @@
             },
             getEmpPositions(){
                 var id  = this.employee.id;
+
                 axios.get('/getpositionsByEmpId/'+id).then(({data})=>this.employeePositions = data);
+            },
+            getAllServices(){
+                axios.get('/getServices').then(({data})=>this.services = data);
+            },
+            getEmpServices(){
+                var id  = this.employee.id;
+
+                axios.get('/getServicesByEmpId/'+id).then(({data})=>this.employeeServices = data);
             },
             checkAccount(){
                 if(this.employee.user_id!=null){
@@ -144,6 +163,7 @@
                         hasAccount: this.hasAccount,
                         user: this.user,
                         positions: this.employeePositions,
+                        services:this.employeeServices,
                     }).then(function (response) {
                         if(response.status === 200) {
                             window.location.href = '/employees';
@@ -154,6 +174,7 @@
                         employee: this.employee,
                         hasAccount: this.hasAccount,
                         positions: this.employeePositions,
+                        services:this.employeeServices,
                     }).then(function (response) {
                         if(response.status === 200) {
                             window.location.href = '/employees';
