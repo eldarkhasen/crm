@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Position;
 use Illuminate\Http\Request;
+use App\Service;
 
-class PositionController extends Controller
+class ServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class PositionController extends Controller
      */
     public function index()
     {
-        $positions = Position::all();
-        return view('positions.index',compact('positions'));
+        $services = Service::all();
+        return view('services.index',compact('services'));
     }
 
     /**
@@ -25,100 +25,103 @@ class PositionController extends Controller
      */
     public function create()
     {
-        return view('positions.create');
+        return view('services.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'=>'required|max:120'
+            'name'=>'required|max:120',
+            'duration'=>'required',
         ]);
 
-        Position::create([
+        Service::create([
             'name'=> $request->name,
-            'description'=>$request->description
+            'description'=>$request->description,
+            'duration'=>$request->duration,
+            'category'=>$request->category,
+            'price'=>$request->price,
+            'max_price'=>$request->max_price
         ]);
 
         $notification = array(
-            'message' => 'Должность добавлена',
+            'message' => 'Услуга добавлена',
             'alert-type' => 'success'
         );
-        return redirect()->route('positions.index')
-            ->with($notification);
 
+        return redirect()->route('services.index')
+            ->with($notification);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Position  $position
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Position $position)
+    public function show($id)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Position  $position
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $position = Position::findOrFail($id);
-        return view('positions.edit',compact('position'));
+        $service = Service::findOrFail($id);
+        return view('services.edit', compact('service'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Position $position
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, $id)
     {
-        $position = Position::findOrFail($id);
+        $service = Service::findOrFail($id);
         $this->validate($request, [
-            'name'=>'required|max:120'
+            'name'=>'required|max:120',
         ]);
 
         $input = $request->all();
-        $position->fill($input)->save();
+        $service->fill($input)->save();
 
-        return redirect()->route('positions.index');
-
+        return redirect()->route('services.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Position  $position
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $position = Position::findOrFail($id);
-        $position->delete();
+        $service = Service::findOrFail($id);
+        $service->delete();
         $notification = array(
-            'message' => 'Должность удалена',
+            'message' => 'Услуга удалена',
             'alert-type' => 'info'
         );
-        return redirect()->route('positions.index')
+        return redirect()->route('services.index')
             ->with($notification);
     }
 
-    public function getPositions(){
-        return Position::all();
+    public function getServices(){
+        return Service::all();
     }
 }

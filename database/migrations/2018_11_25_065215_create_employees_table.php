@@ -16,7 +16,9 @@ class CreateEmployeesTable extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->nullable();
-//            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+//            $table->foreign('user_id')
+//                ->references('id')->on('users')
+//                ->onDelete('cascade');
             $table->string('name');
             $table->string('surname');
             $table->string('patronymic');
@@ -25,9 +27,6 @@ class CreateEmployeesTable extends Migration
             $table->string('gender');
             $table->timestamps();
         });
-
-
-
     }
 
     /**
@@ -37,6 +36,6 @@ class CreateEmployeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('employees');
     }
 }

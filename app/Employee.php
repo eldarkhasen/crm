@@ -33,4 +33,8 @@ class Employee extends Model
     public function positions(){
        return $this->belongsToMany(Position::class)->withTimestamps();
     }
+
+    public function services(){
+        return $this->belongsToMany(Employee::class)->withTimestamps();
+    }
 }
