@@ -31,7 +31,7 @@
                                     <th>Имя</th>
                                     <th>Фамилия</th>
                                     <th>Отчество</th>
-                                    <th>Дата добавления</th>
+                                    <th>Услуги</th>
                                     <th>Должности</th>
                                     <th>Действие</th>
                                 </tr>
@@ -44,7 +44,7 @@
                                 <td>{{ $emp->name }}</td>
                                 <td>{{ $emp->surname }}</td>
                                 <td>{{ $emp->patronymic }}</td>
-                                <td>{{ $emp->created_at->toDateTimeString() }}</td>
+                                <td>{{ $emp->services()->pluck('name')->implode(', ') }}</td>
                                 <td>{{ $emp->positions()->pluck('name')->implode(', ') }}</td>
                                 <td>
                                     <a href="{{ route('employees.edit', $emp->id) }}"><i class="fa fa-edit"></i></a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Employee;
 use App\Position;
+use App\Service;
 use Illuminate\Http\Request;
 use App\User;
 //Importing laravel-permission models
@@ -42,8 +43,9 @@ class EmployeeController extends Controller
     {
         $positions = Position::all();
         $permissions = Permission::where('name','<>','admin')->get();
+        $services = Service::all();
 
-        return view('employees.create', ['positions'=>$positions, 'permissions'=>$permissions]);
+        return view('employees.create', ['positions'=>$positions, 'permissions'=>$permissions,'services'=>$services]);
     }
 
     /**
@@ -79,9 +81,14 @@ class EmployeeController extends Controller
         ]);
 
         $positions = $request['positions'];
+        $services = $request['services'];
 
         if(isset($positions)){
             $employee->positions()->attach($positions);
+        }
+
+        if(isset($services)){
+            $employee->services()->attach($services);
         }
 
         if(request()->createUser){
@@ -133,7 +140,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+
     }
 
     /**
@@ -162,14 +169,22 @@ class EmployeeController extends Controller
           $employee = Employee::findOrFail($request['employee.id']);
           $hasAccount = $request['hasAccount'];
           $positions = $request['positions'];
-
+          $services = $request['services'];
           $p_all = $employee->positions;
+          $s_all = $employee->services;
 
           foreach ($p_all as $p){
               $employee->positions()->detach($p->id);
           }
           foreach ($positions as $pos){
               $employee->positions()->attach($pos['id']);
+          }
+
+          foreach ($s_all as $s){
+             $employee->services()->detach($s->id);
+          }
+          foreach ($services as $serv){
+             $employee->services()->attach($serv['id']);
           }
 
           if($hasAccount){
@@ -240,5 +255,10 @@ class EmployeeController extends Controller
     public function getPositionsById($id){
         $employee = Employee::findOrFail($id);
         return $employee->positions;
+    }
+
+    public function getServicesByEmpId($id){
+        $employee = Employee::findOrFail($id);
+        return $employee->services;
     }
 }
