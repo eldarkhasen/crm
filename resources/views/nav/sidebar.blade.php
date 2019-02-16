@@ -53,8 +53,15 @@
                         </p>
                     </a>
                 </li>
-                    @endif
-
+                @endif
+                <li class="nav-item">
+                    <a href="/services" class="nav-link  {{ Request::is('services*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-capsules"></i>
+                        <p>
+                            Услуги
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

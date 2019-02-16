@@ -27,9 +27,6 @@ class CreateEmployeesTable extends Migration
             $table->string('gender');
             $table->timestamps();
         });
-
-
-
     }
 
     /**
@@ -39,6 +36,6 @@ class CreateEmployeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('employees');
     }
 }
