@@ -26,7 +26,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::all(); //Get all permissions
+        $permissions = Permission::where('name','<>','admin')->get(); //Get all permissions
 
         return view('permissions.index')->with('permissions', $permissions);
     }
@@ -44,7 +44,7 @@ class PermissionController extends Controller
     }
 
     public function getPermissions(){
-        return Permission::all();
+        return Permission::where('name','<>','admin')->get();
     }
 
     public function getPermissionsByUserId($id){

@@ -30,3 +30,6 @@ Route::get('getpositions',"PositionController@getPositions");
 Route::get('getpositionsByEmpId/{id}',"EmployeeController@getPositionsById");
 Route::get('getUserById/{id}',"UserController@getUserById");
 Route::get('getPermissionsByUserId/{id}',"PermissionController@getPermissionsByUserId");
+
+Route::get('getServices',"ServiceController@getServices");
+Route::get('getServicesByEmpId/{id}',"EmployeeController@getServicesByEmpId");

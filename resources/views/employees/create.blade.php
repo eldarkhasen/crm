@@ -55,13 +55,23 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Должности</label>
-                                    @if(!$positions->isEmpty())
-                                        <select name = "positions[]" class="form-control select2 select2-hidden-accessible" multiple="" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <select name = "positions[]" class="form-control select2 select2-hidden-accessible" data-placeholder="Выберите должность" multiple="" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                        @if(!$positions->isEmpty())
                                             @foreach($positions as $position)
                                                 <option value="{{$position->id}}" >{{$position->name}}</option>
                                             @endforeach
-                                        </select>
-                                    @endif
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Услуги</label>
+                                    <select name = "services[]" class="form-control select2 select2-hidden-accessible" data-placeholder="Выберите услуги" multiple="" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                        @if(!$services->isEmpty())
+                                            @foreach($services as $service)
+                                                <option value="{{$service->id}}" >{{$service->name}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
 
                                 <div class="form-group" >
