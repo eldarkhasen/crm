@@ -247,7 +247,12 @@ class Form {
     }
 }
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        employees: window.Laravel.employees,
+        services: window.Laravel.services,
+        patients: window.Laravel.patients,
+    }
 });
 
 var users = new Vue({

@@ -7,24 +7,39 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>График </h1>
+                    <h1>График</h1>
                 </div>
 
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
+
+    {{--TODO: регать здесь в скрипте в window текущий график, полученный из контроллера--}}
+    <script type="text/javascript">
+        window.Laravel = <?php echo json_encode([
+            'csrf_token' => csrf_token(),
+            'appointments' => $appointments,
+            'employees' => $employees,
+            'services' => $services,
+            'patients' => $patients,
+        ]); ?>
+    </script>
 
     <section class="content">
         <div class="container-fliud">
             <div class="row">
                 <div class="col-md-12" id = "app">
-                    <appointment-component :editable = "true" :droppable = "true"></appointment-component>
-
+                    <appointment-component :editable = "true"
+                                           :droppable = "true"
+                                           :employees = "employees"
+                                           :services = "services"
+                                           :patients = "patients">
+                    </appointment-component>
+                    @include('appointments.addAppointmentForm')
                 </div>
             </div>
         </div>
     </section>
-
-
 @endsection
+
 

@@ -24,17 +24,22 @@
                 required: false,
                 default: false
             },
+            employees: Array,
+            services: Array,
+            patients: Array
         },
         data(){
             return {
-                events: [
-                    {
-                        title: 'Event1',
-                        start: '2019-02-19T11:30:00+06:00',
-                        end: '2019-02-19T16:00:00+06:00',
-                        color: '#1ABC9C',
-                    }
-                ],
+                // TODO: регать данные из контроллера в window и присваивать ниже
+                events: window.Laravel.appointments,
+                    // [
+                //     {
+                //         title: 'Event1',
+                //         start: '2019-02-19T11:30:00+06:00',
+                //         end: '2019-02-19T16:00:00+06:00',
+                //         color: '#1ABC9C',
+                //     }
+                // ],
 
                 cal: null,
                 config: {
@@ -42,7 +47,8 @@
                         myCustomButton: {
                             text: 'Добавить запись',
                             click: function() {
-                                alert('clicked the custom button!');
+                                // alert('clicked the custom button!');
+                                $('#addAppointmentForm').modal();
                             }
                         }
                     },
@@ -108,6 +114,9 @@
 
         },
         methods:{
+            addAppointment(){
+
+            },
             eventDropped(event) {
                 alert("Dropped "+event.title+" start" +event.start.format()+" end: "+event.end.format());
 

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\Employee;
+use App\Patient;
+use App\Service;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -19,7 +22,12 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        return view('appointments.index');
+        $appointments = Appointment::all();
+        $employees = Employee::all();
+        $services = Service::all();
+        $patients = Patient::all();
+
+        return view('appointments.index', compact('appointments', 'employees', 'services', 'patients'));
     }
 
     /**
