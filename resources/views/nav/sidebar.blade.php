@@ -23,6 +23,7 @@
                     </a>
                 </li>
 
+
                 @if(Auth::user()->hasPermissionTo('employees'))
                     <li class="nav-item">
                         <a href="/employees" class="nav-link  {{ Request::is('employees*') ? 'active' : '' }}">
@@ -59,6 +60,14 @@
                         <i class="nav-icon fas fa-capsules"></i>
                         <p>
                             Услуги
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/appointments" class="nav-link  {{ Request::is('appointments*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                        <p>
+                            Записи
                         </p>
                     </a>
                 </li>

@@ -19,6 +19,9 @@ import  'datatables.net-bs4'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'toastr'
+import 'fullcalendar/dist/fullcalendar.css';
+import FullCalendar from 'vue-full-calendar'; //Import Full-calendar
+Vue.use(FullCalendar);
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');
@@ -38,7 +41,7 @@ Vue.component('multiselect', Multiselect);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('edit-emp-component', require('./components/EditEmployeeComponent.vue'));
-
+Vue.component('appointment-component', require('./components/AppointmentComponent.vue'));
 // const files = require.context('./', true, /\.vue$/i)
 
 // files.keys().map(key => {
