@@ -31,14 +31,20 @@
                 <div class="col-md-12" id = "app">
                     <appointment-component :editable = "true"
                                            :droppable = "true"
-                                           :employees = "employees"
-                                           :services = "services"
-                                           :patients = "patients">
+                                           :events = "events"
+                    >
                     </appointment-component>
-                    @include('appointments.addAppointmentForm')
+                    <new-event :employees = "employees"
+                               :services = "services"
+                               :patients = "patients"
+                               :add-event = "addEvent"
+                               :new-event = "lastEvent"
+                                ></new-event>
                 </div>
             </div>
         </div>
+
+        {{--@include('appointments.addAppointmentForm')--}}
     </section>
 @endsection
 

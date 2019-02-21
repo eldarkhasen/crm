@@ -24,23 +24,11 @@
                 required: false,
                 default: false
             },
-            employees: Array,
-            services: Array,
-            patients: Array
+            events: Array,
         },
         data(){
             return {
                 // TODO: регать данные из контроллера в window и присваивать ниже
-                events: window.Laravel.appointments,
-                    // [
-                //     {
-                //         title: 'Event1',
-                //         start: '2019-02-19T11:30:00+06:00',
-                //         end: '2019-02-19T16:00:00+06:00',
-                //         color: '#1ABC9C',
-                //     }
-                // ],
-
                 cal: null,
                 config: {
                     customButtons: {
@@ -135,8 +123,5 @@
                 self = this;
 
         },
-
-
-
     }
 </script>

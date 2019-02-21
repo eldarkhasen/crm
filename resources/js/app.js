@@ -42,6 +42,7 @@ Vue.component('multiselect', Multiselect);
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('edit-emp-component', require('./components/EditEmployeeComponent.vue'));
 Vue.component('appointment-component', require('./components/AppointmentComponent.vue'));
+Vue.component('new-event', require('./components/newEvent.vue'));
 // const files = require.context('./', true, /\.vue$/i)
 
 // files.keys().map(key => {
@@ -252,6 +253,31 @@ const app = new Vue({
         employees: window.Laravel.employees,
         services: window.Laravel.services,
         patients: window.Laravel.patients,
+        events: window.Laravel.appointments,
+        lastEvent: [],
+    },
+    methods: {
+
+        addEvent: function(title, start, end, employeeID, serviceID, patientID){
+            this.events.push({
+                title: title,
+                start: start,
+                end: end,
+                employeeID: employeeID,
+                serviceID: serviceID,
+                patientID: patientID,
+                color: '#1ABC9C',
+            });
+        },
+
+    },
+    created(){
+        if(window.Laravel.appointments.length == 0){
+            this.addEvent("event1","2019-02-19T11:30:00+06:00","2019-02-19T16:00:00+06:00","","","");
+            this.addEvent("event2","2019-02-20T13:30:00+06:00","2019-02-19T17:00:00+06:00","","","");
+        }
+
+        this.lastEvent = this.events[this.events.length - 1];
     }
 });
 
