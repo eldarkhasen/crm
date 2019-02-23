@@ -23,7 +23,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="employee">Сотрудник </label>
-                                            <select class="form-control" v-model="newEvent.employeeID" name="employee" id="employee">
+                                            <select class="form-control" v-model="newEvent.employee_id" name="employee" id="employee">
                                                 <option value="">Выберите сотрудника</option>
                                                 <option v-for="item in employees"
                                                         :value="item.id">{{ item.name}}</option>
@@ -32,7 +32,7 @@
 
                                         <div class="form-group">
                                             <label for="service">Услуга </label>
-                                            <select class="form-control" v-model="newEvent.serviceID" name="service" id="service">
+                                            <select class="form-control" v-model="newEvent.service_id" name="service" id="service">
                                                 <option value="">Выберите услугу</option>
                                                 <option v-for="item in services"
                                                         :value="item.id">{{ item.name}}</option>
@@ -41,7 +41,7 @@
 
                                         <div class="form-group">
                                             <label for="patient">Пациент</label>
-                                            <select class="form-control" v-model="newEvent.patientID" name="patient" id="patient">
+                                            <select class="form-control" v-model="newEvent.patient_id" name="patient" id="patient">
                                                 <option value="">Выберите пациента</option>
                                                 <option v-for="item in patients"
                                                         :value="item.id">{{ item.name}}</option>

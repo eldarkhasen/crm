@@ -33,6 +33,7 @@
 
             events: Array,
             newEvent: Object,
+            updateAppointment: Function
         },
         data(){
             var self = this;
@@ -71,21 +72,27 @@
                     },
 
                     eventResize:(event)=>{
-                        this.selected = event;
-                        this.eventResize(event);
+                        self.events.forEach(function(ev){
+                            if(event.id == ev.id){
+                                ev.start = event.start;
+                                ev.end = event.end;
+                                ev.startText = event.start.format('Do, H:mm');
+                                ev.endText = event.end.format('Do, H:mm');
+                                self.updateAppointment(ev);
+                            }
+                        });
                     },
 
                     eventDrop:(event)=>{
-                        // this.selected = event;
-                        // this.eventDropped(event);
-                        event.start = event.start;
-                        event.end = event.end;
-                        event.startText = event.start.format('Do, H:mm');
-                        event.endText = event.end.format('Do, H:mm');
-                    },
-
-                    eventCreated:(event)=>{
-                        this.eventSelected(event);
+                        self.events.forEach(function(ev){
+                            if(event.id == ev.id){
+                                ev.start = event.start;
+                                ev.end = event.end;
+                                ev.startText = event.start.format('Do, H:mm');
+                                ev.endText = event.end.format('Do, H:mm');
+                                self.updateAppointment(ev);
+                            }
+                        });
                     },
 
                     select: function(start, end){

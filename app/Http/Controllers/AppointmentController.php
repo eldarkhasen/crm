@@ -52,9 +52,9 @@ class AppointmentController extends Controller
         $appoint->title = $request->title;
         $appoint->start = $request->start;
         $appoint->end = $request->end;
-        $appoint->employee_id = $request->employeeID;
-        $appoint->service_id = $request->serviceID;
-        $appoint->patient_id = $request->patientID;
+        $appoint->employee_id = $request->employee_id;
+        $appoint->service_id = $request->service_id;
+        $appoint->patient_id = $request->patient_id;
         $appoint->save();
 
         return response()->json(['id' => $appoint->id]);
@@ -89,9 +89,17 @@ class AppointmentController extends Controller
      * @param  \App\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appointment $appointment)
+    public function update(Request $request)
     {
-        //
+        $appoint = Appointment::findOrFail($request->id);
+        $appoint->title = $request->title;
+        $appoint->start = $request->start;
+        $appoint->end = $request->end;
+        $appoint->employee_id = $request->employee_id;
+        $appoint->service_id = $request->service_id;
+        $appoint->patient_id = $request->patient_id;
+        $success = $appoint->save();
+        return response()->json(['success' => $success]);
     }
 
     /**

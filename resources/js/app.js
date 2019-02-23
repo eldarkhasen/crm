@@ -258,7 +258,7 @@ const app = new Vue({
     },
     methods: {
 
-        addEvent: function(){ //title, start, end, employeeID, serviceID, patientID){
+        addEvent: function(){
             this.events.push(this.newEvent);
             $('#addAppointmentForm').modal('hide');
         },
@@ -271,9 +271,9 @@ const app = new Vue({
                 startText: "",
                 end: null,
                 endText: "",
-                employeeID: null,
-                serviceID: null,
-                patientID: null,
+                employee_id: null,
+                service_id: null,
+                patient_id: null,
                 color: '#1ABC9C',
             };
         },
@@ -283,17 +283,35 @@ const app = new Vue({
             window.axios.post('/appointments',
                 {
                     title: this.newEvent.title,
-                    employeeID: this.newEvent.employeeID,
-                    serviceID: this.newEvent.serviceID,
-                    patientID: this.newEvent.patientID,
-                    start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('H:mm:ss'),
-                    end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('H:mm:ss')
+                    employee_id: this.newEvent.employee_id,
+                    service_id: this.newEvent.service_id,
+                    patient_id: this.newEvent.patient_id,
+                    start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('HH:mm:ss'),
+                    end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('HH:mm:ss')
                 })
                 .then((response) => {
                     self.newEvent.id = response.data.id;
                     self.addEvent();
                     self.setDefaultNewEvent();
                 })
+                .catch(e => {
+                    alert("some error");
+                })
+        },
+
+        updateAppointment: function(event){
+            var self = this;
+            window.axios.put('/appointments/update', // + event.id,
+                {
+                    id: event.id,
+                    title: event.title,
+                    employee_id: event.employee_id,
+                    service_id: event.service_id,
+                    patient_id: event.patient_id,
+                    start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
+                    end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
+                })
+                .then((response) => {})
                 .catch(e => {
                     alert("some error");
                 })

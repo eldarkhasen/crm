@@ -34,6 +34,7 @@
                                            :selectable = "true"
                                            :events = "events"
                                            :new-event = "newEvent"
+                                           :update-appointment = "updateAppointment"
                     >
                     </appointment-component>
                     <new-event :employees = "employees"
