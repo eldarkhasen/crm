@@ -246,9 +246,6 @@ class Form {
         this.errors.record(errors);
     }
 }
-const app = new Vue({
-    el: '#app'
-});
 
 var users = new Vue({
     el: '#addEmployee',
