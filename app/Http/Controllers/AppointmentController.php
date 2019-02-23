@@ -48,7 +48,16 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $appoint = new Appointment();
+        $appoint->title = $request->title;
+        $appoint->start = $request->start;
+        $appoint->end = $request->end;
+        $appoint->employee_id = $request->employeeID;
+        $appoint->service_id = $request->serviceID;
+        $appoint->patient_id = $request->patientID;
+        $appoint->save();
+
+        return response()->json(['id' => $appoint->id]);
     }
 
     /**

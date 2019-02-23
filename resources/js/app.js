@@ -254,30 +254,57 @@ const app = new Vue({
         services: window.Laravel.services,
         patients: window.Laravel.patients,
         events: window.Laravel.appointments,
-        lastEvent: [],
+        newEvent: {},
     },
     methods: {
 
-        addEvent: function(title, start, end, employeeID, serviceID, patientID){
-            this.events.push({
-                title: title,
-                start: start,
-                end: end,
-                employeeID: employeeID,
-                serviceID: serviceID,
-                patientID: patientID,
-                color: '#1ABC9C',
-            });
+        addEvent: function(){ //title, start, end, employeeID, serviceID, patientID){
+            this.events.push(this.newEvent);
+            $('#addAppointmentForm').modal('hide');
         },
 
+        setDefaultNewEvent: function(){
+            this.newEvent = {
+                id: "",
+                title: null,
+                start: null,
+                startText: "",
+                end: null,
+                endText: "",
+                employeeID: null,
+                serviceID: null,
+                patientID: null,
+                color: '#1ABC9C',
+            };
+        },
+
+        addAppointment:function(){
+            var self = this;
+            window.axios.post('/appointments',
+                {
+                    title: this.newEvent.title,
+                    employeeID: this.newEvent.employeeID,
+                    serviceID: this.newEvent.serviceID,
+                    patientID: this.newEvent.patientID,
+                    start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('H:mm:ss'),
+                    end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('H:mm:ss')
+                })
+                .then((response) => {
+                    self.newEvent.id = response.data.id;
+                    self.addEvent();
+                    self.setDefaultNewEvent();
+                })
+                .catch(e => {
+                    alert("some error");
+                })
+        },
+
+        reloadTimetable:function(){
+            console.log("reload timetable init later");
+        }
     },
     created(){
-        if(window.Laravel.appointments.length == 0){
-            this.addEvent("event1","2019-02-19T11:30:00+06:00","2019-02-19T16:00:00+06:00","","","");
-            this.addEvent("event2","2019-02-20T13:30:00+06:00","2019-02-19T17:00:00+06:00","","","");
-        }
-
-        this.lastEvent = this.events[this.events.length - 1];
+        this.setDefaultNewEvent();
     }
 });
 

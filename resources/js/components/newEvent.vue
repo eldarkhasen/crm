@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Новая запись</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Новая запись <small>с {{newEvent.startText}} по {{newEvent.endText}}</small></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -26,7 +26,7 @@
                                             <select class="form-control" v-model="newEvent.employeeID" name="employee" id="employee">
                                                 <option value="">Выберите сотрудника</option>
                                                 <option v-for="item in employees"
-                                                        :value="item.id">@{{ item.name}}</option>
+                                                        :value="item.id">{{ item.name}}</option>
                                             </select>
                                         </div>
 
@@ -35,7 +35,7 @@
                                             <select class="form-control" v-model="newEvent.serviceID" name="service" id="service">
                                                 <option value="">Выберите услугу</option>
                                                 <option v-for="item in services"
-                                                        :value="item.id">@{{ item.name}}</option>
+                                                        :value="item.id">{{ item.name}}</option>
                                             </select>
                                         </div>
 
@@ -44,7 +44,7 @@
                                             <select class="form-control" v-model="newEvent.patientID" name="patient" id="patient">
                                                 <option value="">Выберите пациента</option>
                                                 <option v-for="item in patients"
-                                                        :value="item.id">@{{ item.name}}</option>
+                                                        :value="item.id">{{ item.name}}</option>
                                             </select>
                                         </div>
 
@@ -57,7 +57,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-primary" @click="addAppointment">Сохранить</button>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
             employees: Array,
             services: Array,
             patients: Array,
-            addEvent: Function,
+            addAppointment: Function,
         },
     }
 </script>

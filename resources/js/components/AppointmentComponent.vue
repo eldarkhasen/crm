@@ -24,20 +24,24 @@
                 required: false,
                 default: false
             },
+
+            selectable: {
+                type: Boolean,
+                required: false,
+                default: false
+            },
+
             events: Array,
+            newEvent: Object,
         },
         data(){
+            var self = this;
             return {
-                // TODO: регать данные из контроллера в window и присваивать ниже
                 cal: null,
                 config: {
                     customButtons: {
                         myCustomButton: {
                             text: 'Добавить запись',
-                            click: function() {
-                                // alert('clicked the custom button!');
-                                $('#addAppointmentForm').modal();
-                            }
                         }
                     },
                     header: {
@@ -46,18 +50,6 @@
                         right: 'myCustomButton'
                     },
                     locale: 'ru',
-                    eventClick: (event) => {
-                        this.selected = event;
-                        this.eventSelected(event);
-                    },
-                    eventResize:(event)=>{
-                        this.selected = event;
-                        this.eventResize(event);
-                    },
-                    eventDrop:(event)=>{
-                        this.selected = event;
-                        this.eventDropped(event);
-                    },
                     minTime: '09:00:00',
                     maxTime: '21:00:00',
                     slotDuration:'00:30:00',
@@ -73,10 +65,38 @@
                     allDaySlot:false,
                     timezone:'local',
 
-                    // monthNames: ['Январь','Февраль','Март','Апрель','Май','οюнь','οюль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
-                    // monthNamesShort: ['Янв.','Фев.','Март','Апр.','Май','οюнь','οюль','Авг.','Сент.','Окт.','Ноя.','Дек.'],
-                    // dayNames: ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],
-                    // dayNamesShort: ["ВС","ПН","ВТ","СР","ЧТ","ПТ","СБ"],
+                    eventClick: (event) => {
+                        this.selected = event;
+                        this.eventSelected(event);
+                    },
+
+                    eventResize:(event)=>{
+                        this.selected = event;
+                        this.eventResize(event);
+                    },
+
+                    eventDrop:(event)=>{
+                        // this.selected = event;
+                        // this.eventDropped(event);
+                        event.start = event.start;
+                        event.end = event.end;
+                        event.startText = event.start.format('Do, H:mm');
+                        event.endText = event.end.format('Do, H:mm');
+                    },
+
+                    eventCreated:(event)=>{
+                        this.eventSelected(event);
+                    },
+
+                    select: function(start, end){
+                        // this.createEvent(start, end);
+                        self.newEvent.start = start;
+                        self.newEvent.startText = start.format('Do, H:mm');
+                        self.newEvent.end = end;
+                        self.newEvent.endText = end.format('Do, H:mm');
+                        $('#addAppointmentForm').modal();
+                    },
+
                 },
                 selected: {},
                 slotLabels:[
@@ -102,21 +122,17 @@
 
         },
         methods:{
-            addAppointment(){
-
-            },
             eventDropped(event) {
-                alert("Dropped "+event.title+" start" +event.start.format()+" end: "+event.end.format());
-
+                // alert("Dropped "+event.title+" start" +event.start.format()+" end: "+event.end.format());
+                event.startText = event.start.format('Do, H:mm');
+                event.endText = event.end.format('Do, H:mm');
             },
-            eventSelected(event) {
-                alert(event.title+" "+event.start.format());
 
-            },
             eventResize(event){
-                alert(event.title+" start" +event.start.format()+" end: "+event.end.format());
-            }
-
+                event.startText = event.start.format('Do, H:mm');
+                event.endText = event.end.format('Do, H:mm');
+                //alert(event.title+" start" +event.start.format()+" end: "+event.end.format());
+            },
         },
         mounted() {
             const cal = $(this.$el),

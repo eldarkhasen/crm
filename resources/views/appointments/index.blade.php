@@ -31,15 +31,17 @@
                 <div class="col-md-12" id = "app">
                     <appointment-component :editable = "true"
                                            :droppable = "true"
+                                           :selectable = "true"
                                            :events = "events"
+                                           :new-event = "newEvent"
                     >
                     </appointment-component>
                     <new-event :employees = "employees"
                                :services = "services"
                                :patients = "patients"
-                               :add-event = "addEvent"
-                               :new-event = "lastEvent"
-                                ></new-event>
+                               :add-appointment = "addAppointment"
+                               :new-event = "newEvent"
+                    ></new-event>
                 </div>
             </div>
         </div>
