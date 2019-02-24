@@ -19,9 +19,9 @@ import  'datatables.net-bs4'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'toastr'
-// import 'fullcalendar/dist/fullcalendar.css';
-// import FullCalendar from 'vue-full-calendar'; //Import Full-calendar
-// Vue.use(FullCalendar);
+import 'fullcalendar/dist/fullcalendar.css';
+import FullCalendar from 'vue-full-calendar'; //Import Full-calendar
+Vue.use(FullCalendar);
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');
@@ -38,11 +38,8 @@ Vue.component('multiselect', Multiselect);
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('edit-emp-component', require('./components/EditEmployeeComponent.vue'));
-// Vue.component('appointment-component', require('./components/AppointmentComponent.vue'));
-// Vue.component('new-event', require('./components/newEvent.vue'));
+Vue.component('appointment-component', require('./components/AppointmentComponent.vue'));
+Vue.component('new-event', require('./components/newEvent.vue'));
 // const files = require.context('./', true, /\.vue$/i)
 
 // files.keys().map(key => {
@@ -247,11 +244,82 @@ class Form {
         this.errors.record(errors);
     }
 }
+const app = new Vue({
+    el: '#appointments',
+    data: {
+        employees: window.Laravel.employees,
+        services: window.Laravel.services,
+        patients: window.Laravel.patients,
+        events: window.Laravel.appointments,
+        newEvent: {},
+    },
+    methods: {
 
-var users = new Vue({
-    el: '#addEmployee',
-    data:{
-        checked:false
+        addEvent: function(){
+            this.events.push(this.newEvent);
+            $('#addAppointmentForm').modal('hide');
+        },
+
+        setDefaultNewEvent: function(){
+            this.newEvent = {
+                id: "",
+                title: null,
+                start: null,
+                startText: "",
+                end: null,
+                endText: "",
+                employee_id: null,
+                service_id: null,
+                patient_id: null,
+                color: '#1ABC9C',
+            };
+        },
+
+        addAppointment:function(){
+            var self = this;
+            window.axios.post('/appointments',
+                {
+                    title: this.newEvent.title,
+                    employee_id: this.newEvent.employee_id,
+                    service_id: this.newEvent.service_id,
+                    patient_id: this.newEvent.patient_id,
+                    start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('HH:mm:ss'),
+                    end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('HH:mm:ss')
+                })
+                .then((response) => {
+                    self.newEvent.id = response.data.id;
+                    self.addEvent();
+                    self.setDefaultNewEvent();
+                })
+                .catch(e => {
+                    alert("some error");
+                })
+        },
+
+        updateAppointment: function(event){
+            var self = this;
+            window.axios.put('/appointments/update', // + event.id,
+                {
+                    id: event.id,
+                    title: event.title,
+                    employee_id: event.employee_id,
+                    service_id: event.service_id,
+                    patient_id: event.patient_id,
+                    start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
+                    end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
+                })
+                .then((response) => {})
+                .catch(e => {
+                    alert("some error");
+                })
+        },
+
+        reloadTimetable:function(){
+            console.log("reload timetable init later");
+        }
+    },
+    created(){
+        this.setDefaultNewEvent();
     }
 });
 

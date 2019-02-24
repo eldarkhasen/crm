@@ -25,10 +25,10 @@
         ]); ?>
     </script>
 
-    <section class="content">
+    <section class="content" id="appointments">
         <div class="container-fliud">
             <div class="row">
-                <div class="col-md-12" id = "app">
+                <div class="col-md-12">
                     <appointment-component :editable = "true"
                                            :droppable = "true"
                                            :selectable = "true"
@@ -49,6 +49,10 @@
 
         {{--@include('appointments.addAppointmentForm')--}}
     </section>
+@endsection
+
+@section('script')
+    <script src="{{ asset('js/appointments.js') }}"></script>
 @endsection
 
 
