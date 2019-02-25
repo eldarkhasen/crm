@@ -34,7 +34,13 @@
                                            :selectable = "true"
                                            :events = "events"
                                            :new-event = "newEvent"
+                                           :selected-event = "selectedEvent"
                                            :update-appointment = "updateAppointment"
+                                           :delete-appointment = "deleteAppointment"
+                                           :set-selected-event = "setSelectedEvent"
+                                           :employees = "employees"
+                                           :services = "services"
+                                           :patients = "patients"
                     >
                     </appointment-component>
                     <new-event :employees = "employees"

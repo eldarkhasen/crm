@@ -252,12 +252,40 @@ const app = new Vue({
         patients: window.Laravel.patients,
         events: window.Laravel.appointments,
         newEvent: {},
+        selectedEvent: {},
     },
     methods: {
 
         addEvent: function(){
             this.events.push(this.newEvent);
             $('#addAppointmentForm').modal('hide');
+        },
+
+        deleteEvent: function(event_id){
+            var self = this;
+            var id = null;
+            self.events.forEach(function(ev){
+                if(event_id === ev.id){
+                    id = self.events.indexOf(ev);
+                }
+            });
+
+            self.events.splice(id, 1);
+
+            $('#editAppointmentForm').modal('hide');
+
+            self.setSelectedEvent({});
+        },
+
+        updateEvent: function(event){
+            var self = this;
+            self.events.forEach(function(ev){
+                if(event.id === ev.id){
+                    ev = Object.assign({}, event);
+                    $('#editAppointmentForm').modal('hide');
+                }
+            });
+            self.setSelectedEvent({});
         },
 
         setDefaultNewEvent: function(){
@@ -275,7 +303,7 @@ const app = new Vue({
             };
         },
 
-        addAppointment:function(){
+        addAppointment: function(){
             var self = this;
             window.axios.post('/appointments',
                 {
@@ -296,22 +324,44 @@ const app = new Vue({
                 })
         },
 
-        updateAppointment: function(event){
+        updateAppointment: function(){ //event = this.selectedEvent){
             var self = this;
             window.axios.put('/appointments/update', // + event.id,
                 {
-                    id: event.id,
-                    title: event.title,
-                    employee_id: event.employee_id,
-                    service_id: event.service_id,
-                    patient_id: event.patient_id,
-                    start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
-                    end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
+                    id: self.selectedEvent.id,
+                    title: self.selectedEvent.title,
+                    employee_id: self.selectedEvent.employee_id,
+                    service_id: self.selectedEvent.service_id,
+                    patient_id: self.selectedEvent.patient_id,
+                    start: self.selectedEvent.start, //.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
+                    end: self.selectedEvent.end, //.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
                 })
-                .then((response) => {})
+                .then((response) => {
+                    self.updateEvent(self.selectedEvent);
+                })
                 .catch(e => {
                     alert("some error");
                 })
+        },
+
+        deleteAppointment: function(){ //event = null){
+            var self = this;
+            // if(event == null){
+            event = Object.assign({}, self.selectedEvent);
+                // alert(event.id);
+            // }
+
+            window.axios.delete('/appointments/' + event.id)
+                .then((response) => {
+                    self.deleteEvent(event.id);
+                })
+                .catch(e => {
+                    alert("some error");
+                })
+        },
+
+        setSelectedEvent: function(event){
+            this.selectedEvent = Object.assign({}, event);
         },
 
         reloadTimetable:function(){

@@ -108,8 +108,10 @@ class AppointmentController extends Controller
      * @param  \App\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointment $appointment)
+    public function destroy($id)
     {
-        //
+        $appoint = Appointment::findOrFail($id);
+        $success = $appoint->delete();
+        return response()->json(['success' => $success]);
     }
 }
