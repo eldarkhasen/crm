@@ -16,7 +16,7 @@
     </section>
     
     <section class="content">
-        <div class="container-fliud" id = "app">
+        <div class="container-fliud" id = "addEmployee">
             <edit-emp-component :employee="{{ $employee->toJson() }}"
             ></edit-emp-component>
 
