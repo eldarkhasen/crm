@@ -18,10 +18,10 @@
     <script type="text/javascript">
         window.Laravel = <?php echo json_encode([
             'csrf_token' => csrf_token(),
-            'appointments' => $appointments,
-            'employees' => $employees,
-            'services' => $services,
-            'patients' => $patients,
+//            'appointments' => $appointments,
+//            'employees' => $employees,
+//            'services' => $services,
+//            'patients' => $patients,
         ]); ?>
     </script>
 
@@ -36,6 +36,7 @@
                                            :new-event = "newEvent"
                                            :selected-event = "selectedEvent"
                                            :update-appointment = "updateAppointment"
+                                           :update-selected-appointment = "updateSelectedAppointment"
                                            :delete-appointment = "deleteAppointment"
                                            :set-selected-event = "setSelectedEvent"
                                            :employees = "employees"

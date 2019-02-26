@@ -130,4 +130,8 @@ class ServiceController extends Controller
     public function getServices(){
         return Service::all();
     }
+
+    public function get(){
+        return response()->json(['services' => Service::all()]);
+    }
 }

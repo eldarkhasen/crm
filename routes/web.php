@@ -34,3 +34,13 @@ Route::get('getPermissionsByUserId/{id}',"PermissionController@getPermissionsByU
 
 Route::get('getServices',"ServiceController@getServices");
 Route::get('getServicesByEmpId/{id}',"EmployeeController@getServicesByEmpId");
+
+// front
+Route::get('getAppointments', "AppointmentController@get");
+Route::get('getEmployees',"EmployeeController@get");
+Route::get('getServicesFront',"ServiceController@get");
+Route::get('getPatientsFront',"PatientController@get");
+
+
+
+

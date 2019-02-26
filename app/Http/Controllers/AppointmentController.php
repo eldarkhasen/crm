@@ -114,4 +114,8 @@ class AppointmentController extends Controller
         $success = $appoint->delete();
         return response()->json(['success' => $success]);
     }
+
+    public function get(){
+        return response()->json(['appointments' => Appointment::all()]);
+    }
 }

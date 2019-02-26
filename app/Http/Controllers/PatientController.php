@@ -161,4 +161,8 @@ class PatientController extends Controller
     {
         //
     }
+
+    public function get(){
+        return response()->json(['patients' => Patient::all()]);
+    }
 }

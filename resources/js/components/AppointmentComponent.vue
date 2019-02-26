@@ -66,7 +66,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                        <button type="button" class="btn btn-primary" @click="updateAppointment">Сохранить изменения</button>
+                        <button type="button" class="btn btn-primary" @click="updateSelectedAppointment">Сохранить изменения</button>
                         <button type="button" class="btn btn-danger" @click="deleteAppointment">Удалить запись</button>
                     </div>
                 </div>
@@ -100,6 +100,7 @@
             newEvent: Object,
             selectedEvent: Object,
             updateAppointment: Function,
+            updateSelectedAppointment: Function,
             deleteAppointment: Function,
             setSelectedEvent: Function,
             employees: Array,

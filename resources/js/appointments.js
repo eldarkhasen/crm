@@ -247,14 +247,60 @@ class Form {
 const app = new Vue({
     el: '#appointments',
     data: {
-        employees: window.Laravel.employees,
-        services: window.Laravel.services,
-        patients: window.Laravel.patients,
-        events: window.Laravel.appointments,
+        employees: [], // window.Laravel.employees,
+        services: [], // window.Laravel.services,
+        patients: [], // window.Laravel.patients,
+        events: [], // window.Laravel.appointments,
         newEvent: {},
         selectedEvent: {},
+
+        // eventSources: [
+        //     {
+        //         events(callback) {
+        //             window.axios.get('/getAppointments').then((response) => {
+        //                 callback(response.data.appointments)
+        //             })
+        //         }
+            // }
+        // ],
     },
     methods: {
+
+        getEvents: function(){
+            var self = this;
+            window.axios.get('/getAppointments').then((response) => {
+                self.events = response.data.appointments;
+            }).catch(e => {
+                alert("some error while getting appointments");
+            })
+        },
+
+        getEmployees: function() {
+            var self = this;
+            window.axios.get('/getEmployees').then((response) => {
+                self.employees = response.data.employees;
+            }).catch(e => {
+                alert("some error while getting employees");
+            })
+        },
+
+        getServices: function() {
+            var self = this;
+            window.axios.get('/getServicesFront').then((response) => {
+                self.services = response.data.services;
+            }).catch(e => {
+                alert("some error while getting services");
+            })
+        },
+
+        getPatients: function() {
+            var self = this;
+            window.axios.get('/getPatientsFront').then((response) => {
+                self.patients = response.data.patients;
+            }).catch(e => {
+                alert("some error while getting services");
+            })
+        },
 
         addEvent: function(){
             this.events.push(this.newEvent);
@@ -279,13 +325,17 @@ const app = new Vue({
 
         updateEvent: function(event){
             var self = this;
-            self.events.forEach(function(ev){
+            var id = null;
+            self.events.forEach(function(ev, index){
                 if(event.id === ev.id){
-                    ev = Object.assign({}, event);
+                    id = index;
                     $('#editAppointmentForm').modal('hide');
                 }
             });
+
+            self.events[id] = Object.assign({}, event);
             self.setSelectedEvent({});
+            self.refreshTimetable();
         },
 
         setDefaultNewEvent: function(){
@@ -324,20 +374,40 @@ const app = new Vue({
                 })
         },
 
-        updateAppointment: function(){ //event = this.selectedEvent){
+        updateAppointment: function(event){
             var self = this;
             window.axios.put('/appointments/update', // + event.id,
+                {
+                    id: event.id,
+                    title: event.title,
+                    employee_id: event.employee_id,
+                    service_id: event.service_id,
+                    patient_id: event.patient_id,
+                    start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
+                    end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
+                })
+                .then((response) => {
+                })
+                .catch(e => {
+                    alert("some error");
+                })
+        },
+
+        updateSelectedAppointment: function(){
+            var self = this;
+            window.axios.put('/appointments/update',
                 {
                     id: self.selectedEvent.id,
                     title: self.selectedEvent.title,
                     employee_id: self.selectedEvent.employee_id,
                     service_id: self.selectedEvent.service_id,
                     patient_id: self.selectedEvent.patient_id,
-                    start: self.selectedEvent.start, //.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
-                    end: self.selectedEvent.end, //.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
+                    start: self.selectedEvent.start,
+                    end: self.selectedEvent.end,
                 })
                 .then((response) => {
-                    self.updateEvent(self.selectedEvent);
+                    if(response.data.success)
+                        self.updateEvent(self.selectedEvent);
                 })
                 .catch(e => {
                     alert("some error");
@@ -364,11 +434,15 @@ const app = new Vue({
             this.selectedEvent = Object.assign({}, event);
         },
 
-        reloadTimetable:function(){
-            console.log("reload timetable init later");
+        refreshTimetable: function(){
+            $('#calendar').fullCalendar('refetchEvents');
         }
     },
     created(){
+        this.getEvents();
+        this.getEmployees();
+        this.getServices();
+        this.getPatients();
         this.setDefaultNewEvent();
     }
 });

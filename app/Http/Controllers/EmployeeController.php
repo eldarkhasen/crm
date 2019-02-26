@@ -261,4 +261,8 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         return $employee->services;
     }
+
+    public function get(){
+        return response()->json(['employees' => Employee::all()]);
+    }
 }
