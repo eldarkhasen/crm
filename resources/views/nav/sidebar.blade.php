@@ -54,6 +54,7 @@
                     </a>
                 </li>
                 @endif
+                @if(Auth::user()->hasPermissionTo('services'))
                 <li class="nav-item">
                     <a href="/services" class="nav-link  {{ Request::is('services*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-capsules"></i>
@@ -62,6 +63,7 @@
                         </p>
                     </a>
                 </li>
+                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
