@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Material;
+use App\MaterialUsage;
 use Illuminate\Http\Request;
 
 class MaterialController extends Controller
@@ -14,7 +15,10 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        //
+        $materials = Material::all();
+        $materialsUsages = MaterialUsage::all();
+//        dd($materialsUsages->material->name);
+        return view('materials.index',compact('materials','materialsUsages'));
     }
 
     /**
@@ -24,18 +28,42 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        //
+        return view('materials.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name'=>'required|max:120',
+            'price'=>'required',
+            'quantity'=>'required',
+            'producer'=>'required'
+        ]);
+
+        Material::create([
+            'name'=> $request->name,
+            'quantity'=>$request->quantity,
+            'measure_unit'=>$request->measure_unit,
+            'producer'=>$request->producer,
+            'price'=>$request->price,
+            'description'=>$request->description
+        ]);
+
+        $notification = array(
+            'message' => 'Товар добавлен',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('materials.index')
+            ->with($notification);
+
     }
 
     /**
@@ -57,7 +85,7 @@ class MaterialController extends Controller
      */
     public function edit(Material $material)
     {
-        //
+        return view('materials.edit',compact('material'));
     }
 
     /**

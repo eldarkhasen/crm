@@ -23,6 +23,9 @@ Route::resource('permissions', 'PermissionController');
 Route::resource('positions', 'PositionController');
 Route::resource('patients', 'PatientController');
 Route::resource('services', 'ServiceController');
+Route::resource('materials', 'MaterialController');
+Route::resource('materialsUsages', 'MaterialUsageController');
+Route::resource('materialsDelivery', 'MaterialDeliveryController');
 
 Route::get('getroles',"RoleController@getRoles");
 Route::get('getpermissions',"PermissionController@getPermissions");

@@ -37,4 +37,8 @@ class Employee extends Model
     public function services(){
         return $this->belongsToMany(Service::class)->withTimestamps();
     }
+
+    public function materialUsages(){
+        return $this->belongsTo(MaterialUsage::class);
+    }
 }

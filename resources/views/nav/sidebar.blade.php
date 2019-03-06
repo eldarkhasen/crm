@@ -64,6 +64,14 @@
                     </a>
                 </li>
                 @endif
+                <li class="nav-item">
+                    <a href="/materials" class="nav-link  {{ Request::is('materials*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-capsules"></i>
+                        <p>
+                            Склад
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
