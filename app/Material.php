@@ -9,7 +9,7 @@ class Material extends Model
     protected $guarded = [];
 
     public function materialUsage(){
-        return $this->belongsTo('App\MaterialUsage');
+        return $this->hasOne('App\MaterialUsage','material_id','id');
     }
 
     public function delivery(){

@@ -39,6 +39,6 @@ class Employee extends Model
     }
 
     public function materialUsages(){
-        return $this->belongsTo(MaterialUsage::class);
+        return $this->hasOne(MaterialUsage::class);
     }
 }
