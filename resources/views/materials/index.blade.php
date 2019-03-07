@@ -53,6 +53,7 @@
                                                     <th>Ед. измерения</th>
                                                     <th>На складе</th>
                                                     <th>Цена закупа</th>
+                                                    <th>Производитель</th>
                                                     <th>Действие</th>
                                                 </tr>
                                                 </thead>
@@ -63,6 +64,7 @@
                                                             <td>{{$material->measure_unit}}</td>
                                                             <td>{{$material->quantity}}</td>
                                                             <td>{{$material->price}}тг</td>
+                                                            <td>{{$material->producer }}</td>
                                                             <td>
                                                                 <a href="{{ route('materials.edit', $material->id) }}"><i class="fa fa-edit"></i></a>
                                                                 /

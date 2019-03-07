@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 class MaterialController extends Controller
 {
     /**
+     * MaterialController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -91,13 +99,31 @@ class MaterialController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Material  $material
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Material $material
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Material $material)
     {
-        //
+        $this->validate($request, [
+            'name'=>'required|max:120',
+            'price'=>'required',
+            'quantity'=>'required',
+            'producer'=>'required'
+        ]);
+
+        $input = $request->all();
+        $material->fill($input)->save();
+
+        $notification = array(
+            'message' => 'Товар обновлен',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('materials.index')
+            ->with($notification);
+
     }
 
     /**
