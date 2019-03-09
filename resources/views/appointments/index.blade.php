@@ -54,7 +54,6 @@
             </div>
         </div>
 
-        {{--@include('appointments.addAppointmentForm')--}}
     </section>
 @endsection
 
