@@ -22,32 +22,10 @@
                         </p>
                     </a>
                 </li>
-
-                @if(Auth::user()->hasPermissionTo('employees'))
-                    <li class="nav-item">
-                        <a href="/employees" class="nav-link  {{ Request::is('employees*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                Сотрудники
-                            </p>
-                        </a>
-                    </li>
-                @endif
-
-                @if(Auth::user()->hasPermissionTo('positions'))
-                <li class="nav-item">
-                    <a href="/positions" class="nav-link  {{ Request::is('positions*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            Должности
-                        </p>
-                    </a>
-                </li>
-                @endif
                 @if(Auth::user()->hasPermissionTo('patients'))
                 <li class="nav-item">
                     <a href="/patients" class="nav-link  {{ Request::is('patients*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-user-injured"></i>
                         <p>
                             Пациенты
                         </p>
@@ -64,13 +42,45 @@
                     </a>
                 </li>
                 @endif
+
                 <li class="nav-item">
                     <a href="/materials" class="nav-link  {{ Request::is('materials*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-capsules"></i>
+                        <i class="nav-icon fas fa-dolly"></i>
                         <p>
                             Склад
                         </p>
                     </a>
+                </li>
+                <li class="nav-item has-treeview {{ Request::is('positions*') || Request::is('employees*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('positions*') || Request::is('employees*') ? 'active' : '' }} ">
+                        <i class="nav-icon fa fa-cog"></i>
+                        <p>
+                            Настройки
+                            <i class="fa fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Auth::user()->hasPermissionTo('positions'))
+                            <li class="nav-item">
+                                <a href="/positions" class="nav-link  {{ Request::is('positions*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>
+                                        Должности
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+                        @if(Auth::user()->hasPermissionTo('employees'))
+                            <li class="nav-item">
+                                <a href="/employees" class="nav-link  {{ Request::is('employees*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-user-md"></i>
+                                    <p>
+                                        Сотрудники
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
                 </li>
             </ul>
         </nav>
