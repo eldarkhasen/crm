@@ -25,6 +25,7 @@ class UsersTableSeeder extends Seeder
         Permission::create(['name' => 'schedule','alias'=>'График']);
         Permission::create(['name' => 'permissions','alias'=>'Доступы']);
         Permission::create(['name' => 'patients','alias'=>'Пациенты']);
+        Permission::create(['name' => 'services','alias'=>'Услуги']);
 
 //        $role = factory(Role::class,'role',1)->create();
 //        $permission_users = factory(Permission::class,'permission_users',1)->create();

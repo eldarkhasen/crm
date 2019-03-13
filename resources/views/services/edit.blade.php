@@ -42,12 +42,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputPrice">Цена</label>
-                                <input type="text" class="form-control" id="inputPrice" name = "price" value="{{$service->price}}">
+                                <input type="number" class="form-control" id="inputPrice" name = "price" value="{{$service->price}}">
                                 {!! $errors->first('price', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                             </div>
                             <div class="form-group">
                                 <label for="inputMaxPrice">Максимальная цена</label>
-                                <input type="text" class="form-control" id="inputDuration" name = "max_price" value="{{$service->max_price}}">
+                                <input type="number" class="form-control" id="inputDuration" name = "max_price" value="{{$service->max_price}}">
                                 {!! $errors->first('max_price', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                             </div>
                         </div>

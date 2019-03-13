@@ -19,15 +19,14 @@ import  'datatables.net-bs4'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'toastr'
-// import 'fullcalendar/dist/fullcalendar.css';
-// import FullCalendar from 'vue-full-calendar'; //Import Full-calendar
-// Vue.use(FullCalendar);
+import datePicker from 'vuejs-datepicker';
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');
 Vue.use(VueInputMask);
 Vue.use(VueValidate);
 Vue.use(Toaster, {timeout: 3000});
+Vue.component('datepicker',datePicker);
 
 // register globally
 Vue.component('multiselect', Multiselect);
@@ -41,8 +40,7 @@ Vue.component('multiselect', Multiselect);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('edit-emp-component', require('./components/EditEmployeeComponent.vue'));
-// Vue.component('appointment-component', require('./components/AppointmentComponent.vue'));
-// Vue.component('new-event', require('./components/newEvent.vue'));
+
 // const files = require.context('./', true, /\.vue$/i)
 
 // files.keys().map(key => {
@@ -247,6 +245,9 @@ class Form {
         this.errors.record(errors);
     }
 }
+const app = new Vue({
+    el: '#app'
+});
 
 var users = new Vue({
     el: '#addEmployee',

@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>CRM @yield('title')</title>
+    <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -52,7 +52,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
 
-            @if(Session::has('message'))
+    @if(Session::has('message'))
     var type = "{{ Session::get('alert-type', 'info') }}";
     switch(type){
         case 'info':
