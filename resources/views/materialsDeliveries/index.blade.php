@@ -1,14 +1,14 @@
 {{-- \resources\views\users\index.blade.php --}}
 @extends('layouts.master')
 
-@section('title', 'Материалы')
+@section('title', 'Поставка материалов')
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h4>Материалы</h4>
+                    <h4>Поставка материалов</h4>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -25,20 +25,20 @@
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active show" href="/materials">Материалы</a></li>
+                                <li class="nav-item"><a class="nav-link " href="/materials">Материалы</a></li>
                                 <li class="nav-item"><a class="nav-link " href="/materialsUsages">Выдача</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/materialsDeliveries">Поставки</a></li>
+                                <li class="nav-item"><a class="nav-link active show" href="/materialsDeliveries">Поставки</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="tab-pane active show" id="materials">
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane active show" id="usage">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="margin">
                                                 <div class="btn-group float-left">
-                                                    <a href="{{ URL::to('materials/create') }}" role = "button" class = "btn btn-block btn-outline-primary btn-sm"> Добавить материал</a>
-                                                    {{--<button type="button" class="btn btn-block btn-outline-primary btn-sm">Добавить товар</button>--}}
+                                                    <a href="{{ URL::to('materialsDeliveries/create') }}" role = "button" class = "btn btn-block btn-outline-primary btn-sm">Добавить поступление</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -46,43 +46,44 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <table class="table table-bordered table-hover dataTable materialsTables" role="grid">
+                                            <table class="table table-bordered table-hover dataTable materialsTables"  role="grid">
                                                 <thead>
                                                 <tr>
                                                     <th>Наименование</th>
                                                     <th>Ед. измерения</th>
-                                                    <th>На складе</th>
-                                                    <th>Цена закупа</th>
-                                                    <th>Производитель</th>
-                                                    <th>Действие</th>
+                                                    <th>Количество</th>
+                                                    <th>Сумма</th>
+                                                    <th>Номер счета</th>
+                                                    <th>Дата поступления</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach($materials as $material)
-                                                        <tr>
-                                                            <td>{{$material->name}}</td>
-                                                            <td>{{$material->measure_unit}}</td>
-                                                            <td>{{$material->quantity}}</td>
-                                                            <td>{{$material->price}}тг</td>
-                                                            <td>{{$material->producer }}</td>
-                                                            <td>
-                                                                <a href="{{ route('materials.edit', $material->id) }}"><i class="fa fa-edit"></i></a>
-                                                                /
-                                                                <a href="" onclick="event.preventDefault();
-                                                                     document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>
-                                                                    {{ Form::open(array('route' => array('materials.destroy', $material->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
-                                                                    <button type="submit" ><i class="fa fa-trash-alt"></i></button>
-                                                                    {{ Form::close() }}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
+                                                @foreach($deliveries as $delivery)
+                                                    <tr>
+                                                        <td>{{$delivery->material->name}}</td>
+                                                        <td>
+                                                            {{$delivery->material->measure_unit}}
+                                                        </td>
+                                                        <td>
+                                                            {{$delivery->quantity}}
+                                                        </td>
+                                                        <td>
+                                                            {{$delivery->quantity*$delivery->material->price}}тг
+                                                        </td>
+                                                        <td>
+                                                            {{$delivery->invoice_number}}
+                                                        </td>
+                                                        <td>
+                                                            {{$delivery->delivery_date}}
+                                                        </td>
+
+                                                    </tr>
+                                                @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
-
                                     </div>
                                 </div>
-
                                 <!-- /.tab-pane -->
                             </div>
                             <!-- /.tab-content -->

@@ -19,7 +19,7 @@ class CreateMaterialUsagesTable extends Migration
             $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
             $table->unsignedInteger('employee_id')->index();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->integer('count');
+            $table->integer('quantity');
             $table->string('comments')->nullable();
             $table->timestamps();
         });

@@ -1,19 +1,15 @@
 {{-- \resources\views\users\create.blade.php --}}
 @extends('layouts.master')
 
-@section('title', 'Добавить выдачу')
+@section('title', 'Добавить поставку')
 
 @section('content')
-    <script>
-        var state = {
-            date: new Date(),
-        }
-    </script>
+
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h4>Добавить выдачу</h4>
+                    <h4>Добавить поставку</h4>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -23,11 +19,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-primary" >
-                        <form method ="POST" action = "{{ URL::to('materialsUsages') }}" autocomplete="off">
+                        <form method ="POST" action = "{{ URL::to('materialsDeliveries') }}" autocomplete="off">
                             @csrf
                             <div class="card-body" id = "addEmployee" >
                                 <fieldset class="form-group">
-                                    <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
+                                    <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <table class="table table-bordered table-hover dataTable materialsTables"  role="grid">
@@ -42,12 +38,12 @@
                                                     <tbody>
                                                     <tr>
                                                         <td>
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('material_id') ? 'has-error' : ''}}">
                                                                 <select class="form-control" name = "material_id" id = "material_id">
                                                                     <option disabled selected>Выберите материал</option>
                                                                     @foreach($materials as $material)
                                                                         <option value="{{ $material->id }}" data-measure_unit="{{ $material->measure_unit }}" data-quantity = "{{$material->quantity}}">{{ $material->name }}</option>
-                                                                        @endforeach
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </td>
@@ -64,18 +60,14 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
+                                                {!! $errors->first('material_id', '<span class="help-block" style = "color:red">Выберите материал</span>') !!}
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->has('employee') ? 'has-error' : ''}}">
-                                        <label for="inputDescription">Сотдруник</label>
-                                        <select class="form-control" name = "employee_id" id = "employee_id">
-                                            <option disabled selected>Выберите сотдруника</option>
-                                            @foreach($employees as $emp)
-                                                <option value="{{ $emp->id }}">{{ $emp->name }} {{ $emp->surname }}</option>
-                                            @endforeach
-                                        </select>
-                                        {!! $errors->first('employee', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
+                                    <div class="form-group {{ $errors->has('invoice_number') ? 'has-error' : ''}}">
+                                        <label for="inputInvoice">Номер счета</label>
+                                        <input type="text" class="form-control" id="inputInvoice" name = "invoice_number">
+                                        {!! $errors->first('invoice_number', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                     </div>
                                     <div class="form-group ">
                                         <label for="inputComments">Коментарии</label>
@@ -97,7 +89,7 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript" >
+    <script>
         $(document).ready(function () {
             $('.materialsTables').DataTable({
                 "processing": true,
@@ -106,8 +98,9 @@
                 "searching": false,
                 "ordering": false,
                 "info": false,
-            });//capital "D"
+            });     //capital "D"
         });
+
         $('#material_id').on('change',function(){
             var measure_unit = $(this).children('option:selected').data('measure_unit');
             var quantity = $(this).children('option:selected').data('quantity');

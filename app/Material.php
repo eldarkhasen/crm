@@ -13,6 +13,6 @@ class Material extends Model
     }
 
     public function delivery(){
-        return $this->belongsTo(MaterialDelivery::class);
+        return $this->hasOne(MaterialDelivery::class,'material_id','id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Material;
 use App\MaterialDelivery;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class MaterialDeliveryController extends Controller
      */
     public function index()
     {
-        //
+        $deliveries = MaterialDelivery::all();
+        return view("materialsDeliveries.index",compact('deliveries'));
     }
 
     /**
@@ -24,18 +26,51 @@ class MaterialDeliveryController extends Controller
      */
     public function create()
     {
-        //
+        $materials = Material::all();
+        return view("materialsDeliveries.create",compact('materials'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'material_id'=>'required',
+            'invoice_number'=>'required',
+        ]);
+        $inputQuantity = $request->quantity;
+        $comments = $request->comments;
+
+        if(!isset($comments)){
+            $comments = "нет коментариев";
+        }
+        
+        $date = date('Y/m/d');
+
+        MaterialDelivery::create([
+            'material_id'=>$request->material_id,
+            'quantity'=>$inputQuantity,
+            'comments'=>$comments,
+            'delivery_date'=>$date,
+            'invoice_number'=>$request->invoice_number
+        ]);
+
+        $material = Material::findOrFail($request->material_id);
+        $material->quantity = $material->quantity+$inputQuantity;
+        $material->save();
+        $notification = array(
+            'message' => 'Все ок!',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('materialsDeliveries.index')
+            ->with($notification);
+
+
     }
 
     /**

@@ -10,13 +10,22 @@ use Illuminate\Http\Request;
 class MaterialUsageController extends Controller
 {
     /**
+     * MaterialUsageController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $materialsUsages = MaterialUsage::all();
+        return view('materialsUsages.index',compact('materialsUsages'));
     }
 
     /**
@@ -57,7 +66,7 @@ class MaterialUsageController extends Controller
         $usage = MaterialUsage::create([
             'material_id'=>$request->material_id,
             'employee_id'=>$request->employee_id,
-            'count'=>$inputQuantity,
+            'quantity'=>$inputQuantity,
             'comments'=>$comments
         ]);
 
@@ -71,7 +80,7 @@ class MaterialUsageController extends Controller
             'message' => 'Все ок!',
             'alert-type' => 'success'
         );
-        return redirect()->route('materials.index')
+        return redirect()->route('materialsUsages.index')
             ->with($notification);
     }
 

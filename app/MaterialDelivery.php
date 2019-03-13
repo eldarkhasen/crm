@@ -8,7 +8,7 @@ class MaterialDelivery extends Model
 {
     protected $guarded = [];
 
-    public function materials(){
-        $this->hasMany(Material::class);
+    public function material(){
+        return $this->belongsTo('App\Material', 'material_id');
     }
 }
