@@ -335,7 +335,8 @@ const app = new Vue({
 
             self.events[id] = Object.assign({}, event);
             self.setSelectedEvent({});
-            self.refreshTimetable();
+            //self.refreshTimetable();
+            window.location.href = '/appointments';
         },
 
         setDefaultNewEvent: function(){
@@ -435,7 +436,10 @@ const app = new Vue({
         },
 
         refreshTimetable: function(){
-            $('#calendar').fullCalendar('refetchEvents');
+            $('#calendar').render(); //fullCalendar('refetchEvents');
+            //.fullCalendar('refetchEvents');
+            // var self = this;
+            // $(self.el).fullCalendar.render();
         }
     },
     created(){
