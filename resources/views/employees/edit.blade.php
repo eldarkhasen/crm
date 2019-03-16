@@ -1,7 +1,7 @@
 {{-- \resources\views\users\edit.blade.php --}}
 
 @extends('layouts.master')
-@section('title', '| Редактировать сотрудника')
+@section('title', "{$employee->name} {$employee->surname}")
 @section('content')
     <section class="content-header">
         <div class="container-fluid">

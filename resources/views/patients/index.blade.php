@@ -25,7 +25,7 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <table class="table table-bordered table-hover dataTable" id = "patients" role="grid">
+                            <table class="table table-hover dataTable" id = "patients" role="grid">
                                 <thead>
                                     <tr>
                                         <th>ФИО</th>

@@ -12,22 +12,20 @@ const VueValidate = require('vee-validate').default;
 import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
 import Multiselect from 'vue-multiselect'
-
+import calendar from "v-calendar";
 import 'datatables.net'
 import  'datatables.net-bs4'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'toastr'
-import datePicker from 'vuejs-datepicker';
+
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');
 Vue.use(VueInputMask);
 Vue.use(VueValidate);
 Vue.use(Toaster, {timeout: 3000});
-Vue.component('datepicker',datePicker);
-
 // register globally
 Vue.component('multiselect', Multiselect);
 /**

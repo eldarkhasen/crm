@@ -27,6 +27,7 @@
         "datatables.net-dt": "^1.10.19",
         "select2": "^4.0.6-rc.1",
         "toastr": "^2.1.4",
+        "v-calendar": "^0.9.7",
         "v-msgx": "^1.0.2",
         "v-toaster": "^1.0.3",
         "vee-validate": "^2.1.3",

@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 class PositionController extends Controller
 {
     /**
+     * PositionController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth','hasPerToPositions']);
+    }
+
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

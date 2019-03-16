@@ -1,4 +1,4 @@
-{{-- \resources\views\users\create.blade.php --}}
+{{-- \resources\views\users\createincome.blade.php --}}
 @extends('layouts.master')
 
 @section('title', 'Добавить поставку')

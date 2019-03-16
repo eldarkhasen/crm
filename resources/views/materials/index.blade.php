@@ -46,7 +46,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <table class="table table-bordered table-hover dataTable materialsTables" role="grid">
+                                            <table class="table table-hover dataTable materialsTables" role="grid">
                                                 <thead>
                                                 <tr>
                                                     <th>Наименование</th>

@@ -24,7 +24,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered table-hover dataTable" id = "positions" role="grid">
+                            <table class="table table-hover dataTable" id = "positions" role="grid">
                                 <thead>
                                 <tr>
                                     <th>Доступ</th>
@@ -43,7 +43,7 @@
                                             <td>
                                                 {{$position->description}}</td>
                                         @else
-                                            <td>Нет данных </td>
+                                            <td>Не указано</td>
                                         @endif
                                         <td>
                                             <a href="{{ URL::to('positions/'.$position->id.'/edit') }}"><i class="fa fa-edit"></i></a>

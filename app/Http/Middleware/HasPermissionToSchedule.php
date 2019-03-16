@@ -7,7 +7,7 @@ use Closure;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
-class PositionMiddleware
+class HasPermissionToSchedule
 {
     /**
      * Handle an incoming request.
@@ -21,7 +21,7 @@ class PositionMiddleware
         $user = User::all()->count();
 
         if (!($user == 1)) {
-            if (!Auth::user()->hasPermissionTo('positions')) //If user does //not have this permission
+            if (!Auth::user()->hasPermissionTo('schedule')) //If user does //not have this permission
             {
                 abort('401');
             }

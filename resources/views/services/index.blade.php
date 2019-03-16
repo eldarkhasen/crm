@@ -23,7 +23,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered table-hover dataTable" id = "services" role="grid">
+                            <table class="table table-hover dataTable" id = "services" role="grid">
                                 <thead>
                                 <tr>
                                     <th>Доступ</th>
