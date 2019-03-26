@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
         Permission::create(['name' => 'permissions','alias'=>'Доступы']);
         Permission::create(['name' => 'patients','alias'=>'Пациенты']);
         Permission::create(['name' => 'services','alias'=>'Услуги']);
-        Permission::create(['name' => 'materials','alias'=>'Мтериалы']);
+        Permission::create(['name' => 'materials','alias'=>'Материалы']);
         PaymentType::create(['name'=>'Доход']);
         PaymentType::create(['name'=>'Расход']);
 

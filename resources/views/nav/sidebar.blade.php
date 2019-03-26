@@ -52,8 +52,11 @@
                         </a>
                     </li>
                 @endif
-                <li class="nav-item has-treeview {{ Request::is('cashBoxes*')||Request::is('paymentItems*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('cashBoxes*')|| Request::is('paymentItems*') ? 'active' : '' }} ">
+                @if(Auth::user()->hasPermissionTo('finance') || Auth::user()->hasRole('admin') )
+                <li class="nav-item has-treeview {{ Request::is('cashBoxes*')||Request::is('paymentItems*')
+                    || Request::is('cashFlows*') || Request::is('create-income*') || Request::is('create-expanse*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('cashBoxes*')|| Request::is('paymentItems*')
+                        ||Request::is('cashFlows*') || Request::is('create-income*') || Request::is('create-expanse*') ? 'active' : '' }} ">
                         <i class="nav-icon fa fa-hand-holding-usd"></i>
                         <p>
                             Финансы
@@ -78,9 +81,18 @@
                                     </p>
                                 </a>
                             </li>
+                        <li class="nav-item">
+                            <a href="/cashFlows" class="nav-link  {{ Request::is('cashFlows*') || Request::is('create-income*') || Request::is('create-expanse*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-money-bill-wave"></i>
+                                <p>
+                                    Движение средств
+                                </p>
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
+                @endif
                 @if(Auth::user()->hasPermissionTo('positions') || Auth::user()->hasPermissionTo('employees')|| Auth::user()->hasRole('admin')  )
                 <li class="nav-item has-treeview {{ Request::is('positions*') || Request::is('employees*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ Request::is('positions*') || Request::is('employees*') ? 'active' : '' }} ">

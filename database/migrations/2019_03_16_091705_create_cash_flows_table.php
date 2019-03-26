@@ -15,7 +15,7 @@ class CreateCashFlowsTable extends Migration
     {
         Schema::create('cash_flows', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('cash_flow_datetime');
+            $table->date('cash_flow_date');
             $table->unsignedInteger('payment_item_id')->index();
             $table->foreign('payment_item_id')->references('id')->on('payment_items')->onDelete('cascade');
             $table->unsignedInteger('cash_box_id')->index();

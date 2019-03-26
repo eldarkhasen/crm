@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\CashBox;
+use App\CashFlow;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CashBoxController extends Controller
 {
+    /**
+     * CashBoxController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth','hasPerToFinance']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,10 +52,19 @@ class CashBoxController extends Controller
             'initial_balance'=>'required'
         ]);
 
-        CashBox::create([
+        $cashBox = CashBox::create([
             'name'=>$request->name,
             'initial_balance'=>$request->initial_balance,
             'current_balance'=>$request->initial_balance
+        ]);
+        $time = strtotime(str_replace('/', '-',$cashBox->created_at));
+        $newformat = date('Y-m-d',$time);
+        $cashflow = CashFlow::create([
+            'cash_flow_date'=>$newformat,
+            'payment_item_id'=>4,
+            'cash_box_id'=>$cashBox->id,
+            'user_created_id'=>Auth::user()->id,
+            'amount'=>$request->initial_balance,
         ]);
 
         $notification = array(

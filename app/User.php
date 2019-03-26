@@ -37,4 +37,8 @@ class User extends Authenticatable
     public function employee(){
         return $this->hasOne(Employee::class);
     }
+
+    public function cashFlow(){
+        return $this->hasMany(CashFlow::class,'user_created_id');
+    }
 }

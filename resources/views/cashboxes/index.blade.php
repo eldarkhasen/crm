@@ -10,9 +10,24 @@
                 <div class="col-sm-6">
                     <h1>Счета и кассы</h1>
                 </div>
+
                 <div class="col-sm-6">
                     <ul class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ URL::to('cashBoxes/create') }}" role = "button" class = "btn btn-block btn-outline-primary btn-md"> Добавить Кассу</a></li>
+                        <li class="ml-1 pt-1">
+                            <div class="btn-group">
+                                <a href="{{ URL::to('cashBoxes/create') }}" role = "button" class = "btn btn-block btn-outline-primary btn-sm"> Добавить Кассу</a>
+                            </div>
+                        </li>
+                        <li class="ml-1 pt-1">
+                            <div class="btn-group">
+                                <a href="/create-income" role = "button" class = "btn btn-block btn-outline-primary btn-sm">Добавить Поступление</a>
+                            </div>
+                        </li>
+                        <li class="ml-1 pt-1">
+                            <div class="btn-group">
+                                <a href="/create-expanse" role = "button" class = "btn btn-block btn-outline-primary btn-sm">Добавить Отчисление</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -28,10 +43,10 @@
                                 @foreach($cashBoxes as $cashBox)
                                 <div class="col-md-3 col-sm-6 col-12">
                                     <div class="info-box">
-                                        <span class="info-box-icon bg-info"><i class="fa fa-credit-card"></i></span>
+                                        <span class="info-box-icon bg-info"><a href="{{ route('cashBoxes.show', $cashBox->id) }}"><i class="fa fa-credit-card"></i></a></span>
                                         <div class="info-box-content">
                                             <a href="{{ route('cashBoxes.show', $cashBox->id) }}"><span class="info-box-text">{{$cashBox->name}}</span></a>
-                                            <span class="info-box-number">{{$cashBox->current_balance}} тг</span>
+                                            <span class="info-box-number"><a href="{{ route('cashBoxes.show', $cashBox->id) }}">{{$cashBox->current_balance}} тг </a></span>
                                         </div>
                                         <!-- /.info-box-content -->
                                     </div>

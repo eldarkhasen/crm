@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ul class="breadcrumb float-sm-right">
-                        <li class="ml-1">
+                        <li class="ml-1 pt-1">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-block btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Действия</button>
                                     <span class="caret"></span>
@@ -22,17 +22,17 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="ml-1">
+                        <li class="ml-1 pt-1">
                             <div class="btn-group">
                                 <a href="/create-income/{{$cashBox->id}}" role = "button" class = "btn btn-block btn-outline-primary btn-sm">Добавить Поступление</a>
                             </div>
                         </li>
-                        <li class="ml-1">
+                        <li class="ml-1 pt-1">
                             <div class="btn-group">
                                 <a href="/create-expanse/{{$cashBox->id}}" role = "button" class = "btn btn-block btn-outline-primary btn-sm">Добавить Отчисление</a>
                             </div>
                         </li>
-                        <li class="ml-1">
+                        <li class="ml-1 pt-1">
                             <div class="btn-group">
                             <a href="#" role = "button" class = "btn btn-block btn-outline-primary btn-sm">Перевод</a>
                             </div>
@@ -55,7 +55,7 @@
                                             <h6 class="card-title text-center">Текущий баланс</h6>
                                         </div>
                                         <div class="card-body text-center">
-                                            <h4 class=" text-info">{{$cashBox->current_balance}} тг</h4>
+                                            <h4 class=" text-info currency">{{$cashBox->current_balance}} тг</h4>
                                         </div>
                                         <!-- /.card-body -->
                                     </div>
@@ -107,4 +107,3 @@
 
 
 @endsection
-

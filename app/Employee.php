@@ -41,4 +41,7 @@ class Employee extends Model
     public function materialUsages(){
         return $this->hasOne(MaterialUsage::class);
     }
+    public function cashFlow(){
+        return $this->hasMany(CashFlow::class,'employee_id');
+    }
 }

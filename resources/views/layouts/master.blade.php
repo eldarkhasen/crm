@@ -15,10 +15,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/adminlte.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/adminlte.css.map') }}" rel="stylesheet">
+    {{--<link href="{{ asset('css/adminlte.css.map') }}" rel="stylesheet">--}}
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="../daterangepicker/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="../datepicker/datepicker3.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">
+    @yield('head')
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -49,9 +54,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
 <!-- Scripts -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<script src="../daterangepicker/daterangepicker.js"></script>
+<script src="../datepicker/bootstrap-datepicker.js"></script>
+<script src="../datepicker/locales/bootstrap-datepicker.ru.js"></script>
+
 <script>
 
     @if(Session::has('message'))

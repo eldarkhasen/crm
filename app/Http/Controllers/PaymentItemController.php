@@ -8,10 +8,19 @@ use Illuminate\Http\Request;
 class PaymentItemController extends Controller
 {
     /**
+     * PaymentItemController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth','hasPerToFinance']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $paymentItems = PaymentItem::latest()->get();
@@ -94,11 +103,18 @@ class PaymentItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PaymentItem  $paymentItem
+     * @param  \App\PaymentItem $paymentItem
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(PaymentItem $paymentItem)
     {
-        //
+        $paymentItem->delete();
+        $notification = array(
+            'message' => 'Статья удалена',
+            'alert-type' => 'info'
+        );
+        return redirect()->route('paymentItems.index')
+            ->with($notification);
     }
 }
