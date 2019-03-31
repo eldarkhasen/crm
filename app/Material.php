@@ -9,10 +9,10 @@ class Material extends Model
     protected $guarded = [];
 
     public function materialUsage(){
-        return $this->hasOne('App\MaterialUsage','material_id','id');
+        return $this->hasMany('App\MaterialUsage','material_id','id');
     }
 
     public function delivery(){
-        return $this->hasOne(MaterialDelivery::class,'material_id','id');
+        return $this->hasMany(MaterialDelivery::class,'material_id','id');
     }
 }

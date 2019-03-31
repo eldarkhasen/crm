@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class FinanceMiddleware
 {
@@ -15,6 +17,15 @@ class FinanceMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $user = User::all()->count();
+
+        if (!($user == 1)) {
+            if (!Auth::user()->hasPermissionTo('finance')) //If user does //not have this permission
+            {
+                abort('401');
+            }
+        }
+
         return $next($request);
     }
 }

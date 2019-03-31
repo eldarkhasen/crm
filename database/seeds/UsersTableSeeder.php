@@ -1,5 +1,7 @@
 <?php
 
+use App\PaymentItem;
+use App\PaymentType;
 use Illuminate\Database\Seeder;
 //Importing laravel-permission models
 use Spatie\Permission\Models\Role;
@@ -26,6 +28,21 @@ class UsersTableSeeder extends Seeder
         Permission::create(['name' => 'permissions','alias'=>'Доступы']);
         Permission::create(['name' => 'patients','alias'=>'Пациенты']);
         Permission::create(['name' => 'services','alias'=>'Услуги']);
+        Permission::create(['name' => 'materials','alias'=>'Материалы']);
+        PaymentType::create(['name'=>'Доход']);
+        PaymentType::create(['name'=>'Расход']);
+
+        PaymentItem::create(['name'=>'Перевод из кассы','payment_type_id'=>'2']);
+        PaymentItem::create(['name'=>'Перевод в кассу','payment_type_id'=>'1']);
+        PaymentItem::create(['name'=>'Снятие с депозите','payment_type_id'=>'2']);
+        PaymentItem::create(['name'=>'Начисление в депозит','payment_type_id'=>'1']);
+        PaymentItem::create(['name'=>'Возврат средств','payment_type_id'=>'2']);
+        PaymentItem::create(['name'=>'Оказание услуг','payment_type_id'=>'1']);
+        PaymentItem::create(['name'=>'Погашение долга','payment_type_id'=>'1']);
+        PaymentItem::create(['name'=>'Закупка товаров','payment_type_id'=>'2']);
+        PaymentItem::create(['name'=>'Зарплата персонала','payment_type_id'=>'2']);
+        PaymentItem::create(['name'=>'Прочие доходы','payment_type_id'=>'1']);
+        PaymentItem::create(['name'=>'Прочие расходы','payment_type_id'=>'2']);
 
 //        $role = factory(Role::class,'role',1)->create();
 //        $permission_users = factory(Permission::class,'permission_users',1)->create();

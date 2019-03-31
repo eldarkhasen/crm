@@ -22,18 +22,7 @@
                         </p>
                     </a>
                 </li>
-
-
-                @if(Auth::user()->hasPermissionTo('employees'))
-                    <li class="nav-item">
-                        <a href="/employees" class="nav-link  {{ Request::is('employees*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                Сотрудники
-                            </p>
-                        </a>
-                    </li>
-                @if(Auth::user()->hasPermissionTo('patients'))
+                @if(Auth::user()->hasPermissionTo('patients') || Auth::user()->hasRole('admin') )
                 <li class="nav-item">
                     <a href="/patients" class="nav-link  {{ Request::is('patients*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-injured"></i>
@@ -43,7 +32,7 @@
                     </a>
                 </li>
                 @endif
-                @if(Auth::user()->hasPermissionTo('services'))
+                @if(Auth::user()->hasPermissionTo('services') || Auth::user()->hasRole('admin') )
                 <li class="nav-item">
                     <a href="/services" class="nav-link  {{ Request::is('services*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-capsules"></i>
@@ -53,15 +42,58 @@
                     </a>
                 </li>
                 @endif
-
-                <li class="nav-item">
-                    <a href="/materials" class="nav-link  {{ Request::is('materials*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-dolly"></i>
+                @if(Auth::user()->hasPermissionTo('materials') || Auth::user()->hasRole('admin') )
+                    <li class="nav-item">
+                        <a href="/materials" class="nav-link  {{ Request::is('materials*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-dolly"></i>
+                            <p>
+                                Склад
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                @if(Auth::user()->hasPermissionTo('finance') || Auth::user()->hasRole('admin') )
+                <li class="nav-item has-treeview {{ Request::is('cashBoxes*')||Request::is('paymentItems*')
+                    || Request::is('cashFlows*') || Request::is('create-income*') || Request::is('create-expanse*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('cashBoxes*')|| Request::is('paymentItems*')
+                        ||Request::is('cashFlows*') || Request::is('create-income*') || Request::is('create-expanse*') ? 'active' : '' }} ">
+                        <i class="nav-icon fa fa-hand-holding-usd"></i>
                         <p>
-                            Склад
+                            Финансы
+                            <i class="fa fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a href="/cashBoxes" class="nav-link  {{ Request::is('cashBoxes*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-credit-card"></i>
+                                    <p>
+                                        Счета и кассы
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/paymentItems" class="nav-link  {{ Request::is('paymentItems*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                                    <p>
+                                        Статьи платежей
+                                    </p>
+                                </a>
+                            </li>
+                        <li class="nav-item">
+                            <a href="/cashFlows" class="nav-link  {{ Request::is('cashFlows*') || Request::is('create-income*') || Request::is('create-expanse*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-money-bill-wave"></i>
+                                <p>
+                                    Движение средств
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
+                @endif
+                @if(Auth::user()->hasPermissionTo('positions') || Auth::user()->hasPermissionTo('employees')|| Auth::user()->hasRole('admin')  )
                 <li class="nav-item has-treeview {{ Request::is('positions*') || Request::is('employees*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ Request::is('positions*') || Request::is('employees*') ? 'active' : '' }} ">
                         <i class="nav-icon fa fa-cog"></i>
@@ -71,7 +103,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @if(Auth::user()->hasPermissionTo('positions'))
+                        @if(Auth::user()->hasPermissionTo('positions') || Auth::user()->hasRole('admin') )
                             <li class="nav-item">
                                 <a href="/positions" class="nav-link  {{ Request::is('positions*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-user"></i>
@@ -81,7 +113,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if(Auth::user()->hasPermissionTo('employees'))
+                        @if(Auth::user()->hasPermissionTo('employees') || Auth::user()->hasRole('admin') )
                             <li class="nav-item">
                                 <a href="/employees" class="nav-link  {{ Request::is('employees*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-user-md"></i>
@@ -101,6 +133,7 @@
                         </p>
                     </a>
                 </li>
+                    @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

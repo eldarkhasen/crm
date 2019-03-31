@@ -1,4 +1,4 @@
-{{-- \resources\views\permissions\create.blade.php --}}
+{{-- \resources\views\permissions\createincome.blade.php --}}
 @extends('layouts.master')
 
 @section('title', '| Create Permission')

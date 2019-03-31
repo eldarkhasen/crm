@@ -25,7 +25,7 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <table class="table table-bordered table-hover dataTable" id = "employees" role="grid">
+                            <table class="table table-hover dataTable" id = "employees" role="grid">
                                 <thead>
                                 <tr>
                                     <th>Имя</th>
@@ -44,7 +44,12 @@
                                 <td>{{ $emp->name }}</td>
                                 <td>{{ $emp->surname }}</td>
                                 <td>{{ $emp->patronymic }}</td>
-                                <td>{{ $emp->services()->pluck('name')->implode(', ') }}</td>
+                                @if(count($emp->services)>0)
+                                        <td>{{ $emp->services()->pluck('name')->implode(', ') }}</td>
+                                @else
+                                        <td>Не указано</td>
+                                @endif
+
                                 <td>{{ $emp->positions()->pluck('name')->implode(', ') }}</td>
                                 <td>
                                     <a href="{{ route('employees.edit', $emp->id) }}"><i class="fa fa-edit"></i></a>

@@ -64,6 +64,11 @@ class Kernel extends HttpKernel
         'isAdmin' => \App\Http\Middleware\AdminMiddleware::class,
         'clearance' => \App\Http\Middleware\ClearanceMiddleware::class,
         'hasPerToEmp' => \App\Http\Middleware\EmployeesPermissionMiddleware::class,
+        'hasPerToMaterials'=>\App\Http\Middleware\HasPermissionToMaterials::class,
+        'hasPerToSchedule'=>\App\Http\Middleware\HasPermissionToSchedule::class,
+        'hasPerToServices'=>\App\Http\Middleware\HasPermissionToServices::class,
+        'hasPerToPositions'=>\App\Http\Middleware\PositionMiddleware::class,
+        'hasPerToFinance'=>\App\Http\Middleware\FinanceMiddleware::class,
     ];
 
     /**

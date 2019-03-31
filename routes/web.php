@@ -26,8 +26,15 @@ Route::resource('services', 'ServiceController');
 Route::resource('materials', 'MaterialController');
 Route::resource('materialsUsages', 'MaterialUsageController');
 Route::resource('materialsDeliveries', 'MaterialDeliveryController');
-Route::resource('appointments', 'AppointmentController');
-
+Route::resource('cashBoxes', 'CashBoxController');
+Route::resource('paymentItems', 'PaymentItemController');
+Route::resource('cashFlows', 'CashFlowController');
+Route::get('create-income','CashFlowController@createIncome');
+Route::get('create-expanse','CashFlowController@createExpanse');
+Route::post('create-income','CashFlowController@storeIncome');
+Route::post('create-expanse','CashFlowController@storeExpanse');
+Route::get('create-income/{id}','CashFlowController@createIncomeById');
+Route::get('create-expanse/{id}','CashFlowController@createExpanseById');
 Route::get('getroles',"RoleController@getRoles");
 Route::get('getpermissions',"PermissionController@getPermissions");
 Route::get('getpositions',"PositionController@getPositions");
