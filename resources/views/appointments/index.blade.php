@@ -1,5 +1,3 @@
-{{-- \resources\views\users\edit.blade.php --}}
-
 @extends('layouts.master')
 @section('title', '| График')
 @section('content')
@@ -48,6 +46,7 @@
                                :services = "services"
                                :patients = "patients"
                                :add-appointment = "addAppointment"
+                               :get-patient-by-id = "getPatientById"
                                :new-event = "newEvent"
                     ></new-event>
                 </div>

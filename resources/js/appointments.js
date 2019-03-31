@@ -266,10 +266,30 @@ const app = new Vue({
     },
     methods: {
 
+        getPatientById: function(id) {
+            var result = {};
+            var BreakException = {};
+            try {
+                this.patients.forEach(function (patient) {
+                    if (patient.id == id) {
+                        result = Object.assign({}, patient);
+                        throw BreakException;
+                    }
+                });
+            }catch (e) {
+                if (e !== BreakException) throw e;
+            }
+
+            return result;
+        },
+
         getEvents: function(){
             var self = this;
             window.axios.get('/getAppointments').then((response) => {
                 self.events = response.data.appointments;
+                self.events.forEach(function (event) {
+                    event.patient = {};
+                });
             }).catch(e => {
                 alert("some error while getting appointments");
             })
@@ -351,6 +371,7 @@ const app = new Vue({
                 service_id: null,
                 patient_id: null,
                 color: '#1ABC9C',
+                patient: {}
             };
         },
 
@@ -441,6 +462,20 @@ const app = new Vue({
             // var self = this;
             // $(self.el).fullCalendar.render();
         }
+    },
+    watch: {
+        // newEvent: function(newVal, oldVal){
+        //     if(this.newEvent.patient_id != null){
+        //         var self = this;
+        //
+        //         this.patients.forEach(function (patient){
+        //             if(patient.id == self.newEvent.patient_id){
+        //                 self.newEvent.title = patient.firstName + " " + patient.lastName + " / " + patient.phone;
+        //             }
+        //
+        //         });
+        //     }
+        // }
     },
     created(){
         this.getEvents();
