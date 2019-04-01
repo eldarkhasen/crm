@@ -34,7 +34,7 @@
                         </li>
                         <li class="ml-1 pt-1">
                             <div class="btn-group">
-                            <a href="#" role = "button" class = "btn btn-block btn-outline-primary btn-sm">Перевод</a>
+                            <a href="#" role = "button" class = "btn btn-block btn-outline-primary btn-sm" data-toggle="modal" data-target="#transferModal">Перевод</a>
                             </div>
                         </li>
                     </ul>
@@ -104,6 +104,56 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="transferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Перевод из кассы</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method ="POST" action = "{{ URL::to('cashBoxes/transfer/'.$cashBox->id) }}" autocomplete="off">
+                    <div class="modal-body">
+                        @csrf
+                        <div class="card-body">
+                            <div class="form-group {{ $errors->has('transfer_cash_box_id') ? 'has-error' : ''}}">
+                                <label for="exampleInputEmail1">Кдуа перевести</label>
+                                <select class="form-control" name = "transfer_cash_box_id">
+                                    <option disabled selected>Выберите кассу</option>
+                                    @foreach($cashBoxes as $cb)
+                                        <option value = "{{$cb->id}}">{{$cb->name}}</option>
+                                    @endforeach
+                                </select>
+                                {!! $errors->first('transfer_cash_box_id', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
+                            </div>
+                            <div class="form-group {{ $errors->has('amount') ? 'has-error' : ''}}">
+                                <label for="exampleInputEmail1">Сумма</label>
+                                <input type="number" class="form-control" id="inputBalance" name = "amount">
+                                {!! $errors->first('amount', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
+                            </div>
 
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary" >Сохранить</button>
+                    </div>
 
+                </form>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('script')
+    <script>
+        @if (count($errors) > 0)
+            $(document).ready(function () {
+                $('#transferModal').modal('show');
+            });
+        @endif
+    </script>
 @endsection

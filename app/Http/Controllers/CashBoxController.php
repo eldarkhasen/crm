@@ -48,7 +48,7 @@ class CashBoxController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'=>'required',
+            'name'=>'required|unique:cash_boxes',
             'initial_balance'=>'required'
         ]);
 
@@ -57,15 +57,18 @@ class CashBoxController extends Controller
             'initial_balance'=>$request->initial_balance,
             'current_balance'=>$request->initial_balance
         ]);
-        $time = strtotime(str_replace('/', '-',$cashBox->created_at));
-        $newformat = date('Y-m-d',$time);
-        $cashflow = CashFlow::create([
-            'cash_flow_date'=>$newformat,
-            'payment_item_id'=>4,
-            'cash_box_id'=>$cashBox->id,
-            'user_created_id'=>Auth::user()->id,
-            'amount'=>$request->initial_balance,
-        ]);
+        if($request->initial_balance>0){
+            $time = strtotime(str_replace('/', '-',$cashBox->created_at));
+            $newformat = date('Y-m-d',$time);
+
+            CashFlow::create([
+                'cash_flow_date'=>$newformat,
+                'payment_item_id'=>4,
+                'cash_box_id'=>$cashBox->id,
+                'user_created_id'=>Auth::user()->id,
+                'amount'=>$request->initial_balance,
+            ]);
+        }
 
         $notification = array(
             'message' => 'Касса добавлена',
@@ -84,7 +87,8 @@ class CashBoxController extends Controller
      */
     public function show(CashBox $cashBox)
     {
-        return view('cashboxes.show',compact('cashBox'));
+        $cashBoxes = CashBox::where('id','!=',$cashBox->id)->get();
+        return view('cashboxes.show',compact('cashBox','cashBoxes'));
     }
 
     /**
@@ -118,6 +122,69 @@ class CashBoxController extends Controller
      */
     public function destroy(CashBox $cashBox)
     {
-        //
+
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\CashBox $cashBox
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function storeTransfer(Request $request,$id){
+        $this->validate($request, [
+            'transfer_cash_box_id'=>'required',
+            'amount'=>'required'
+        ]);
+
+        $cashBox = CashBox::findOrFail($id);
+        if($cashBox->current_balance<$request->amount){
+            $notification = array(
+                'message' => 'Сумма неправильная',
+                'alert-type' => 'error'
+            );
+
+            return redirect()->route('cashBoxes.show', $id)
+                ->with($notification);
+        }
+        $time = strtotime(str_replace('/', '-',date('Y/m/d', time())));
+        $newformat = date('Y-m-d',$time);
+
+        $cashBox->current_balance = $cashBox->current_balance-$request->amount;
+        $cashBox->expanse = $cashBox->expanse+$request->amount;
+        $cashBox->save();
+
+        $transferCashBox = CashBox::findOrFail($request->transfer_cash_box_id);
+        $transferCashBox->current_balance = $transferCashBox->current_balance+$request->amount;
+        $transferCashBox->income = $transferCashBox->income+$request->amount;
+        $transferCashBox->save();
+
+        CashFlow::create([
+            'cash_flow_date'=>$newformat,
+            'payment_item_id'=>\StaticPaymentItems::$paymentItems['toCashBox'],
+            'cash_box_id'=>$transferCashBox->id,
+            'user_created_id'=>Auth::user()->id,
+            'amount'=>$request->amount,
+            'comments'=>"Перевод в ".$transferCashBox->name,
+        ]);
+
+        CashFlow::create([
+            'cash_flow_date'=>$newformat,
+            'payment_item_id'=>\StaticPaymentItems::$paymentItems['fromCashBox'],
+            'cash_box_id'=>$cashBox->id,
+            'user_created_id'=>Auth::user()->id,
+            'amount'=>$request->amount,
+            'comments'=>"Перевод из ".$cashBox->name,
+        ]);
+        $notification = array(
+            'message' => 'Перевод прошел!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('cashBoxes.index')
+            ->with($notification);
+
     }
 }

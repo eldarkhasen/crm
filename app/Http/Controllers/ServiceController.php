@@ -8,6 +8,14 @@ use App\Service;
 class ServiceController extends Controller
 {
     /**
+     * ServiceController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth','hasPerToServices']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
