@@ -35,6 +35,7 @@ Route::post('create-income','CashFlowController@storeIncome');
 Route::post('create-expanse','CashFlowController@storeExpanse');
 Route::get('create-income/{id}','CashFlowController@createIncomeById');
 Route::get('create-expanse/{id}','CashFlowController@createExpanseById');
+Route::post('cashBoxes/transfer/{id}','CashBoxController@storeTransfer');
 Route::get('getroles',"RoleController@getRoles");
 Route::get('getpermissions',"PermissionController@getPermissions");
 Route::get('getpositions',"PositionController@getPositions");

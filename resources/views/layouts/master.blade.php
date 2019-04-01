@@ -71,22 +71,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
     switch(type){
         case 'info':
             toastr.info("{{ Session::get('message') }}");
-
+            toastr.options.closeButton = true;
+            var msg = new SpeechSynthesisUtterance("{{ Session::get('message') }}");
+            window.speechSynthesis.speak(msg);
             break;
 
         case 'warning':
             toastr.warning("{{ Session::get('message') }}");
             toastr.options.closeButton = true;
+            var msg = new SpeechSynthesisUtterance("{{ Session::get('message') }}");
+            window.speechSynthesis.speak(msg);
             break;
 
         case 'success':
             toastr.success("{{ Session::get('message') }}");
             toastr.options.closeButton = true;
+            var msg = new SpeechSynthesisUtterance("{{ Session::get('message') }}");
+            window.speechSynthesis.speak(msg);
             break;
 
         case 'error':
             toastr.error("{{ Session::get('message') }}");
             toastr.options.closeButton = true;
+            var msg = new SpeechSynthesisUtterance("{{ Session::get('message') }}");
+            window.speechSynthesis.speak(msg);
             break;
     }
     @endif

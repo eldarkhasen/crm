@@ -29,7 +29,7 @@
                                 <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
                                     <label for="exampleInputEmail1">Наименование</label>
                                     <input type="text" class="form-control" id="inputName" name = "name">
-                                    {!! $errors->first('name', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
+                                    {!! $errors->first('name', '<span class="help-block" style = "color:red">Заполните данное поле или придумайте новое имя</span>') !!}
                                 </div>
                                 <div class="form-group {{ $errors->has('initial_balance') ? 'has-error' : ''}}">
                                     <label for="exampleInputEmail1">Начальный баланс</label>

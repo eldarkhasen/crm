@@ -138,7 +138,7 @@ class CashFlowController extends Controller
             $cashBox->save();
 
             $notification = array(
-                'message' => 'Поступление добавлено',
+                'message' => 'Операция '.$cashflow->paymentItem->name.' произведена',
                 'alert-type' => 'success'
             );
         }else{
@@ -171,7 +171,7 @@ class CashFlowController extends Controller
 
         if($cashBox->current_balance<$request->amount){
             $notification = array(
-                'message' => 'Проверьте сумму!!!',
+                'message' => 'Пожалуйста, проверьте сумму!',
                 'alert-type' => 'error'
             );
             return redirect()->route('cashFlows.index')
@@ -197,7 +197,7 @@ class CashFlowController extends Controller
             $cashBox->expanse = $cashBox->expanse+$request->amount;
             $cashBox->save();
             $notification = array(
-                'message' => 'Поступление добавлено',
+                'message' => 'Операция '.$cashflow->paymentItem->name.' произведена',
                 'alert-type' => 'success'
             );
         }else{
