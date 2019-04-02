@@ -76,8 +76,13 @@ class PatientController extends Controller
             'message' => 'Пациент добавлен!',
             'alert-type' => 'success'
         );
-        return redirect()->route('patients.index')
-            ->with($notification);
+
+        if(request()->newPatient == 1){
+            // TODO: return json
+        }else{
+            return redirect()->route('patients.index')
+                ->with($notification);
+        }
     }
 
     /**

@@ -37,26 +37,26 @@
                                             </div>
 
                                             <div class="col-md-4 form-group">
-                                                <div class="row">
+                                                <!--<div class="row">-->
                                                     <label for="patient">Пациент</label>
-                                                    <div class="col-10">
+                                                    <!--<div class="col-10">-->
                                                         <select class="form-control" v-model="newEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
-                                                            <option value="">Выберите пациента</option>
+                                                            <option value="0" selected>Новый пациент</option>
                                                             <option v-for="item in patients"
                                                                     :value="item.id">{{ item.name}}</option>
                                                         </select>
-                                                    </div>
-                                                    <div class="col-2" v-if="!addNewPatient">
-                                                        <i class="fas fa-plus" @click="addNewPatient = true" title="добавить нового клиента"></i>
-                                                    </div>
-                                                    <div class="col-2" v-else>
-                                                        <i class="fas fa-minus" @click="addNewPatient = false" title="отменить добавление нового клиента"></i>
-                                                    </div>
-                                                </div>
+                                                    <!--</div>-->
+                                                    <!--<div class="col-2" v-if="!addNewPatient">-->
+                                                        <!--<i class="fas fa-plus" @click="addNewPatient = true" title="добавить нового клиента"></i>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="col-2" v-else>-->
+                                                        <!--<i class="fas fa-minus" @click="addNewPatient = false" title="отменить добавление нового клиента"></i>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
                                             </div>
                                         </div>
 
-                                        <div class="form-group" v-if="addNewPatient && newEvent.patient_id == null">
+                                        <div class="form-group" v-if="false && addNewPatient && newEvent.patient_id == null">
                                             <h3>Данные нового клиента</h3>
                                             <div class="row mt-1">
                                                 <div class="col-md-3">
@@ -108,19 +108,16 @@
                                                     <input class="form-control" name="id_card" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="birthday" v-model="newPatient.birthday">Дата рождения</label>
-                                                    <input class="form-control" name="birthday" type="text">
-                                                </div>
-                                                <div class="col-md-3">
                                                     <label for="discount" v-model="newPatient.discount">Процент скидки</label>
                                                     <input class="form-control" name="discount" type="text">
                                                 </div>
+                                                <div class="col-md-3"></div>
                                             </div>
                                             <button type="submit" @click="submitNewPatient()" class="btn btn-primary mt-3">Добавить</button>
                                         </div>
 
-                                        <div class="form-group" v-if="newEvent.patient_id != null">
-                                            <h3>Данные пациента</h3>
+                                        <div class="form-group" v-if="true || newEvent.patient_id != null">
+                                            <h3>Данные <span v-if="newEvent.patient_id == 0">нового</span> пациента</h3>
                                             <div class="row mt-1">
                                                 <div class="col-md-3">
                                                     <label for="firstname">Имя</label>
@@ -140,7 +137,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row mt-1">
+                                            <div class="row mt-1" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-3">
                                                     <label for="birthday">Дата рождения</label>
                                                     <input class="form-control" name="birthday" type="text" v-model="newEvent.patient.birthday">
@@ -157,10 +154,28 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <!--<label for="phone">Телефон</label>-->
-                                                    <!--<input class="form-control" name="phone" type="text">-->
+                                                    <label for="discount" v-model="newEvent.patient.discount">Процент скидки</label>
+                                                    <input class="form-control" name="discount" type="text">
                                                 </div>
                                             </div>
+
+                                            <h5 class="mt-3" v-if="newEvent.patient_id == 0">Дополнительная информация</h5>
+                                            <div class="row mt-1" v-if="newEvent.patient_id == 0">
+                                                <div class="col-md-3">
+                                                    <label for="iin" v-model="newEvent.patient.iin">ИИН</label>
+                                                    <input class="form-control" name="iin" type="text">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="id_card" v-model="newEvent.patient.id_card">Уд. личности</label>
+                                                    <input class="form-control" name="id_card" type="text">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="discount" v-model="newEvent.patient.discount">Процент скидки</label>
+                                                    <input class="form-control" name="discount" type="text">
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+                                            <button v-if="newEvent.patient_id == 0" type="submit" @click="submitNewPatient()" class="btn btn-primary mt-3">Добавить клиента в базу</button>
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +205,7 @@
         data() {
             var self = this;
             return {
-                addNewPatient: false,
+                // addNewPatient: false,
                 newPatient: {
                     name: null,
                     surname: null,
@@ -212,24 +227,26 @@
                 this.addNewPatient = false;
                 this.newEvent.patient = this.getPatientById(this.newEvent.patient_id);
             },
+
             submitNewPatient() {
                 // TODO: set patient_id to new event after response, return from back new id
                 var self = this;
                 window.axios.post('/patients',
                     {
                         // TODO: try tp pass just newPatient object
-                        name: self.newPatient.name,
-                        surname: self.newPatient.surname,
-                        patronymic: self.newPatient.patronymic,
-                        phone: self.newPatient.phone,
-                        email: self.newPatient.email,
-                        gender: self.newPatient.gender,
-                        birthday: self.newPatient.birthday,
-                        discount: self.newPatient.discount,
-                        iin: self.newPatient.iin,
-                        id_card: self.newPatient.id_card,
-                        city: self.newPatient.city,
-                        address: self.newPatient.address
+                        newPatient: 1,
+                        name: self.newEvent.patient.name,
+                        surname: self.newEvent.patient.surname,
+                        patronymic: self.newEvent.patient.patronymic,
+                        phone: self.newEvent.patient.phone,
+                        email: self.newEvent.patient.email,
+                        gender: self.newEvent.patient.gender,
+                        birthday: self.newEvent.patient.birthday,
+                        discount: self.newEvent.patient.discount,
+                        iin: self.newEvent.patient.iin,
+                        id_card: self.newEvent.patient.id_card,
+                        city: self.newEvent.patient.city,
+                        address: self.newEvent.patient.address
 
                     })
                     .then((response) => {
@@ -240,6 +257,7 @@
                         alert("some error");
                     })
             }
+
         }
     }
 </script>
