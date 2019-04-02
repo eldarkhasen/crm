@@ -29,6 +29,7 @@ Route::resource('materialsDeliveries', 'MaterialDeliveryController');
 Route::resource('cashBoxes', 'CashBoxController');
 Route::resource('paymentItems', 'PaymentItemController');
 Route::resource('cashFlows', 'CashFlowController');
+Route::resource('appointments', 'AppointmentController');
 Route::get('create-income','CashFlowController@createIncome');
 Route::get('create-expanse','CashFlowController@createExpanse');
 Route::post('create-income','CashFlowController@storeIncome');
