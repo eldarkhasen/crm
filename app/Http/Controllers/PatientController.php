@@ -58,14 +58,14 @@ class PatientController extends Controller
             'email'=>'required|email|unique:patients'
         ]);
 
-        Patient::create([
+        $patient = Patient::create([
             'name'=>request()->name,
             'surname'=>request()->surname,
             'patronymic'=>request()->patronymic,
             'phone'=>request()->phone,
             'email'=>request()->email,
             'birth_date'=>request()->birth_date,
-            'gender'=> $gender[request()->gender],
+            'gender'=> request()->gender,
             'id_card'=>request()->id_card,
             'id_number'=>request()->id_number,
             'address'=>request()->address,
@@ -78,7 +78,7 @@ class PatientController extends Controller
         );
 
         if(request()->newPatient == 1){
-            // TODO: return json
+            return response()->json(['patient' => $patient]);
         }else{
             return redirect()->route('patients.index')
                 ->with($notification);

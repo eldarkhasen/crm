@@ -89,8 +89,8 @@
                                                     <input class="form-control" name="email" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="birthday" v-model="newPatient.birthday">Дата рождения</label>
-                                                    <input class="form-control" name="birthday" type="text">
+                                                    <label for="birth_date" v-model="newPatient.birth_date">Дата рождения</label>
+                                                    <input class="form-control" name="birth_date" type="text">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="discount" v-model="newPatient.discount">Процент скидки</label>
@@ -139,8 +139,12 @@
 
                                             <div class="row mt-1" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-3">
-                                                    <label for="birthday">Дата рождения</label>
-                                                    <input class="form-control" name="birthday" type="text" v-model="newEvent.patient.birthday">
+                                                    <label for="birth_date">Дата рождения</label>
+                                                    <input class="form-control" name="birth_date" type="text" v-model="newEvent.patient.birth_date">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="email">Email</label>
+                                                    <input type="text" class="form-control" name="email" v-model="newEvent.patient.email">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="lastname">Номер карты</label>
@@ -153,10 +157,7 @@
                                                         <option value="Женский">Женский</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label for="discount" v-model="newEvent.patient.discount">Процент скидки</label>
-                                                    <input class="form-control" name="discount" type="text">
-                                                </div>
+
                                             </div>
 
                                             <h5 class="mt-3" v-if="newEvent.patient_id == 0">Дополнительная информация</h5>
@@ -170,8 +171,8 @@
                                                     <input class="form-control" name="id_card" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="discount" v-model="newEvent.patient.discount">Процент скидки</label>
-                                                    <input class="form-control" name="discount" type="text">
+                                                    <label for="discount">Процент скидки</label>
+                                                    <input class="form-control" v-model="newEvent.patient.discount" name="discount" type="text">
                                                 </div>
                                                 <div class="col-md-3"></div>
                                             </div>
@@ -213,7 +214,7 @@
                     phone: null,
                     email: null,
                     gender: null,
-                    birthday: null,
+                    birth_date: null,
                     discount: null,
                     iin: null,
                     id_card: null,
@@ -241,7 +242,7 @@
                         phone: self.newEvent.patient.phone,
                         email: self.newEvent.patient.email,
                         gender: self.newEvent.patient.gender,
-                        birthday: self.newEvent.patient.birthday,
+                        birth_date: self.newEvent.patient.birth_date,
                         discount: self.newEvent.patient.discount,
                         iin: self.newEvent.patient.iin,
                         id_card: self.newEvent.patient.id_card,

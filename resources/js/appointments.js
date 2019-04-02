@@ -377,6 +377,7 @@ const app = new Vue({
 
         addAppointment: function(){
             var self = this;
+            this.newEvent.title = this.newEvent.patient.name + " " + this.newEvent.patient.surname + " " + this.newEvent.patient.phone;
             window.axios.post('/appointments',
                 {
                     title: this.newEvent.title,
@@ -465,7 +466,7 @@ const app = new Vue({
     },
     watch: {
         // newEvent: function(newVal, oldVal){
-        //     if(this.newEvent.patient_id != null){
+        //     if(this.newEvent.patient_id != null && this.newEvent.patient_id != 0){
         //         var self = this;
         //
         //         this.patients.forEach(function (patient){
