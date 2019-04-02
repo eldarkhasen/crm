@@ -15,4 +15,21 @@ class PaymentItem extends Model
     public function cashFlow(){
         return $this->hasMany(CashFlow::class,'payment_item_id');
     }
+//    public function getPaymentItemId($name){
+//        $paymentItems = array(
+//            "fromCashBox"=>1,
+//            "toCashBox"=>2,
+//            "fromDeposit"=>3,
+//            "toDeposit"=>4,
+//            "returnCash"=>5,
+//            "services"=>6,
+//            "debtRepayment"=>7,
+//            "buyMaterials"=>8,
+//            "empSalary"=>9,
+//            "incomes"=>10,
+//            "expanse"=>11
+//        );
+//
+//        return $paymentItems[$name];
+//    }
 }

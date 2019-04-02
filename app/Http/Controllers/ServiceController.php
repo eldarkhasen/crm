@@ -8,14 +8,11 @@ use App\Service;
 class ServiceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * ServiceController constructor.
      */
-
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','hasPerToServices']);
     }
 
     public function index()
@@ -92,9 +89,10 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, $id)
     {

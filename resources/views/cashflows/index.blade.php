@@ -44,6 +44,7 @@
                                     <th>Клиент</th>
                                     <th>Создано</th>
                                     <th>Сумма</th>
+                                    <th>Комментарии</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -56,7 +57,7 @@
                                         <tr>
                                     @endif
                                         <td>{{$i++}}</td>
-                                        <td>{{$cashFlow->cash_flow_date }}</td>
+                                        <td>{{$cashFlow->cash_flow_date}}</td>
                                         <td>{{$cashFlow->paymentItem->name}}</td>
                                         <td> <a href="{{ route('cashBoxes.show', $cashFlow->cashBox->id) }}">{{$cashFlow->cashBox->name}}</a> </td>
                                         @if(isset($cashFlow->employee))
@@ -69,8 +70,13 @@
                                         @else
                                             <td>Не указано</td>
                                         @endif
-                                        <td>{{$cashFlow->userCreated->name}}</td>
-                                        <td>{{$cashFlow->amount}}</td>
+                                        <td>{{$cashFlow->userCreated->name}} <br> {{$cashFlow->created_at->formatLocalized('%d %B %Y %H:%M')}}</td>
+                                        <td>{{$cashFlow->amount}} тг</td>
+                                        @if(isset($cashFlow->comments))
+                                            <td>{{$cashFlow->comments}}</td>
+                                        @else
+                                            <td>Не указаны</td>
+                                        @endif
                                         <td>
                                             <a href="{{ URL::to('cashFlows/'.$cashFlow->id.'/edit') }}"><i class="fa fa-edit"></i></a>
                                             {{--<a href="" onclick="event.preventDefault();--}}
