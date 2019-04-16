@@ -40,12 +40,24 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="service">Услуга </label>
-                                                <select class="form-control" v-model="selectedEvent.service_id" name="service" id="service">
-                                                    <option value="">Выберите услугу</option>
-                                                    <option v-for="item in services"
-                                                            :value="item.id">{{ item.name}}</option>
-                                                </select>
+                                                <label for="services">Услуги </label>
+                                                <!--<select class="form-control" v-model="selectedEvent.service_id" name="service" id="service">-->
+                                                    <!--<option value="">Выберите услугу</option>-->
+                                                    <!--<option v-for="item in services"-->
+                                                            <!--:value="item.id">{{ item.name}}</option>-->
+                                                <!--</select>-->
+                                                <multiselect v-model="selectedEvent.services"
+                                                             id="services"
+                                                             :options="services"
+                                                             :multiple="true"
+                                                             :close-on-select="true"
+                                                             :clear-on-select="true"
+                                                             placeholder="Выбери Услуги"
+                                                             label="name" track-by="name" :preselect-first="true"
+                                                             selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано"
+                                                             deselectLabel="Нажмите чтобы убрать">
+
+                                                </multiselect>
                                             </div>
 
                                             <div class="form-group">
@@ -75,7 +87,7 @@
 
     </div>
 </template>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
     export default {
         props: {
@@ -204,19 +216,7 @@
             }
 
         },
-        methods:{
-        //     updateEvent: function(event){
-            //     this.events.forEach(function(ev){
-            //         if(event.id == ev.id){
-            //             ev.start = event.start;
-            //             ev.end = event.end;
-            //             ev.startText = event.start.format('Do, H:mm');
-            //             ev.endText = event.end.format('Do, H:mm');
-            //             this.updateAppointment(ev);
-            //         }
-            //     });
-            // }
-        },
+        methods:{},
         mounted() {
             const cal = $(this.$el),
                 self = this;

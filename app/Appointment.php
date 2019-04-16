@@ -14,8 +14,8 @@ class Appointment extends Model
         return $this->hasOne(Employee::class)->withTimestamps();
     }
 
-    public function service(){
-        return $this->hasOne(Service::class)->withTimestamps();
+    public function services(){
+        return $this->belongsToMany(Service::class)->withTimestamps();
     }
 
     public function patient(){

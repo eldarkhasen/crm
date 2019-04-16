@@ -53,9 +53,18 @@ class AppointmentController extends Controller
         $appoint->start = $request->start;
         $appoint->end = $request->end;
         $appoint->employee_id = $request->employee_id;
-        $appoint->service_id = $request->service_id;
+
+
         $appoint->patient_id = $request->patient_id;
         $appoint->save();
+
+        $services = [];
+        foreach ($request->services as $service)
+            array_push($services, $service['id']);
+
+        if(!empty($request->services)){
+            $appoint->services()->attach($services);
+        }
 
         return response()->json(['id' => $appoint->id]);
     }
@@ -96,9 +105,17 @@ class AppointmentController extends Controller
         $appoint->start = $request->start;
         $appoint->end = $request->end;
         $appoint->employee_id = $request->employee_id;
-        $appoint->service_id = $request->service_id;
         $appoint->patient_id = $request->patient_id;
         $success = $appoint->save();
+
+        $services = [];
+        foreach ($request->services as $service)
+            array_push($services, $service['id']);
+
+        if(!empty($request->services)){
+            $appoint->services()->sync($services, false);
+        }
+
         return response()->json(['success' => $success]);
     }
 
@@ -116,6 +133,6 @@ class AppointmentController extends Controller
     }
 
     public function get(){
-        return response()->json(['appointments' => Appointment::all()]);
+        return response()->json(['appointments' => Appointment::with('services')->get()]);
     }
 }
