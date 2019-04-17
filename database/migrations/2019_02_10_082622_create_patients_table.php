@@ -27,6 +27,9 @@ class CreatePatientsTable extends Migration
             $table->string('city')->nullable();
             $table->string('address')->nullable();
             $table->integer('discount')->nullable();
+            $table->string('photoname')->nullable();
+            $table->string('mime')->nullable();
+            $table->string('original_photoname')->nullable();
             $table->timestamps();
         });
     }
