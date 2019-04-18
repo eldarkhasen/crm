@@ -40,6 +40,7 @@
                                            :employees = "employees"
                                            :services = "services"
                                            :patients = "patients"
+                                           :get-patient-by-id = "getPatientById"
                     >
                     </appointment-component>
                     <new-event :employees = "employees"

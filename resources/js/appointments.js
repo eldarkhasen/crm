@@ -265,7 +265,6 @@ const app = new Vue({
         // ],
     },
     methods: {
-
         getPatientById: function(id) {
             var result = {};
             var BreakException = {};
@@ -287,9 +286,6 @@ const app = new Vue({
             var self = this;
             window.axios.get('/getAppointments').then((response) => {
                 self.events = response.data.appointments;
-                self.events.forEach(function (event) {
-                    event.patient = {};
-                });
             }).catch(e => {
                 alert("some error while getting appointments");
             })
@@ -371,6 +367,7 @@ const app = new Vue({
                 services: [],
                 patient_id: null,
                 color: '#1ABC9C',
+                price: 0,
                 patient: {}
             };
         },
@@ -384,6 +381,7 @@ const app = new Vue({
                     employee_id: this.newEvent.employee_id,
                     services: this.newEvent.services,
                     patient_id: this.newEvent.patient_id,
+                    price: this.newEvent.price,
                     start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('HH:mm:ss'),
                     end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('HH:mm:ss')
                 })
@@ -406,6 +404,7 @@ const app = new Vue({
                     employee_id: event.employee_id,
                     services: event.services,
                     patient_id: event.patient_id,
+                    price: event.price,
                     start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
                     end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
                 })
@@ -425,6 +424,7 @@ const app = new Vue({
                     employee_id: self.selectedEvent.employee_id,
                     services: self.selectedEvent.services,
                     patient_id: self.selectedEvent.patient_id,
+                    price: self.selectedEvent.price,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,
                 })
@@ -462,21 +462,59 @@ const app = new Vue({
             //.fullCalendar('refetchEvents');
             // var self = this;
             // $(self.el).fullCalendar.render();
+        },
+
+        calcEventPrice(event){
+            var sum = 0; //parseInt(event.price);
+
+            if(event.services.length > 0){
+                event.services.forEach(function (service) {
+                   sum+=service.price;
+                });
+            }
+
+            if(sum > 0 && event.patient.discount > 0){
+                sum = sum - parseInt(event.patient.discount) / 100 * sum;
+            }
+
+            return parseInt(sum);
+        },
+    },
+    computed: {
+        editedSelectedEventPatient(){
+            return this.selectedEvent.patient;
+        },
+        
+        editedSelectedEventServices(){
+            return this.selectedEvent.services;
+        },
+
+        editedNewEventPatient(){
+            return this.newEvent.patient;
+        },
+
+        editedNewEventServices(){
+            return this.newEvent.services;
         }
     },
     watch: {
-        // newEvent: function(newVal, oldVal){
-        //     if(this.newEvent.patient_id != null && this.newEvent.patient_id != 0){
-        //         var self = this;
-        //
-        //         this.patients.forEach(function (patient){
-        //             if(patient.id == self.newEvent.patient_id){
-        //                 self.newEvent.title = patient.firstName + " " + patient.lastName + " / " + patient.phone;
-        //             }
-        //
-        //         });
-        //     }
-        // }
+        editedSelectedEventPatient(){
+            console.log("edited selected event patient");
+            this.selectedEvent.price = this.calcEventPrice(this.selectedEvent);
+        },
+
+        editedSelectedEventServices(){
+            console.log("edited selected event services");
+            this.selectedEvent.price = this.calcEventPrice(this.selectedEvent);
+        },
+
+        editedNewEventPatient(){
+            this.newEvent.price = this.calcEventPrice(this.newEvent);
+        },
+
+        editedNewEventServices(){
+            this.newEvent.price = this.calcEventPrice(this.newEvent);
+        }
     },
     created(){
         this.getEvents();

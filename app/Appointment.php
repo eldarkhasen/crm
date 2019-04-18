@@ -11,7 +11,7 @@ class Appointment extends Model
     protected $table = 'appointments';
 
     public function employee(){
-        return $this->hasOne(Employee::class)->withTimestamps();
+        return $this->belongsTo(Employee::class,'employee_id');
     }
 
     public function services(){
@@ -19,6 +19,6 @@ class Appointment extends Model
     }
 
     public function patient(){
-        return $this->hasOne(Patient::class)->withTimestamps();
+        return $this->belongsTo(Patient::class,'patient_id');
     }
 }

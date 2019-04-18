@@ -62,11 +62,22 @@
 
                                             <div class="form-group">
                                                 <label for="patient">Пациент</label>
-                                                <select class="form-control" v-model="selectedEvent.patient_id" name="patient" id="patient">
+                                                <select class="form-control" v-model="selectedEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
                                                     <option value="">Выберите пациента</option>
                                                     <option v-for="item in patients"
                                                             :value="item.id">{{ item.name}}</option>
                                                 </select>
+                                            </div>
+
+                                            <div class="form-group mt-2" v-if="selectedEvent.price > 0">
+                                                <hr>
+                                                <h5>Счет</h5>
+                                                <p v-for="service in selectedEvent.services">
+                                                    <strong>{{ service.name }}:</strong> {{service.price }} тг.
+                                                </p>
+                                                <p v-if="selectedEvent.patient.discount > 0"><strong>Скидка: </strong>{{ selectedEvent.patient.discount }}%</p>
+                                                <hr>
+                                                <h4>Итого: {{selectedEvent.price}} тг.</h4>
                                             </div>
 
                                         </div>
@@ -118,17 +129,13 @@
             employees: Array,
             services: Array,
             patients: Array,
+            getPatientById: Function
         },
         data(){
             var self = this;
             return {
                 cal: null,
                 config: {
-                    customButtons: {
-                        myCustomButton: {
-                            text: 'Добавить запись',
-                        }
-                    },
                     header: {
                         left: 'agendaDay,agendaWeek',
                         center: 'prev title next today',
@@ -216,7 +223,11 @@
             }
 
         },
-        methods:{},
+        methods:{
+            patientSelected() {
+                this.selectedEvent.patient = this.getPatientById(this.selectedEvent.patient_id);
+            },
+        },
         mounted() {
             const cal = $(this.$el),
                 self = this;

@@ -15,6 +15,8 @@ class UpdateAppointmentsTable extends Migration
     {
         Schema::table('appointments', function($table) {
             $table->dropColumn('service_id');
+            $table->integer('price');
+            $table->enum('status', ['pending', 'success', 'client_miss']);
         });
     }
 
@@ -27,6 +29,8 @@ class UpdateAppointmentsTable extends Migration
     {
         Schema::table('appointments', function($table) {
             $table->integer('service_id');
+            $table->dropColumn('price');
+            $table->dropColumn('status');
         });
     }
 }

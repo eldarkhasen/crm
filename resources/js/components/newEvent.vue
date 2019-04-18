@@ -190,6 +190,17 @@
                                             </div>
                                             <button v-if="newEvent.patient_id == 0" type="submit" @click="submitNewPatient()" class="btn btn-primary mt-3">Добавить клиента в базу</button>
                                         </div>
+
+                                        <div class="form-group mt-2" v-if="newEvent.price > 0">
+                                            <hr>
+                                            <h5>Счет</h5>
+                                            <p v-for="service in newEvent.services">
+                                                <strong>{{ service.name }}:</strong> {{service.price }} тг.
+                                            </p>
+                                            <p v-if="newEvent.patient.discount > 0"><strong>Скидка: </strong>{{ newEvent.patient.discount }}%</p>
+                                            <hr>
+                                            <h4>Итого: {{newEvent.price}} тг.</h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

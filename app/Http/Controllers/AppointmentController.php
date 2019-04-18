@@ -53,9 +53,8 @@ class AppointmentController extends Controller
         $appoint->start = $request->start;
         $appoint->end = $request->end;
         $appoint->employee_id = $request->employee_id;
-
-
         $appoint->patient_id = $request->patient_id;
+        $appoint->price = $request->price;
         $appoint->save();
 
         $services = [];
@@ -106,6 +105,7 @@ class AppointmentController extends Controller
         $appoint->end = $request->end;
         $appoint->employee_id = $request->employee_id;
         $appoint->patient_id = $request->patient_id;
+        $appoint->price = $request->price;
         $success = $appoint->save();
 
         $services = [];
@@ -133,6 +133,6 @@ class AppointmentController extends Controller
     }
 
     public function get(){
-        return response()->json(['appointments' => Appointment::with('services')->get()]);
+        return response()->json(['appointments' => Appointment::with(['services', 'patient'])->get()]);
     }
 }
