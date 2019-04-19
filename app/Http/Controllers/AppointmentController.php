@@ -56,6 +56,7 @@ class AppointmentController extends Controller
         $appoint->patient_id = $request->patient_id;
         $appoint->price = $request->price;
         $appoint->status = $request->status;
+        $appoint->status_comment = $request->status_comment;
         $appoint->save();
 
         $services = [];
@@ -108,6 +109,7 @@ class AppointmentController extends Controller
         $appoint->patient_id = $request->patient_id;
         $appoint->price = $request->price;
         $appoint->status = $request->status;
+        $appoint->status_comment = $request->status_comment;
         $success = $appoint->save();
 
         $services = [];

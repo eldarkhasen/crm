@@ -1,10 +1,3 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 import Vue from 'vue'
 const VueInputMask = require('vue-inputmask').default;
@@ -31,26 +24,9 @@ Vue.use(Toaster, {timeout: 3000});
 
 // register globally
 Vue.component('multiselect', Multiselect);
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
 Vue.component('appointment-component', require('./components/AppointmentComponent.vue'));
 Vue.component('new-event', require('./components/newEvent.vue'));
-// const files = require.context('./', true, /\.vue$/i)
 
-// files.keys().map(key => {
-//     return Vue.component(_.last(key.split('/')).split('.')[0], files(key))
-// })
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 class Errors {
     /**
      * Create a new Errors instance.
@@ -253,16 +229,6 @@ const app = new Vue({
         events: [], // window.Laravel.appointments,
         newEvent: {},
         selectedEvent: {},
-
-        // eventSources: [
-        //     {
-        //         events(callback) {
-        //             window.axios.get('/getAppointments').then((response) => {
-        //                 callback(response.data.appointments)
-        //             })
-        //         }
-            // }
-        // ],
     },
     methods: {
         getPatientById: function(id) {
@@ -351,8 +317,7 @@ const app = new Vue({
 
             self.events[id] = Object.assign({}, event);
             self.setSelectedEvent({});
-            //self.refreshTimetable();
-            window.location.href = '/appointments';
+            $('#calendar').fullCalendar('rerenderEvents');
         },
 
         setDefaultNewEvent: function(){
@@ -369,6 +334,7 @@ const app = new Vue({
                 color: '#1ABC9C',
                 price: 0,
                 status: 'pending',
+                status_comment: null,
                 patient: {}
             };
         },
@@ -384,6 +350,7 @@ const app = new Vue({
                     patient_id: this.newEvent.patient_id,
                     price: this.newEvent.price,
                     status: this.newEvent.status,
+                    status_comment: this.newEvent.status_comment,
                     start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('HH:mm:ss'),
                     end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('HH:mm:ss')
                 })
@@ -408,6 +375,7 @@ const app = new Vue({
                     patient_id: event.patient_id,
                     price: event.price,
                     status: event.status,
+                    status_comment: event.status_comment,
                     start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
                     end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
                 })
@@ -429,6 +397,7 @@ const app = new Vue({
                     patient_id: self.selectedEvent.patient_id,
                     price: self.selectedEvent.price,
                     status: self.selectedEvent.status,
+                    status_comment: self.selectedEvent.status_comment,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,
                 })
@@ -443,10 +412,7 @@ const app = new Vue({
 
         deleteAppointment: function(){ //event = null){
             var self = this;
-            // if(event == null){
             event = Object.assign({}, self.selectedEvent);
-                // alert(event.id);
-            // }
 
             window.axios.delete('/appointments/' + event.id)
                 .then((response) => {
@@ -462,10 +428,7 @@ const app = new Vue({
         },
 
         refreshTimetable: function(){
-            $('#calendar').render(); //fullCalendar('refetchEvents');
-            //.fullCalendar('refetchEvents');
-            // var self = this;
-            // $(self.el).fullCalendar.render();
+            $('#calendar').render();
         },
 
         calcEventPrice(event){
@@ -482,7 +445,7 @@ const app = new Vue({
             }
 
             return parseInt(sum);
-        },
+        }
     },
     computed: {
         editedSelectedEventPatient(){

@@ -28,30 +28,15 @@
                                             </div>
 
                                             <div class="col-md-6 form-group">
-                                                <!--<div class="row">-->
                                                 <label for="patient">Пациент</label>
-                                                <!--<div class="col-10">-->
                                                 <select class="form-control" v-model="newEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
                                                     <option value="0" selected>Новый пациент</option>
                                                     <option v-for="item in patients"
                                                             :value="item.id">{{ item.name}}</option>
                                                 </select>
-                                                <!--</div>-->
-                                                <!--<div class="col-2" v-if="!addNewPatient">-->
-                                                <!--<i class="fas fa-plus" @click="addNewPatient = true" title="добавить нового клиента"></i>-->
-                                                <!--</div>-->
-                                                <!--<div class="col-2" v-else>-->
-                                                <!--<i class="fas fa-minus" @click="addNewPatient = false" title="отменить добавление нового клиента"></i>-->
-                                                <!--</div>-->
-                                                <!--</div>-->
                                             </div>
                                             <div class="col-md-12 form-group">
                                                 <label for="services">Услуги </label>
-                                                <!--<select class="form-control" v-model="newEvent.service_id" name="service" id="service">-->
-                                                <!--<option value="">Выберите услугу</option>-->
-                                                <!--<option v-for="item in services"-->
-                                                <!--:value="item.id">{{ item.name}}</option>-->
-                                                <!--</select>-->
                                                 <multiselect v-model="newEvent.services"
                                                              id="services"
                                                              :options="services"
@@ -133,43 +118,42 @@
                                             <div class="row mt-1">
                                                 <div class="col-md-3">
                                                     <label for="firstname">Имя</label>
-                                                    <input class="form-control" name="firstname" type="text" v-model="newEvent.patient.name">
+                                                    <input class="form-control" id="firstname" type="text" v-model="newEvent.patient.name">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="lastname">Фамилия</label>
-                                                    <input class="form-control" name="lastname" type="text" v-model="newEvent.patient.surname">
+                                                    <input class="form-control" id="lastname" type="text" v-model="newEvent.patient.surname">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="patronymic">Отчество</label>
-                                                    <input class="form-control" name="patronymic" type="text" v-model="newEvent.patient.patronymic">
+                                                    <input class="form-control" id="patronymic" type="text" v-model="newEvent.patient.patronymic">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="phone">Телефон</label>
-                                                    <input class="form-control" name="phone" type="text" v-model="newEvent.patient.phone">
+                                                    <input class="form-control" id="phone" type="text" v-model="newEvent.patient.phone">
                                                 </div>
                                             </div>
 
                                             <div class="row mt-1" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-3">
                                                     <label for="birth_date">Дата рождения</label>
-                                                    <input class="form-control" name="birth_date" type="text" v-model="newEvent.patient.birth_date">
+                                                    <input class="form-control" id="birth_date" type="text" v-model="newEvent.patient.birth_date">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="email">Email</label>
-                                                    <input type="text" class="form-control" name="email" v-model="newEvent.patient.email">
+                                                    <input type="text" class="form-control" id="email" v-model="newEvent.patient.email">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="lastname">Номер карты</label>
-                                                    <input class="form-control" name="lastname" type="text" v-model="newEvent.patient.id_card">
+                                                    <label for="new-lastname">Номер карты</label>
+                                                    <input class="form-control" id="new-lastname" type="text" v-model="newEvent.patient.id_card">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="patronymic">Пол</label>
-                                                    <select class="form-control" name="patronymic" type="text" v-model="newEvent.patient.gender">
+                                                    <label for="new-patronymic">Пол</label>
+                                                    <select class="form-control" id="new-patronymic" type="text" v-model="newEvent.patient.gender">
                                                         <option value="Мужской">Мужской</option>
                                                         <option value="Женский">Женский</option>
                                                     </select>
                                                 </div>
-
                                             </div>
 
                                             <h5 class="mt-3" v-if="newEvent.patient_id == 0">Дополнительная информация</h5>
@@ -229,7 +213,6 @@
         data() {
             var self = this;
             return {
-                // addNewPatient: false,
                 newPatient: {
                     name: null,
                     surname: null,
@@ -253,7 +236,6 @@
             },
 
             submitNewPatient() {
-                // TODO: set patient_id to new event after response, return from back new id
                 var self = this;
                 window.axios.post('/patients',
                     {

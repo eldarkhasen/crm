@@ -3,8 +3,27 @@
         <div class="row mb-2">
         </div>
         <div class="card card-info">
+            <div class="row">
+                <div class="col-md-4 form-group mt-2 px-3">
+                    <label for="filterStatus">Фильтр по статусу записи</label>
+                    <select class="form-control" v-model="filterStatus" @change="toggleEvents()" name="filterStatus" id="filterStatus">
+                        <option value="all">Все</option>
+                        <option value="pending">В ожидании</option>
+                        <option value="success">Успешно прошла</option>
+                        <option value="client_miss">Клиент не пришел</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group mt-2 px-3">
+                    <label for="filterEmployee">Фильтр по сотрудникам</label>
+                    <select class="form-control" v-model="filterEmployee" @change="toggleEvents()" name="filterEmployee" id="filterEmployee">
+                        <option value="0">Все</option>
+                        <option v-for="item in employees"
+                                :value="item.id">{{ item.name}}</option>
+                    </select>
+                </div>
+            </div>
             <div class="card-body">
-                <full-calendar :events="events" :editable="true" :config="config" ></full-calendar>
+                <full-calendar :events="events" :editable="true" :config="config" ref="calendar"></full-calendar>
             </div>
         </div>
 
@@ -34,6 +53,10 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
+                                                <label for="status-comment">Комментарии</label>
+                                                <textarea class="form-control" v-model="selectedEvent.status_comment" id="status-comment"></textarea>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="title">Заголовок</label>
                                                 <input type="text" class="form-control" v-model="selectedEvent.title" id="title">
                                             </div>
@@ -48,11 +71,6 @@
 
                                             <div class="form-group">
                                                 <label for="services">Услуги </label>
-                                                <!--<select class="form-control" v-model="selectedEvent.service_id" name="service" id="service">-->
-                                                    <!--<option value="">Выберите услугу</option>-->
-                                                    <!--<option v-for="item in services"-->
-                                                            <!--:value="item.id">{{ item.name}}</option>-->
-                                                <!--</select>-->
                                                 <multiselect v-model="selectedEvent.services"
                                                              id="services"
                                                              :options="services"
@@ -142,6 +160,8 @@
             var self = this;
             return {
                 cal: null,
+                filterStatus: "all",
+                filterEmployee: 0,
                 config: {
                     header: {
                         left: 'agendaDay,agendaWeek',
@@ -206,6 +226,10 @@
                         $('#addAppointmentForm').modal();
                     },
 
+                    eventRender: function eventRender( event, element, view ) {
+                        return (self.filterStatus === "all" || self.filterStatus === event.status) &&
+                            (self.filterEmployee === 0 || self.filterEmployee === event.employee_id)
+                    }
                 },
                 selected: {},
                 slotLabels:[
@@ -234,6 +258,9 @@
             patientSelected() {
                 this.selectedEvent.patient = this.getPatientById(this.selectedEvent.patient_id);
             },
+            toggleEvents() {
+                $('#calendar').fullCalendar('rerenderEvents');
+            }
         },
         mounted() {
             const cal = $(this.$el),

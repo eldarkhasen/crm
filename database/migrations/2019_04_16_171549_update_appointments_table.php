@@ -17,6 +17,7 @@ class UpdateAppointmentsTable extends Migration
             $table->dropColumn('service_id');
             $table->integer('price');
             $table->enum('status', ['pending', 'success', 'client_miss']);
+            $table->text('status_comment')->nullable();
         });
     }
 
@@ -31,6 +32,7 @@ class UpdateAppointmentsTable extends Migration
             $table->integer('service_id');
             $table->dropColumn('price');
             $table->dropColumn('status');
+            $table->dropColumn('status_comment');
         });
     }
 }
