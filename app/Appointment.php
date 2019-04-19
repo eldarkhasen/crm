@@ -11,14 +11,14 @@ class Appointment extends Model
     protected $table = 'appointments';
 
     public function employee(){
-        return $this->belongsTo(Employee::class);
+        return $this->hasOne(Employee::class)->withTimestamps();
     }
 
-    public function service(){
-        return $this->belongsTo(Service::class);
+    public function services(){
+        return $this->belongsToMany(Service::class)->withTimestamps();
     }
 
     public function patient(){
-        return $this->belongsTo(Patient::class);
+        return $this->hasOne(Patient::class)->withTimestamps();
     }
 }

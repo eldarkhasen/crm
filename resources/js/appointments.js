@@ -368,7 +368,7 @@ const app = new Vue({
                 end: null,
                 endText: "",
                 employee_id: null,
-                service_id: null,
+                services: [],
                 patient_id: null,
                 color: '#1ABC9C',
                 patient: {}
@@ -382,7 +382,7 @@ const app = new Vue({
                 {
                     title: this.newEvent.title,
                     employee_id: this.newEvent.employee_id,
-                    service_id: this.newEvent.service_id,
+                    services: this.newEvent.services,
                     patient_id: this.newEvent.patient_id,
                     start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('HH:mm:ss'),
                     end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('HH:mm:ss')
@@ -404,7 +404,7 @@ const app = new Vue({
                     id: event.id,
                     title: event.title,
                     employee_id: event.employee_id,
-                    service_id: event.service_id,
+                    services: event.services,
                     patient_id: event.patient_id,
                     start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
                     end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
@@ -423,7 +423,7 @@ const app = new Vue({
                     id: self.selectedEvent.id,
                     title: self.selectedEvent.title,
                     employee_id: self.selectedEvent.employee_id,
-                    service_id: self.selectedEvent.service_id,
+                    services: self.selectedEvent.services,
                     patient_id: self.selectedEvent.patient_id,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,

@@ -18,7 +18,7 @@
                                     <div class="card-body">
 
                                         <div class="row">
-                                            <div class="col-md-4 form-group">
+                                            <div class="col-md-6 form-group">
                                                 <label for="employee">Сотрудник </label>
                                                 <select class="form-control" v-model="newEvent.employee_id" name="employee" id="employee">
                                                     <option value="">Выберите сотрудника</option>
@@ -27,33 +27,45 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-4 form-group">
-                                                <label for="service">Услуга </label>
-                                                <select class="form-control" v-model="newEvent.service_id" name="service" id="service">
-                                                    <option value="">Выберите услугу</option>
-                                                    <option v-for="item in services"
+                                            <div class="col-md-6 form-group">
+                                                <!--<div class="row">-->
+                                                <label for="patient">Пациент</label>
+                                                <!--<div class="col-10">-->
+                                                <select class="form-control" v-model="newEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
+                                                    <option value="0" selected>Новый пациент</option>
+                                                    <option v-for="item in patients"
                                                             :value="item.id">{{ item.name}}</option>
                                                 </select>
-                                            </div>
-
-                                            <div class="col-md-4 form-group">
-                                                <!--<div class="row">-->
-                                                    <label for="patient">Пациент</label>
-                                                    <!--<div class="col-10">-->
-                                                        <select class="form-control" v-model="newEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
-                                                            <option value="0" selected>Новый пациент</option>
-                                                            <option v-for="item in patients"
-                                                                    :value="item.id">{{ item.name}}</option>
-                                                        </select>
-                                                    <!--</div>-->
-                                                    <!--<div class="col-2" v-if="!addNewPatient">-->
-                                                        <!--<i class="fas fa-plus" @click="addNewPatient = true" title="добавить нового клиента"></i>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="col-2" v-else>-->
-                                                        <!--<i class="fas fa-minus" @click="addNewPatient = false" title="отменить добавление нового клиента"></i>-->
-                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-2" v-if="!addNewPatient">-->
+                                                <!--<i class="fas fa-plus" @click="addNewPatient = true" title="добавить нового клиента"></i>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-2" v-else>-->
+                                                <!--<i class="fas fa-minus" @click="addNewPatient = false" title="отменить добавление нового клиента"></i>-->
+                                                <!--</div>-->
                                                 <!--</div>-->
                                             </div>
+                                            <div class="col-md-12 form-group">
+                                                <label for="services">Услуги </label>
+                                                <!--<select class="form-control" v-model="newEvent.service_id" name="service" id="service">-->
+                                                <!--<option value="">Выберите услугу</option>-->
+                                                <!--<option v-for="item in services"-->
+                                                <!--:value="item.id">{{ item.name}}</option>-->
+                                                <!--</select>-->
+                                                <multiselect v-model="newEvent.services"
+                                                             id="services"
+                                                             :options="services"
+                                                             :multiple="true"
+                                                             :close-on-select="true"
+                                                             :clear-on-select="true"
+                                                             placeholder="Выбери Услуги"
+                                                             label="name" track-by="name" :preselect-first="true"
+                                                             selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано"
+                                                             deselectLabel="Нажмите чтобы убрать">
+
+                                                </multiselect>
+                                            </div>
+
                                         </div>
 
                                         <div class="form-group" v-if="false && addNewPatient && newEvent.patient_id == null">
@@ -164,15 +176,15 @@
                                             <div class="row mt-1" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-3">
                                                     <label for="iin" v-model="newEvent.patient.iin">ИИН</label>
-                                                    <input class="form-control" name="iin" type="text">
+                                                    <input id="iin" class="form-control" name="iin" type="text">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="id_card" v-model="newEvent.patient.id_card">Уд. личности</label>
-                                                    <input class="form-control" name="id_card" type="text">
+                                                    <input id="id_card" class="form-control" name="id_card" type="text">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="discount">Процент скидки</label>
-                                                    <input class="form-control" v-model="newEvent.patient.discount" name="discount" type="text">
+                                                    <input id="discount" class="form-control" v-model="newEvent.patient.discount" name="discount" type="text">
                                                 </div>
                                                 <div class="col-md-3"></div>
                                             </div>
