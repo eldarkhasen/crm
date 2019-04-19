@@ -65,12 +65,12 @@
                                                     <input class="form-control" name="lastname" type="text" v-model="newPatient.surname">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="patronymic" v-model="newPatient.patronymic">Отчество</label>
-                                                    <input class="form-control" name="patronymic" type="text">
+                                                    <label for="patronymic">Отчество</label>
+                                                    <input class="form-control" name="patronymic" type="text" v-model="newPatient.patronymic">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="gender" v-model="newPatient.gender">Пол</label>
-                                                    <select class="form-control" name="gender">
+                                                    <label for="gender">Пол</label>
+                                                    <select class="form-control" id="gender" v-model="newPatient.gender">
                                                         <option value="1">Мужской</option>
                                                         <option value="2">Женский</option>
                                                     </select>
@@ -78,35 +78,35 @@
                                             </div>
                                             <div class="row mt-1">
                                                 <div class="col-md-3">
-                                                    <label for="phone" v-model="newPatient.phone">Телефон</label>
-                                                    <input class="form-control" name="phone" type="text">
+                                                    <label for="phone">Телефон</label>
+                                                    <input class="form-control" v-model="newPatient.phone" v-mask="'+7(999)999 99 99'"  name="phone" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="email" v-model="newPatient.email">Email</label>
-                                                    <input class="form-control" name="email" type="text">
+                                                    <label for="email">Email</label>
+                                                    <input class="form-control" v-model="newPatient.email" name="email" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="birth_date" v-model="newPatient.birth_date">Дата рождения</label>
-                                                    <input class="form-control" name="birth_date" type="text">
+                                                    <label for="birth_date">Дата рождения</label>
+                                                    <input class="form-control" v-model="newPatient.birth_date" v-mask="'##/##/####'" placeholder="ДД/ММ/ГГГГ"  name="birth_date" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="discount" v-model="newPatient.discount">Процент скидки</label>
-                                                    <input class="form-control" name="discount" type="text">
+                                                    <label for="discount">Процент скидки</label>
+                                                    <input class="form-control" v-model="newPatient.discount" name="discount" type="text">
                                                 </div>
                                             </div>
                                             <h5 class="mt-3">Дополнительная информация</h5>
                                             <div class="row mt-1">
                                                 <div class="col-md-3">
-                                                    <label for="iin" v-model="newPatient.iin">ИИН</label>
-                                                    <input class="form-control" name="iin" type="text">
+                                                    <label for="iin">ИИН</label>
+                                                    <input class="form-control" v-model="newPatient.iin" name="iin" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="id_card" v-model="newPatient.id_card">Уд. личности</label>
-                                                    <input class="form-control" name="id_card" type="text">
+                                                    <label for="id_card">Уд. личности</label>
+                                                    <input class="form-control" v-model="newPatient.id_card" name="id_card" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="discount" v-model="newPatient.discount">Процент скидки</label>
-                                                    <input class="form-control" name="discount" type="text">
+                                                    <label for="discount">Процент скидки</label>
+                                                    <input class="form-control" v-model="newPatient.discount" name="discount" type="text">
                                                 </div>
                                                 <div class="col-md-3"></div>
                                             </div>
@@ -130,14 +130,14 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="phone">Телефон</label>
-                                                    <input class="form-control" id="phone" type="text" v-model="newEvent.patient.phone">
+                                                    <input class="form-control" id="phone" type="text" v-model="newEvent.patient.phone" v-mask="'+7(999)999 99 99'">
                                                 </div>
                                             </div>
 
                                             <div class="row mt-1" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-3">
                                                     <label for="birth_date">Дата рождения</label>
-                                                    <input class="form-control" id="birth_date" type="text" v-model="newEvent.patient.birth_date">
+                                                    <input class="form-control" id="birth_date" type="text" v-model="newEvent.patient.birth_date" v-mask="'##/##/####'" placeholder="ДД/ММ/ГГГГ">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="email">Email</label>
@@ -159,12 +159,12 @@
                                             <h5 class="mt-3" v-if="newEvent.patient_id == 0">Дополнительная информация</h5>
                                             <div class="row mt-1" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-3">
-                                                    <label for="iin" v-model="newEvent.patient.iin">ИИН</label>
-                                                    <input id="iin" class="form-control" name="iin" type="text">
+                                                    <label for="iin">ИИН</label>
+                                                    <input id="iin" class="form-control" name="iin" type="text" v-model="newEvent.patient.iin">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="id_card" v-model="newEvent.patient.id_card">Уд. личности</label>
-                                                    <input id="id_card" class="form-control" name="id_card" type="text">
+                                                    <label for="id_card">Уд. личности</label>
+                                                    <input id="id_card" class="form-control" name="id_card" type="text" v-model="newEvent.patient.id_card">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="discount">Процент скидки</label>
