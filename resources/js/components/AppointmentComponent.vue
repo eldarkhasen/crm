@@ -13,6 +13,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Запись <small>с {{selectedEvent.startText}} по {{selectedEvent.endText}}</small></h5>
+
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -23,9 +24,15 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card card-primary">
-
                                         <div class="card-body">
-
+                                            <div class="form-group">
+                                                <label for="status">Статус</label>
+                                                <select class="form-control" v-model="selectedEvent.status" name="status" id="status">
+                                                    <option value="pending">В ожидании</option>
+                                                    <option value="success">Успешно прошла</option>
+                                                    <option value="client_miss">Клиент не пришел</option>
+                                                </select>
+                                            </div>
                                             <div class="form-group">
                                                 <label for="title">Заголовок</label>
                                                 <input type="text" class="form-control" v-model="selectedEvent.title" id="title">

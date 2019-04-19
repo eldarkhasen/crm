@@ -368,6 +368,7 @@ const app = new Vue({
                 patient_id: null,
                 color: '#1ABC9C',
                 price: 0,
+                status: 'pending',
                 patient: {}
             };
         },
@@ -382,6 +383,7 @@ const app = new Vue({
                     services: this.newEvent.services,
                     patient_id: this.newEvent.patient_id,
                     price: this.newEvent.price,
+                    status: this.newEvent.status,
                     start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('HH:mm:ss'),
                     end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('HH:mm:ss')
                 })
@@ -405,6 +407,7 @@ const app = new Vue({
                     services: event.services,
                     patient_id: event.patient_id,
                     price: event.price,
+                    status: event.status,
                     start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
                     end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
                 })
@@ -425,6 +428,7 @@ const app = new Vue({
                     services: self.selectedEvent.services,
                     patient_id: self.selectedEvent.patient_id,
                     price: self.selectedEvent.price,
+                    status: self.selectedEvent.status,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,
                 })
