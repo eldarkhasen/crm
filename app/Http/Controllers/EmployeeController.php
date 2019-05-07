@@ -19,7 +19,7 @@ class EmployeeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','hasPerToEmp']);
+        $this->middleware(['auth','hasPerToEmp'], ['except' => ['get']]);
 
     }
 

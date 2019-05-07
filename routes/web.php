@@ -16,6 +16,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::resource('booking', 'BookingController');
+
 Route::resource('users', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('employees', 'EmployeeController');
@@ -53,7 +55,3 @@ Route::get('getAppointments', "AppointmentController@get");
 Route::get('getEmployees',"EmployeeController@get");
 Route::get('getServicesFront',"ServiceController@get");
 Route::get('getPatientsFront',"PatientController@get");
-
-
-
-

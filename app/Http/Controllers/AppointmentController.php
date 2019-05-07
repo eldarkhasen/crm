@@ -17,7 +17,7 @@ class AppointmentController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['store']]);
     }
 
     public function index()
@@ -119,6 +119,8 @@ class AppointmentController extends Controller
         if(!empty($request->services)){
             $appoint->services()->sync($services, false);
         }
+
+        // TODO: редактирование cashflow
 
         return response()->json(['success' => $success]);
     }

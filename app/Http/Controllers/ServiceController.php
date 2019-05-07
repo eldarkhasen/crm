@@ -12,7 +12,7 @@ class ServiceController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','hasPerToServices']);
+        $this->middleware(['auth','hasPerToServices'], ['except' => ['get']]);
     }
 
     public function index()

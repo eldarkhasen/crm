@@ -12,14 +12,9 @@
         </div>
     </section>
 
-    {{--TODO: регать здесь в скрипте в window текущий график, полученный из контроллера--}}
     <script type="text/javascript">
         window.Laravel = <?php echo json_encode([
-            'csrf_token' => csrf_token(),
-//            'appointments' => $appointments,
-//            'employees' => $employees,
-//            'services' => $services,
-//            'patients' => $patients,
+            'csrf_token' => csrf_token()
         ]); ?>
     </script>
 
