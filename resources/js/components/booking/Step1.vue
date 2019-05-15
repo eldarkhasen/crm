@@ -27,14 +27,25 @@
                     <strong>Выберите сотрудника</strong>
                 </label>
 
-                <select id="provider" class="col-xs-12 col-sm-4 form-control" v-model="appointment.employee_id" name="employee">
+                <select id="provider" class="col-xs-12 col-sm-4 form-control"
+                        v-model="appointment.employee_id" name="employee"
+                        @change="employeeChanged()">
                     <option value="">Выберите сотрудника</option>
                     <option v-for="item in employees"
                             :value="item.id">{{ item.name}}</option>
                 </select>
             </div>
 
-            <div id="service-description" style="display:none;"></div>
+            <div id="service-description" v-show="isset(appointment.services)">
+                <div v-for="service in appointment.services">
+                    <strong>{{service.name}}</strong>
+                    <br>
+                    <span>{{service.description}}</span>
+                    <br>
+                    <span>Цена <b>{{service.price}} тг.</b></span>
+                    <hr>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -45,15 +56,21 @@
             services: Array,
             employees: Array,
             appointment: Object,
+            notify: Function,
+            isset: Function
         },
         data() {
-            var self = this;
-            return {
-
-            }
+            return {}
         },
         methods: {
-
+            employeeChanged(){
+                var self = this;
+                this.employees.forEach(function(emp){
+                    if(emp.id == self.appointment.employee_id){
+                        self.appointment.employee_fullname = emp.surname + ' ' + emp.name + ' ' + emp.patronymic;
+                    }
+                });
+            }
         }
     }
 </script>

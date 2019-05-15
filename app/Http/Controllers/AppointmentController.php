@@ -53,7 +53,34 @@ class AppointmentController extends Controller
         $appoint->start = $request->start;
         $appoint->end = $request->end;
         $appoint->employee_id = $request->employee_id;
-        $appoint->patient_id = $request->patient_id;
+
+        if(isset($request->patient_id)){
+            $appoint->patient_id = $request->patient_id;
+        }
+        else{
+            $patient = Patient::where('name', $request->patient['name'])
+                ->where('surname', $request->patient['surname'])
+                ->where('phone', $request->patient['phone'])
+                ->where('birth_date', $request->patient['birthdate'])
+                ->first();
+
+            if(empty($patient)){
+                $patient = new Patient();
+                $patient->name = $request->patient['name'];
+                $patient->surname = $request->patient['surname'];
+                $patient->patronymic = $request->patient['patronymic'];
+                $patient->phone = $request->patient['phone'];
+                $patient->email = $request->patient['email'];
+                $patient->address = $request->patient['address'];
+                $patient->birth_date = $request->patient['birthdate'];
+                $patient->gender = $request->patient['gender'];
+                $patient->save();
+            }
+
+            $appoint->patient_id = $patient->id;
+        }
+
+
         $appoint->price = $request->price;
         $appoint->status = $request->status;
         $appoint->status_comment = $request->status_comment;

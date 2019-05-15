@@ -12,6 +12,9 @@ import  'datatables.net-bs4'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'toastr'
+import moment from 'moment'
+import Notifications from 'vue-notification'
+Vue.use(Notifications)
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');
@@ -225,8 +228,16 @@ const app = new Vue({
     data: {
         employees: [],
         services: [],
-        appointment: {},
+        appointment: {
+            date: new Date(),
+            time: null,
+            patient: {}
+        },
+
         step: 1,
+        statusStep: 1,
+        confirmBtnDisabled: false,
+        finished: false
     },
     methods: {
 
@@ -248,8 +259,30 @@ const app = new Vue({
             })
         },
 
+        checkPatientsInfo(patient){
+
+            return this.isset(patient.name)
+                && this.isset(patient.surname)
+                && this.isset(patient.phone)
+                && this.isset(patient.email);
+
+        },
+
+        stepClicked(step){
+            if (this.statusStep >= step){
+                this.step = step
+            }else{
+                this.notify('Сначала заполните все данные')
+            }
+        },
+
         nextBtnClicked: function () {
-            if(this.step < 4) this.step++;
+            if(this.step < 4 && this.allowNext){
+                this.step++;
+                if(this.step > this.statusStep) this.statusStep = this.step
+            }else{
+                this.notify('Заполните данные')
+            }
         },
 
         backBtnClicked: function () {
@@ -257,11 +290,63 @@ const app = new Vue({
         },
 
         confirmBtnClicked: function () {
-            alert('confirmed');
+            this.appointment.title = this.appointment.patient.name + " " + this.appointment.patient.surname + " " + this.appointment.patient.phone;
+
+            window.axios.post('/appointments',
+                {
+                    title: this.appointment.title,
+                    employee_id: this.appointment.employee_id,
+                    patient: this.appointment.patient,
+                    services: this.appointment.services,
+                    price: this.appointment.price,
+                    status: "pending",
+                    status_comment: this.appointment.notes,
+                    start: moment(String(this.appointment.date)).format('Y-MM-DD') + 'T' + moment(String(this.appointment.time)).format('HH:mm:ss'),
+                    end: moment(String(this.appointment.date)).format('Y-MM-DD') + 'T' + moment(String(this.appointment.time)).add(30, 'm').format('HH:mm:ss')
+                }).then((response) => {
+                    this.notify('Ваш запись успешно создана');
+                    this.confirmBtnDisabled = true;
+                    this.finished = true;
+                })
+                .catch(e => {
+                    this.notify('Ошибка при создании записи');
+                })
+        },
+
+        notify(text){
+            this.$notify({
+                group: 'alerts',
+                title: text,
+                text: ''
+            });
+        },
+
+        isset(variable){
+            return typeof variable !== 'undefined' && variable != null && variable !== '';
         }
     },
     computed: {
+        allowNext() {
 
+            var allow = true;
+
+            switch(this.statusStep) {
+                case 1:
+                    allow = typeof this.appointment.services !== 'undefined' && typeof this.appointment.employee_id !== 'undefined';
+                    break;
+                case 2:
+                    allow = typeof this.appointment.date !== 'undefined' && this.appointment.time !== null;
+                    break;
+                case 3:
+                    if ( typeof this.appointment.patient !== 'undefined')
+                        allow = this.checkPatientsInfo(this.appointment.patient);
+
+                    break;
+
+            }
+
+            return allow;
+        }
     },
     watch: {
 

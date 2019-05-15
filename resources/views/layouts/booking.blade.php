@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
 
-    <title>Booking</title>
+    <title> | Booking</title>
 
     <link rel="stylesheet" type="text/css" href="{{asset('ext_booking/bootstrap/css/bootstrap.min.css')}}">
     {{--<link rel="stylesheet" type="text/css" href="{{asset('ext_booking/jquery-ui/jquery-ui.min.css')}}">--}}
@@ -27,12 +27,17 @@
             'csrf_token' => csrf_token()
         ]); ?>
     </script>
+    <style>
+        .book-step {
+            cursor: pointer
+        }
+    </style>
 </head>
 
 <body>
 <div id="main" class="container">
     <div class="wrapper row" id="booking">
-        <div id="book-appointment-wizard" class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div v-if="!finished" id="book-appointment-wizard" class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
 
             <!-- FRAME TOP BAR -->
 
@@ -41,25 +46,25 @@
 
                 <div id="steps">
                     <div id="step-1"
-                         @click="step = 1"
+                         @click="stepClicked(1)"
                          v-bind:class="{'book-step':true, 'active-step':(step === 1)}" title="">
                         <strong>1</strong>
                     </div>
 
                     <div id="step-2"
-                         @click="step = 2"
+                         @click="stepClicked(2)"
                          v-bind:class="{'book-step':true, 'active-step':(step === 2)}" title="">
                         <strong>2</strong>
                     </div>
 
                     <div id="step-3"
-                         @click="step = 3"
+                         @click="stepClicked(3)"
                          v-bind:class="{'book-step':true, 'active-step':(step === 3)}" title="">
                         <strong>3</strong>
                     </div>
 
                     <div id="step-4"
-                         @click="step = 4"
+                         @click="stepClicked(4)"
                          v-bind:class="{'book-step':true, 'active-step':(step === 4)}" title="">
                         <strong>4</strong>
                     </div>
@@ -103,6 +108,24 @@
 
         @yield('content')
 
+        </div>
+        <div v-else id="success-frame" class="frame-container
+                    col-xs-12
+                    col-sm-offset-1 col-sm-10
+                    col-md-offset-2 col-md-8
+                    col-lg-offset-2 col-lg-8">
+
+            <div class="col-xs-12 col-sm-2">
+                <img id="success-icon" class="pull-right" src="{{asset('img/success.png')}}">
+            </div>
+            <div class="col-xs-12 col-sm-10">
+
+                <h3>Ваша запись успешно зарегестрирована!</h3>
+                <p>В ближайшее время с Вами свяжется сотрудинк для уточнения деталей записи по указанному номеру телефона: @{{appointment.patient.phone}}</p>
+                <a href="/booking" class="btn btn-success btn-large" style="margin-right: 10px;">
+                    <span class="glyphicon glyphicon-calendar"></span> Создать новую запись
+                </a>
+            </div>
         </div>
     </div>
 </div>

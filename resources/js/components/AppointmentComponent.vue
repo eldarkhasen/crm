@@ -165,8 +165,7 @@
                 config: {
                     header: {
                         left: 'agendaDay,agendaWeek',
-                        center: 'prev title next today',
-                        right: 'myCustomButton'
+                        center: 'prev title next today'
                     },
                     locale: 'ru',
                     minTime: '09:00:00',

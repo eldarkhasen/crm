@@ -55,3 +55,6 @@ Route::get('getAppointments', "AppointmentController@get");
 Route::get('getEmployees',"EmployeeController@get");
 Route::get('getServicesFront',"ServiceController@get");
 Route::get('getPatientsFront',"PatientController@get");
+
+// booking
+Route::post('booking/getbusyhours', 'BookingController@getBusyHours');

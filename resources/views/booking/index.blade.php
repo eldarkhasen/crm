@@ -5,17 +5,29 @@
         <step1 v-show="step == 1"
                 :employees = "employees"
                 :services = "services"
-                :appointment = "appointment"></step1>
+                :appointment = "appointment"
+                :notify = "notify"
+                :isset = "isset">
 
-        <step2 v-show="step == 2">
+        </step1>
+
+        <step2 v-show="step == 2"
+               :appointment = "appointment"
+               :notify = "notify"
+                >
 
         </step2>
 
-        <step3 v-show="step == 3">
+        <step3 v-show="step == 3"
+               :appointment = "appointment"
+               :notify = "notify">
 
         </step3>
 
-        <step4 v-show="step == 4">
+        <step4 v-show="step == 4"
+               :appointment = "appointment"
+               :notify = "notify"
+               :isset = "isset">
 
         </step4>
 
@@ -29,6 +41,7 @@
             </button>
             <button v-if="step != 4" type="button" id="button-next-1"
                     class="btn button-next btn-primary"
+                    :disabled="!allowNext"
                     @click="nextBtnClicked()">
                 Далее
                 <span class="glyphicon glyphicon-forward"></span>
@@ -36,11 +49,14 @@
 
             <button v-else type="button" id="button-next-1"
                     class="btn button-next btn-success"
-                    @click="confirmBtnClicked()">
+                    @click="confirmBtnClicked()"
+                    :disabled="confirmBtnDisabled">
                 <span>Подтвердить</span>
                 <span class="glyphicon glyphicon-ok"></span>
             </button>
         </div>
-    </div>
 
+        <notifications group="alerts"
+                       :position="'bottom center'"/>
+    </div>
 @endsection
