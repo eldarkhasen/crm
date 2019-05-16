@@ -42,7 +42,7 @@
             <!-- FRAME TOP BAR -->
 
             <div id="header">
-                <span id="company-name">Название клиники</span>
+                <span id="company-name">CRM</span>
 
                 <div id="steps">
                     <div id="step-1"
@@ -95,17 +95,6 @@
             </div>
         @endif
 
-        <?php
-//        if (isset($exceptions)) {
-//            echo '<div style="margin: 10px">';
-//            echo '<h4>' . lang('unexpected_issues') . '</h4>';
-//            foreach($exceptions as $exception) {
-//                echo exceptionToHtml($exception);
-//            }
-//            echo '</div>';
-//        }
-        ?>
-
         @yield('content')
 
         </div>
@@ -130,13 +119,7 @@
     </div>
 </div>
 
-@if (false):
-    @include('booking.cookie_notice_modal')
-@endif
-
 <script src="{{ asset('js/booking.js') }}"></script>
 @yield('script')
-
-<?php //google_analytics_script(); ?>
 </body>
 </html>
