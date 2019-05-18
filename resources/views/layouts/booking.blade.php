@@ -9,18 +9,18 @@
     <title> | Booking</title>
 
     <link rel="stylesheet" type="text/css" href="{{asset('ext_booking/bootstrap/css/bootstrap.min.css')}}">
-    {{--<link rel="stylesheet" type="text/css" href="{{asset('ext_booking/jquery-ui/jquery-ui.min.css')}}">--}}
-    {{--<link rel="stylesheet" type="text/css" href="{{asset('ext_booking/jquery-qtip/jquery.qtip.min.css')}}">--}}
-    {{--<link rel="stylesheet" type="text/css" href="{{asset('ext_booking/cookieconsent/cookieconsent.min.css')}}">--}}
+    <link rel="stylesheet" type="text/css" href="{{asset('ext_booking/jquery-ui/jquery-ui.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('ext_booking/jquery-qtip/jquery.qtip.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('ext_booking/cookieconsent/cookieconsent.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/booking/frontend.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/booking/general.css')}}">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="../daterangepicker/daterangepicker-bs3.css">
-    <link rel="stylesheet" href="../datepicker/datepicker3.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">
+    {{--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">--}}
+    {{--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">--}}
+    {{--<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">--}}
+    {{--<link rel="stylesheet" href="../daterangepicker/daterangepicker-bs3.css">--}}
+    {{--<link rel="stylesheet" href="../datepicker/datepicker3.css">--}}
+    {{--<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">--}}
 
     <script type="text/javascript">
         window.Laravel = <?php echo json_encode([

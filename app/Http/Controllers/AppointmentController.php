@@ -6,6 +6,7 @@ use App\Appointment;
 use App\Employee;
 use App\Patient;
 use App\Service;
+use Exception;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -48,53 +49,76 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        $appoint = new Appointment();
-        $appoint->title = $request->title;
-        $appoint->start = $request->start;
-        $appoint->end = $request->end;
-        $appoint->employee_id = $request->employee_id;
+        try {
+            $appoint = new Appointment();
+            $appoint->title = $request->title;
+            $appoint->start = $request->start;
+            $appoint->end = $request->end;
+            $appoint->employee_id = $request->employee_id;
 
-        if(isset($request->patient_id)){
-            $appoint->patient_id = $request->patient_id;
-        }
-        else{
-            $patient = Patient::where('name', $request->patient['name'])
-                ->where('surname', $request->patient['surname'])
-                ->where('phone', $request->patient['phone'])
-                ->where('birth_date', $request->patient['birthdate'])
-                ->first();
+            if (isset($request->patient_id)) {
+                $appoint->patient_id = $request->patient_id;
+            } else {
+                $patient = Patient::where('name', $request->patient['name'])
+                    ->where('surname', $request->patient['surname'])
+                    ->where('phone', $request->patient['phone'])
+                    ->where('birth_date', $request->patient['birthdate'])
+                    ->first();
 
-            if(empty($patient)){
-                $patient = new Patient();
-                $patient->name = $request->patient['name'];
-                $patient->surname = $request->patient['surname'];
-                $patient->patronymic = $request->patient['patronymic'];
-                $patient->phone = $request->patient['phone'];
-                $patient->email = $request->patient['email'];
-                $patient->address = $request->patient['address'];
-                $patient->birth_date = $request->patient['birthdate'];
-                $patient->gender = $request->patient['gender'];
-                $patient->save();
+                if (empty($patient)) {
+                    $patient = new Patient();
+                    $patient->name = $request->patient['name'];
+                    $patient->surname = $request->patient['surname'];
+                    $patient->patronymic = $request->patient['patronymic'];
+                    $patient->phone = $request->patient['phone'];
+                    $patient->email = $request->patient['email'];
+                    $patient->address = $request->patient['address'] ?? null;
+                    $patient->birth_date = $request->patient['birthdate'];
+                    $patient->gender = $request->patient['gender'];
+                    $patient->save();
+                }
+
+                $appoint->patient_id = $patient->id;
             }
 
-            $appoint->patient_id = $patient->id;
+
+            $appoint->price = $request->price;
+            $appoint->status = $request->status;
+            $appoint->status_comment = $request->status_comment ?? null;
+            $appoint->save();
+
+            $services = [];
+            foreach ($request->services as $service)
+                array_push($services, $service['id']);
+
+            if (!empty($request->services)) {
+                $appoint->services()->attach($services);
+            }
+
+            return response()->json([
+                'id' => $appoint->id,
+                'success' => true
+            ]);
+        }catch (Exception $e){
+
+            $error_message = null;
+
+            if(strpos($e->getMessage(), "key 'patients_phone_unique'") !== false){
+                $error_message = "Номер телефона " . $request->patient['phone'] . " уже зарегестрирован у другого пациента.\n";
+            }
+
+            if(strpos($e->getMessage(), "key 'patients_email_unique'") !== false){
+                $error_message = $error_message . "Электронная почта " . $request->patient['email'] . " уже зарегестрирована у другого пациента.\n";
+            }
+
+            if($error_message == null)
+                $error_message = "Ошибка на сервере";
+
+            return response()->json([
+                'error' => $error_message,
+                'success' => false
+            ]);
         }
-
-
-        $appoint->price = $request->price;
-        $appoint->status = $request->status;
-        $appoint->status_comment = $request->status_comment;
-        $appoint->save();
-
-        $services = [];
-        foreach ($request->services as $service)
-            array_push($services, $service['id']);
-
-        if(!empty($request->services)){
-            $appoint->services()->attach($services);
-        }
-
-        return response()->json(['id' => $appoint->id]);
     }
 
     /**

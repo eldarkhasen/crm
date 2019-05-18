@@ -39,7 +39,7 @@
                 <span class="glyphicon glyphicon-backward"></span>
                 Назад
             </button>
-            <button v-if="step != 4" type="button" id="button-next-1"
+            <button v-if="step != 4" type="button" v-bind:id="btnIdComputed"
                     class="btn button-next btn-primary"
                     :disabled="!allowNext"
                     @click="nextBtnClicked()">
@@ -47,12 +47,12 @@
                 <span class="glyphicon glyphicon-forward"></span>
             </button>
 
-            <button v-else type="button" id="button-next-1"
-                    class="btn button-next btn-success"
+            <button v-else type="button" id="book-appointment-submit"
+                    class="btn btn-success"
                     @click="confirmBtnClicked()"
                     :disabled="confirmBtnDisabled">
-                <span>Подтвердить</span>
                 <span class="glyphicon glyphicon-ok"></span>
+                <span>Завершить</span>
             </button>
         </div>
 

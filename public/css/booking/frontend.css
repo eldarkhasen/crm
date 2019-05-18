@@ -19,7 +19,7 @@ body {
 }
 
 body {
-    background-color: #CAEDF3;
+    background-color: #eaffe5;
 }
 
 #main {
@@ -316,6 +316,7 @@ body {
         overflow: auto;
         margin: 20px auto;
         width: 260px;
+        height: 220px;
         padding-left: 20px; /* center at the bottom of datepicker */
     }
 

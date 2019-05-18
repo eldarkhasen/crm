@@ -304,9 +304,13 @@ const app = new Vue({
                     start: moment(String(this.appointment.date)).format('Y-MM-DD') + 'T' + moment(String(this.appointment.time)).format('HH:mm:ss'),
                     end: moment(String(this.appointment.date)).format('Y-MM-DD') + 'T' + moment(String(this.appointment.time)).add(30, 'm').format('HH:mm:ss')
                 }).then((response) => {
-                    this.notify('Ваш запись успешно создана');
-                    this.confirmBtnDisabled = true;
-                    this.finished = true;
+                    if(response.data.success){
+                        this.notify('Ваш запись успешно создана');
+                        this.confirmBtnDisabled = true;
+                        this.finished = true;
+                    } else {
+                        this.notify(response.data.error)
+                    }
                 })
                 .catch(e => {
                     this.notify('Ошибка при создании записи');
@@ -332,20 +336,26 @@ const app = new Vue({
 
             switch(this.statusStep) {
                 case 1:
-                    allow = typeof this.appointment.services !== 'undefined' && typeof this.appointment.employee_id !== 'undefined';
+                    allow = typeof this.appointment.services !== 'undefined' && typeof this.appointment.employee_id !== 'undefined' && this.appointment.services.length > 0;
                     break;
                 case 2:
-                    allow = typeof this.appointment.date !== 'undefined' && this.appointment.time !== null;
+                    allow = (typeof this.appointment.date !== 'undefined' && this.appointment.time !== null) && this.step <= this.statusStep;
                     break;
                 case 3:
                     if ( typeof this.appointment.patient !== 'undefined')
-                        allow = this.checkPatientsInfo(this.appointment.patient);
+                        allow = this.checkPatientsInfo(this.appointment.patient) && this.step <= this.statusStep;
 
                     break;
 
             }
 
             return allow;
+        },
+        btnIdComputed(){
+            if(this.step > 1)
+                return 'button-next-2';
+            else
+                return 'button-next-1';
         }
     },
     watch: {
