@@ -31,7 +31,7 @@
 
                             <h3 class="profile-username text-center">{{$patient->name}} {{$patient->surname}}</h3>
 
-                            <p class="text-muted text-center">Оказано услуг на: </p>
+                            <p class="text-muted text-center">Оказано услуг на: {{$sumOfServices}}тг </p>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
@@ -99,35 +99,43 @@
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link  active show" href="#activity" data-toggle="tab">Визиты</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Лечения</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Документы</a></li>
+                                {{--<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Документы</a></li>--}}
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="tab-pane  active show " id="activity">
-                                    @foreach($patient->appointments as $appointment)
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <strong>{{$appointment->service->name}}</strong>
-                                            <p>
-                                               {{$appointment->start}}
+                                    @if(count($patient->appointments)>0)
+                                        @foreach($patient->appointments as $appointment)
+                                            @foreach($appointment->services as $service)
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <strong>{{$service->name}}</strong>
+                                                        <p>
+                                                            {{$appointment->start}}
+                                                        </p>
+                                                    </div>
 
-                                            </p>
+                                                    <div class="col-sm-4">
+                                                        <b>{{$appointment->employee->name}} {{$appointment->employee->surname}}</b>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                    <div class="col-sm-4 ">
+                                                        <b>{{$service->price}}тг</b>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                            @endforeach
+
+                                        @endforeach
+                                    @else
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <strong>Нет визитов</strong>
+                                            </div>
+
                                         </div>
-
-                                        <div class="col-sm-4">
-                                           <b>{{$appointment->employee->name}} {{$appointment->employee->surname}}</b>
-
-                                        </div>
-                                        <!-- /.col -->
-                                        <div class="col-sm-4 ">
-                                            <b>{{$appointment->service->price}}тг</b>
-
-                                        </div>
-                                        <!-- /.col -->
-                                    </div>
-
-                                    @endforeach
+                                    @endif
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="timeline">

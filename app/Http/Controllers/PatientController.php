@@ -120,7 +120,16 @@ class PatientController extends Controller
     public function show($id)
     {
         $patient = Patient::findOrFail($id);
-        return view('patients.show',compact('patient'));
+        $sumOfServices = 0;
+        foreach ($patient->appointments as $appointment){
+            foreach ($appointment->services as $service){
+                $sumOfServices= $sumOfServices+$service->price;
+            }
+        }
+
+
+
+        return view('patients.show',compact('patient','sumOfServices'));
     }
 
     /**
