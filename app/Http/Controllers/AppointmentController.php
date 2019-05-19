@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\CashBox;
+use App\CashFlow;
 use App\Employee;
 use App\Patient;
 use App\Service;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AppointmentController extends Controller
@@ -189,9 +192,36 @@ class AppointmentController extends Controller
             $appoint->services()->sync($services, false);
         }
 
-        // TODO: редактирование cashflow
+        $cashbox_success = null;
 
-        return response()->json(['success' => $success]);
+        if( $appoint->status === "success" ){
+            $cashflow = CashFlow::create([
+                'cash_flow_date'=>date('Y-m-d'),
+                'payment_item_id'=>\StaticPaymentItems::$paymentItems['services'],
+                'cash_box_id'=>1,
+                'employee_id'=>$request->employee_id,
+                'patient_id'=>$request->patient_id,
+                'user_created_id'=>Auth::user()->id,
+                'amount'=>$request->price,
+                'comments'=>"Оплата записи"
+            ]);
+
+            if(isset($cashflow)){
+                $cashBox = CashBox::findOrFail(1);
+                $cashBox->current_balance = $cashBox->current_balance + intval($request->price);
+                $cashBox->income = $cashBox->income + intval($request->price);
+                $cashBox->save();
+
+                $cashbox_success = true;
+            }else{
+                $cashbox_success = false;
+            }
+
+        }
+
+        return response()->json([
+            'success' => $success,
+            'cashbox_success' => $cashbox_success]);
     }
 
     /**

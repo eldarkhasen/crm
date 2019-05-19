@@ -14,7 +14,7 @@ import VueAxios from 'vue-axios'
 import 'toastr'
 import moment from 'moment'
 import Notifications from 'vue-notification'
-Vue.use(Notifications)
+Vue.use(Notifications);
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');

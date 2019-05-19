@@ -15,6 +15,8 @@ import 'toastr'
 import 'fullcalendar/dist/fullcalendar.css';
 import FullCalendar from 'vue-full-calendar'; //Import Full-calendar
 Vue.use(FullCalendar);
+import Notifications from 'vue-notification'
+Vue.use(Notifications);
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');
@@ -380,6 +382,7 @@ const app = new Vue({
                     end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
                 })
                 .then((response) => {
+
                 })
                 .catch(e => {
                     alert("some error");
@@ -404,6 +407,14 @@ const app = new Vue({
                 .then((response) => {
                     if(response.data.success)
                         self.updateEvent(self.selectedEvent);
+
+                    if(response.data.cashbox_success !== null){
+                        if(response.data.cashbox_success){
+                            self.notify("Оплата записи успешно зафиксирована.");
+                        }else{
+                            self.notify("Ошибка фиксации оплаты.");
+                        }
+                    }
                 })
                 .catch(e => {
                     alert("some error");
@@ -445,13 +456,21 @@ const app = new Vue({
             }
 
             return parseInt(sum);
-        }
+        },
+
+        notify(text){
+            this.$notify({
+                group: 'alerts',
+                title: text,
+                text: ''
+            });
+        },
     },
     computed: {
         editedSelectedEventPatient(){
             return this.selectedEvent.patient;
         },
-        
+
         editedSelectedEventServices(){
             return this.selectedEvent.services;
         },

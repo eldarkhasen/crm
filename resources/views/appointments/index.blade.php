@@ -45,10 +45,11 @@
                                :get-patient-by-id = "getPatientById"
                                :new-event = "newEvent"
                     ></new-event>
+                    <notifications group="alerts"
+                                   :position="'bottom center'"/>
                 </div>
             </div>
         </div>
-
     </section>
 @endsection
 
