@@ -89,15 +89,7 @@ class AppointmentController extends Controller
             $appoint->price = $request->price;
             $appoint->status = $request->status;
             $appoint->status_comment = $request->status_comment ?? null;
-            $appoint->save();
 
-            $services = [];
-            foreach ($request->services as $service)
-                array_push($services, $service['id']);
-
-            if (!empty($request->services)) {
-                $appoint->services()->attach($services);
-            }
 
             if(isset($patient->email)){
                 $name = $request->patient['name'];
@@ -112,6 +104,16 @@ class AppointmentController extends Controller
                     ('Aisadent. Детали записи');
                     $message->from($from_email,'Aisadent');
                 });
+            }
+
+            $appoint->save();
+
+            $services = [];
+            foreach ($request->services as $service)
+                array_push($services, $service['id']);
+
+            if (!empty($request->services)) {
+                $appoint->services()->attach($services);
             }
 
             return response()->json([
@@ -130,9 +132,11 @@ class AppointmentController extends Controller
                 $error_message = $error_message . "Электронная почта " . $request->patient['email'] . " уже зарегестрирована у другого пациента.\n";
             }
 
-            if($error_message == null)
+            if($error_message == null){
                 $error_text = $e->getMessage();
                 $error_message = "Ошибка на сервере";
+
+            }
 
             return response()->json([
                 'error' => $error_message,

@@ -135,19 +135,15 @@
                                             </div>
 
                                             <div class="row mt-1" v-if="newEvent.patient_id == 0">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label for="birth_date">Дата рождения</label>
                                                     <input class="form-control" id="birth_date" type="text" v-model="newEvent.patient.birth_date" v-mask="'##/##/####'" placeholder="ДД/ММ/ГГГГ">
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label for="email">Email</label>
                                                     <input type="text" class="form-control" id="email" v-model="newEvent.patient.email">
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label for="new-lastname">Номер карты</label>
-                                                    <input class="form-control" id="new-lastname" type="text" v-model="newEvent.patient.id_card">
-                                                </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label for="new-patronymic">Пол</label>
                                                     <select class="form-control" id="new-patronymic" type="text" v-model="newEvent.patient.gender">
                                                         <option value="Мужской">Мужской</option>
