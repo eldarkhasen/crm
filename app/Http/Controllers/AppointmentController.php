@@ -8,6 +8,7 @@ use App\Patient;
 use App\Service;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AppointmentController extends Controller
 {
@@ -95,13 +96,28 @@ class AppointmentController extends Controller
                 $appoint->services()->attach($services);
             }
 
+            if(isset($patient->email)){
+                $name = $request->patient['name'];
+                $to_email = $request->patient['email'];
+                $from_email = env('MAIL_USERNAME');
+
+                $employee = Employee::findOrFail($request->employee_id);
+
+                $data = ['appointment' => $request, 'employee' => $employee];
+                Mail::send('emails.appointmentdetails', $data, function($message) use ($from_email, $to_email, $name) {
+                    $message->to($to_email, $name)->subject
+                    ('Aisadent. Детали записи');
+                    $message->from($from_email,'Aisadent');
+                });
+            }
+
             return response()->json([
                 'id' => $appoint->id,
                 'success' => true
             ]);
         }catch (Exception $e){
-
             $error_message = null;
+            $error_text = null;
 
             if(strpos($e->getMessage(), "key 'patients_phone_unique'") !== false){
                 $error_message = "Номер телефона " . $request->patient['phone'] . " уже зарегестрирован у другого пациента.\n";
@@ -112,11 +128,13 @@ class AppointmentController extends Controller
             }
 
             if($error_message == null)
+                $error_text = $e->getMessage();
                 $error_message = "Ошибка на сервере";
 
             return response()->json([
                 'error' => $error_message,
-                'success' => false
+                'success' => false,
+                'error_text' => $error_text
             ]);
         }
     }
