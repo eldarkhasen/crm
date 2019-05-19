@@ -16,7 +16,7 @@
                 <div class="col-md-4 form-group mt-2 px-3">
                     <label for="filterEmployee">Фильтр по сотрудникам</label>
                     <select class="form-control" v-model="filterEmployee" @change="toggleEvents()" name="filterEmployee" id="filterEmployee">
-                        <option value="0">Все</option>
+                        <option value="all">Все</option>
                         <option v-for="item in employees"
                                 :value="item.id">{{ item.name}}</option>
                     </select>
@@ -161,7 +161,7 @@
             return {
                 cal: null,
                 filterStatus: "all",
-                filterEmployee: 0,
+                filterEmployee: "all",
                 config: {
                     header: {
                         left: 'agendaDay,agendaWeek',
@@ -227,7 +227,7 @@
 
                     eventRender: function eventRender( event, element, view ) {
                         return (self.filterStatus === "all" || self.filterStatus === event.status) &&
-                            (self.filterEmployee === 0 || self.filterEmployee === event.employee_id)
+                            (self.filterEmployee === "all" || self.filterEmployee === event.employee_id)
                     }
                 },
                 selected: {},
