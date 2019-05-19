@@ -17,6 +17,7 @@ import FullCalendar from 'vue-full-calendar'; //Import Full-calendar
 Vue.use(FullCalendar);
 import Notifications from 'vue-notification'
 Vue.use(Notifications);
+import moment from 'moment'
 
 Vue.use(VueAxios, axios);
 window.Vue = require('vue');
@@ -436,6 +437,8 @@ const app = new Vue({
 
         setSelectedEvent: function(event){
             this.selectedEvent = Object.assign({}, event);
+            this.selectedEvent.startText = moment(this.selectedEvent.start).format('d.m H:mm');
+            this.selectedEvent.endText = moment(this.selectedEvent.end).format('d.m H:mm');
         },
 
         refreshTimetable: function(){

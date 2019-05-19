@@ -197,8 +197,8 @@
                             if(event.id == ev.id){
                                 ev.start = event.start;
                                 ev.end = event.end;
-                                ev.startText = event.start.format('Do, H:mm');
-                                ev.endText = event.end.format('Do, H:mm');
+                                ev.startText = event.start.format('d.m H:mm');
+                                ev.endText = event.end.format('d.m H:mm');
                                 self.updateAppointment(ev);
                             }
                         });
@@ -209,8 +209,8 @@
                             if(event.id == ev.id){
                                 ev.start = event.start;
                                 ev.end = event.end;
-                                ev.startText = event.start.format('Do, H:mm');
-                                ev.endText = event.end.format('Do, H:mm');
+                                ev.startText = event.start.format('d.m H:mm');
+                                ev.endText = event.end.format('d.m H:mm');
                                 self.updateAppointment(ev);
                             }
                         });
@@ -219,9 +219,9 @@
                     select: function(start, end){
                         // this.createEvent(start, end);
                         self.newEvent.start = start;
-                        self.newEvent.startText = start.format('Do, H:mm');
+                        self.newEvent.startText = start.format('d.m H:mm');
                         self.newEvent.end = end;
-                        self.newEvent.endText = end.format('Do, H:mm');
+                        self.newEvent.endText = end.format('d.m H:mm');
                         $('#addAppointmentForm').modal();
                     },
 
