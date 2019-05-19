@@ -110,7 +110,8 @@
             <div class="col-xs-12 col-sm-10">
 
                 <h3>Ваша запись успешно зарегестрирована!</h3>
-                <p>На указанный email @{{appointment.patient.email}} отправлено письмо с деталями записи. <br>В ближайшее время с Вами свяжется сотрудинк для уточнения деталей записи по указанному номеру телефона: @{{appointment.patient.phone}}</p>
+                <p>На указанный email @{{appointment.patient.email}} отправлено письмо с деталями записи.
+                    <br>В ближайшее время с Вами свяжется наш сотрудник для уточнения деталей записи по указанному номеру телефона: @{{appointment.patient.phone}}</p>
                 <a href="/booking" class="btn btn-success btn-large" style="margin-right: 10px;">
                     <span class="glyphicon glyphicon-calendar"></span> Создать новую запись
                 </a>
