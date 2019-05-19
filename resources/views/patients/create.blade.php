@@ -20,7 +20,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary" >
 
-                        <form method ="POST" action = "{{ URL::to('patients') }}" autocomplete="off">
+                        <form method ="POST" action = "{{ URL::to('patients') }}" autocomplete="off"  enctype="multipart/form-data">
                             @csrf
                             <div class="card-body" id = "addEmployee" >
                                 <fieldset class="form-group">
@@ -88,7 +88,11 @@
                                         <label for="inputAddress">Адрес</label>
                                         <input type="text" class="form-control"  id = "inputAddress" name = "address" />
                                     </div>
-
+                                    <div class="form-group">
+                                        <label for="inputPhoto">Фото</label>
+                                        <br>
+                                        <input type="file" id = "inputPhoto" name = "photo" />
+                                    </div>
                                 </fieldset>
 
 
@@ -106,3 +110,7 @@
     </section>
 
 @endsection
+
+@section('script')
+
+    @endsection

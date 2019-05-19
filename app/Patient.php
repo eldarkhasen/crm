@@ -16,4 +16,16 @@ class Patient extends Model
     public function cashFlow(){
         return $this->hasMany(CashFlow::class,'patient_id');
     }
+
+    public function appointments(){
+        return $this->hasMany(Appointment::class,'patient_id');
+    }
+
+    public  function sumOfServices(){
+        $sum = 0;
+        foreach($this->appointments() as $appointment){
+            $sum = $sum + $appointment->sumOfServices;
+        }
+        return $sum;
+    }
 }

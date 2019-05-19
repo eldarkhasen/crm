@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Patient;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 class PatientController extends Controller
 {
     /**
@@ -57,21 +59,45 @@ class PatientController extends Controller
             'discount'=>'required',
             'email'=>'required|email|unique:patients'
         ]);
+        if($request->hasFile('photo')){
+            $photo = $request->file('photo');
+            $extension = $photo->getClientOriginalExtension();
+            Storage::disk('public')->put($photo->getFilename().'.'.$extension,File::get($photo));
+            $patient = Patient::create([
+                'name'=>request()->name,
+                'surname'=>request()->surname,
+                'patronymic'=>request()->patronymic,
+                'phone'=>request()->phone,
+                'email'=>request()->email,
+                'birth_date'=>request()->birth_date,
+                'gender'=> request()->gender,
+                'id_card'=>request()->id_card,
+                'id_number'=>request()->id_number,
+                'address'=>request()->address,
+                'city'=>request()->city,
+                'discount'=>request()->discount,
+                'photoname'=>$photo->getFilename().'.'.$extension,
+                'mime'=>$photo->getClientMimeType(),
+                'original_photoname'=>$photo->getClientOriginalExtension()
 
-        $patient = Patient::create([
-            'name'=>request()->name,
-            'surname'=>request()->surname,
-            'patronymic'=>request()->patronymic,
-            'phone'=>request()->phone,
-            'email'=>request()->email,
-            'birth_date'=>request()->birth_date,
-            'gender'=> request()->gender,
-            'id_card'=>request()->id_card,
-            'id_number'=>request()->id_number,
-            'address'=>request()->address,
-            'city'=>request()->city,
-            'discount'=>request()->discount
-        ]);
+            ]);
+        }else{
+            $patient = Patient::create([
+                'name'=>request()->name,
+                'surname'=>request()->surname,
+                'patronymic'=>request()->patronymic,
+                'phone'=>request()->phone,
+                'email'=>request()->email,
+                'birth_date'=>request()->birth_date,
+                'gender'=> request()->gender,
+                'id_card'=>request()->id_card,
+                'id_number'=>request()->id_number,
+                'address'=>request()->address,
+                'city'=>request()->city,
+                'discount'=>request()->discount,
+            ]);
+        }
+
         $notification = array(
             'message' => 'Пациент добавлен!',
             'alert-type' => 'success'
@@ -94,7 +120,16 @@ class PatientController extends Controller
     public function show($id)
     {
         $patient = Patient::findOrFail($id);
-        return view('patients.show',compact('patient'));
+        $sumOfServices = 0;
+        foreach ($patient->appointments as $appointment){
+            foreach ($appointment->services as $service){
+                $sumOfServices= $sumOfServices+$service->price;
+            }
+        }
+
+
+
+        return view('patients.show',compact('patient','sumOfServices'));
     }
 
     /**
