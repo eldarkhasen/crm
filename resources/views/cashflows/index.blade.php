@@ -45,7 +45,7 @@
                                     <th>Создано</th>
                                     <th>Сумма</th>
                                     <th>Комментарии</th>
-                                    <th></th>
+                                    {{--<th></th>--}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -77,14 +77,14 @@
                                         @else
                                             <td>Не указаны</td>
                                         @endif
-                                        <td>
-                                            <a href="{{ URL::to('cashFlows/'.$cashFlow->id.'/edit') }}"><i class="fa fa-edit"></i></a>
+                                        {{--<td>--}}
+                                            {{--<a href="{{ URL::to('cashFlows/'.$cashFlow->id.'/edit') }}"><i class="fa fa-edit"></i></a>--}}
                                             {{--<a href="" onclick="event.preventDefault();--}}
                                                      {{--document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>--}}
                                             {{--{{ Form::open(array('route' => array('cashFlows.destroy', $cashFlow->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}--}}
                                             {{--<button type="submit" ><i class="fa fa-trash-alt"></i></button>--}}
                                             {{--{{ Form::close() }}--}}
-                                        </td>
+                                        {{--</td>--}}
                                     </tr>
                                 @endforeach
                                 </tbody>

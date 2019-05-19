@@ -195,10 +195,13 @@ class AppointmentController extends Controller
         $cashbox_success = null;
 
         if( $appoint->status === "success" ){
+
+            $cashBox = CashBox::first();
+
             $cashflow = CashFlow::create([
                 'cash_flow_date'=>date('Y-m-d'),
                 'payment_item_id'=>\StaticPaymentItems::$paymentItems['services'],
-                'cash_box_id'=>1,
+                'cash_box_id'=>$cashBox->id,
                 'employee_id'=>$request->employee_id,
                 'patient_id'=>$request->patient_id,
                 'user_created_id'=>Auth::user()->id,
@@ -207,7 +210,6 @@ class AppointmentController extends Controller
             ]);
 
             if(isset($cashflow)){
-                $cashBox = CashBox::findOrFail(1);
                 $cashBox->current_balance = $cashBox->current_balance + intval($request->price);
                 $cashBox->income = $cashBox->income + intval($request->price);
                 $cashBox->save();
