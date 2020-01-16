@@ -125,6 +125,14 @@ class CashBoxController extends Controller
 
     }
 
+    public function checkCashBox(){
+        $cashBoxex = CashBox::all();
+        if($cashBoxex->isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
     /**
      * Remove the specified resource from storage.

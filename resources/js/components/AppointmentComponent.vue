@@ -94,15 +94,18 @@
                                                 </select>
                                             </div>
 
-                                            <div class="form-group mt-2" v-if="selectedEvent.price > 0">
+                                            <div class="form-group mt-2" v-if="selectedEvent.price >= 0">
                                                 <hr>
                                                 <h5>Счет</h5>
                                                 <p v-for="service in selectedEvent.services">
                                                     <strong>{{ service.name }}:</strong> {{service.price }} тг.
                                                 </p>
                                                 <p v-if="selectedEvent.patient.discount > 0"><strong>Скидка: </strong>{{ selectedEvent.patient.discount }}%</p>
+
+                                                <input type="number" class="form-control" v-model="selectedEvent.price" >
                                                 <hr>
-                                                <h4>Итого: {{selectedEvent.price}} тг.</h4>
+                                                <h4>
+                                                    Итого: {{selectedEvent.price}} тг.</h4>
                                             </div>
 
                                         </div>
@@ -162,6 +165,7 @@
                 cal: null,
                 filterStatus: "all",
                 filterEmployee: "all",
+                cashBox:true,
                 config: {
                     header: {
                         left: 'agendaDay,agendaWeek',
@@ -260,11 +264,16 @@
             toggleEvents() {
                 $('#calendar').fullCalendar('rerenderEvents');
             }
+            // checkCashBox(){
+            //     axios.get('/checkCashBox').then(({data})=>this.cashBox = data);
+            //     if(!cashBox){
+            //         alert("У вас нет кассы! Проверьте кассу!");
+            //     }
+            // }
         },
         mounted() {
             const cal = $(this.$el),
                 self = this;
-
         },
     }
 </script>

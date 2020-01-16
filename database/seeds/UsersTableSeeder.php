@@ -2,6 +2,7 @@
 
 use App\PaymentItem;
 use App\PaymentType;
+use App\Position;
 use Illuminate\Database\Seeder;
 //Importing laravel-permission models
 use Spatie\Permission\Models\Role;
@@ -43,7 +44,9 @@ class UsersTableSeeder extends Seeder
         PaymentItem::create(['name'=>'Зарплата персонала','payment_type_id'=>'2']);
         PaymentItem::create(['name'=>'Прочие доходы','payment_type_id'=>'1']);
         PaymentItem::create(['name'=>'Прочие расходы','payment_type_id'=>'2']);
-
+        Position::create(['name'=>'Врач-терапевт','description'=>'Просто лечит людей']);
+        Position::create(['name'=>'Хирург','description'=>'Умеет делать операции']);
+        Position::create(['name'=>'Администратор','description'=>'Следит за порядком в клинике']);
 //        $role = factory(Role::class,'role',1)->create();
 //        $permission_users = factory(Permission::class,'permission_users',1)->create();
 //        $permission_roles = factory(Permission::class,'permission_roles',1)->create();

@@ -77,11 +77,6 @@
 
                             <strong><i class="fa fa-envelope mr-1"></i>Почта</strong>
 
-                            @if($patient->email==null )
-                                <p class="text-muted">нет данных</p>
-                            @else
-                                <p class="text-muted">{{$patient->email}} </p>
-                            @endif
                             <hr>
 
                             <strong><i class="fa fa-inbox mr-1"></i> Заметки</strong>

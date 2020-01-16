@@ -40,11 +40,6 @@
                                         <input type="text" class="form-control" id="inputPatronymic" name = "patronymic">
                                         {!! $errors->first('patronymic', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                     </div>
-                                    <div class="form-group {{ $errors->has('phone') ? 'has-error' : ''}}" >
-                                        <label for="inputEmail">Номер телефона</label>
-                                        <input type="text" v-mask="'+7(999)999 99 99'" class="form-control" name = "phone" />
-                                        {!! $errors->first('patronymic', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
-                                    </div>
                                     <div class="form-group {{ $errors->has('email') ? 'has-error' : ''}}" >
                                         <label for="inputEmail">Email</label>
                                         <input type="email"  class="form-control" name = "email" />

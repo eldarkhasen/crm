@@ -54,11 +54,11 @@ class PatientController extends Controller
             'name'=>'required|max:120',
             'surname'=>'required|max:120',
             'patronymic'=>'required|max:120',
-            'phone'=>'required|',
+            'phone'=>'required',
             'birth_date'=>'required',
-            'discount'=>'required',
-            'email'=>'required|email|unique:patients'
+            'discount'=>'required'
         ]);
+
         if($request->hasFile('photo')){
             $photo = $request->file('photo');
             $extension = $photo->getClientOriginalExtension();
@@ -68,7 +68,6 @@ class PatientController extends Controller
                 'surname'=>request()->surname,
                 'patronymic'=>request()->patronymic,
                 'phone'=>request()->phone,
-                'email'=>request()->email,
                 'birth_date'=>request()->birth_date,
                 'gender'=> request()->gender,
                 'id_card'=>request()->id_card,
@@ -87,7 +86,6 @@ class PatientController extends Controller
                 'surname'=>request()->surname,
                 'patronymic'=>request()->patronymic,
                 'phone'=>request()->phone,
-                'email'=>request()->email,
                 'birth_date'=>request()->birth_date,
                 'gender'=> request()->gender,
                 'id_card'=>request()->id_card,
@@ -167,8 +165,7 @@ class PatientController extends Controller
             'patronymic'=>'required|max:120',
             'phone'=>'required|',
             'birth_date'=>'required',
-            'discount'=>'required',
-            'email' => 'required|unique:patients,email,'.$id
+            'discount'=>'required'
         ]);
 
         $patient->fill([
@@ -176,7 +173,6 @@ class PatientController extends Controller
             'surname'=>request()->surname,
             'patronymic'=>request()->patronymic,
             'phone'=>request()->phone,
-            'email'=>request()->email,
             'birth_date'=>request()->birth_date,
             'gender'=> $gender[request()->gender],
             'id_card'=>request()->id_card,

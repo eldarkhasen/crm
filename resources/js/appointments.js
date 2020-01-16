@@ -259,7 +259,13 @@ const app = new Vue({
                 alert("some error while getting appointments");
             })
         },
-
+        checkCashBox:function(){
+            var chashBox = false;
+                axios.get('/checkCashBox').then(({data})=>chashBox = data);
+                if(!chashBox){
+                    alert("У вас нет кассы! Проверьте кассу!");
+                }
+        },
         getEmployees: function() {
             var self = this;
             window.axios.get('/getEmployees').then((response) => {
@@ -354,8 +360,8 @@ const app = new Vue({
                     price: this.newEvent.price,
                     status: this.newEvent.status,
                     status_comment: this.newEvent.status_comment,
-                    start: this.newEvent.start.format('Y-MM-DD') + 'T' + this.newEvent.start.format('HH:mm:ss'),
-                    end: this.newEvent.end.format('Y-MM-DD') + 'T' + this.newEvent.end.format('HH:mm:ss')
+                    start: this.newEvent.start.format('Y-MM-DD') + ' ' + this.newEvent.start.format('HH:mm:ss'),
+                    end: this.newEvent.end.format('Y-MM-DD') + ' ' + this.newEvent.end.format('HH:mm:ss')
                 })
                 .then((response) => {
                     self.newEvent.id = response.data.id;
@@ -379,11 +385,16 @@ const app = new Vue({
                     price: event.price,
                     status: event.status,
                     status_comment: event.status_comment,
-                    start: event.start.format('Y-MM-DD') + 'T' + event.start.format('HH:mm:ss'),
-                    end: event.end.format('Y-MM-DD') + 'T' + event.end.format('HH:mm:ss')
+                    start: event.start.format('Y-MM-DD') + ' ' + event.start.format('HH:mm:ss'),
+                    end: event.end.format('Y-MM-DD') + ' ' + event.end.format('HH:mm:ss')
                 })
                 .then((response) => {
-
+                    if (event.status ==="success"){
+                        event.color = "#808080"
+                    }
+                    toastr.success("Запись обновлена");
+                    toastr.options.closeButton = true;
+                    var msg = new SpeechSynthesisUtterance("Запись обновлена");
                 })
                 .catch(e => {
                     alert("some error");
@@ -411,9 +422,15 @@ const app = new Vue({
 
                     if(response.data.cashbox_success !== null){
                         if(response.data.cashbox_success){
-                            self.notify("Оплата записи успешно зафиксирована.");
+                            toastr.success("Оплата записи успешно зафиксирована");
+                            toastr.options.closeButton = true;
+                            var msg = new SpeechSynthesisUtterance("Оплата записи успешно зафиксирована");
+                            // window.speechSynthesis.speak(msg);
                         }else{
-                            self.notify("Ошибка фиксации оплаты.");
+                            toastr.error("Ошибка фиксации оплаты");
+                            toastr.options.closeButton = true;
+                            var msg = new SpeechSynthesisUtterance("Ошибка фиксации оплаты");
+                            // self.notify("Ошибка фиксации оплаты.");
                         }
                     }
                 })
@@ -506,6 +523,7 @@ const app = new Vue({
         }
     },
     created(){
+        this.checkCashBox();
         this.getEvents();
         this.getEmployees();
         this.getServices();

@@ -4,7 +4,7 @@
     <a href="/home" class="brand-link">
         <img src="/img/crm.png" alt="Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">CRM</span>
+        <span class="brand-text font-weight-light">AisadentCRM</span>
     </a>
 
     <!-- Sidebar -->
@@ -15,10 +15,10 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="екгу">
 
                 <li class="nav-item">
-                    <a href="/home" class="nav-link {{ Request::is('home*')||Request::is('/') ? 'active' : '' }}">
-                       <div class="nav-icon fas fa-tachometer-alt"></div>
+                    <a href="/home" class="nav-link {{ Request::is('home*')||Request::is('/') ? 'active' : ''||Request::is('appointments*') ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
                         <p>
-                            Главная
+                            Записи
                         </p>
                     </a>
                 </li>
@@ -125,14 +125,14 @@
                         @endif
                     </ul>
                 </li>
-                <li class="nav-item">
+               <!-- <li class="nav-item">
                     <a href="/appointments" class="nav-link  {{ Request::is('appointments*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar-alt"></i>
                         <p>
                             Записи
                         </p>
                     </a>
-                </li>
+                </li>-->
                     @endif
             </ul>
         </nav>

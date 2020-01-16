@@ -45,11 +45,6 @@
                                         <input type="text" v-mask="'+7(999)999 99 99'" class="form-control" name = "phone" value = "{{$patient->phone}}" />
                                         {!! $errors->first('patronymic', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                     </div>
-                                    <div class="form-group {{ $errors->has('email') ? 'has-error' : ''}}" >
-                                        <label for="inputEmail">Email</label>
-                                        <input type="email"  class="form-control" name = "email" value = "{{$patient->email}}" />
-                                        {!! $errors->first('email', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
-                                    </div>
                                     <div class="form-group">
                                         <label>Пол</label>
                                         <select class="form-control" name = "gender">

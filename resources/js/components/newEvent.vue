@@ -134,14 +134,15 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row mt-1" v-if="newEvent.patient_id == 0">
+                                            <div class="row mt-3" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-4">
                                                     <label for="birth_date">Дата рождения</label>
                                                     <input class="form-control" id="birth_date" type="text" v-model="newEvent.patient.birth_date" v-mask="'##/##/####'" placeholder="ДД/ММ/ГГГГ">
                                                 </div>
+
                                                 <div class="col-md-4">
-                                                    <label for="email">Email</label>
-                                                    <input type="text" class="form-control" id="email" v-model="newEvent.patient.email">
+                                                    <label for="discount">Процент скидки</label>
+                                                    <input id="discount" class="form-control" v-model="newEvent.patient.discount" name="discount" type="text">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="new-patronymic">Пол</label>
@@ -152,7 +153,7 @@
                                                 </div>
                                             </div>
 
-                                            <h5 class="mt-3" v-if="newEvent.patient_id == 0">Дополнительная информация</h5>
+                                            <h5 class="mt-5" v-if="newEvent.patient_id == 0">Дополнительная информация</h5>
                                             <div class="row mt-1" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-3">
                                                     <label for="iin">ИИН</label>
@@ -161,10 +162,6 @@
                                                 <div class="col-md-3">
                                                     <label for="id_card">Уд. личности</label>
                                                     <input id="id_card" class="form-control" name="id_card" type="text" v-model="newEvent.patient.id_card">
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label for="discount">Процент скидки</label>
-                                                    <input id="discount" class="form-control" v-model="newEvent.patient.discount" name="discount" type="text">
                                                 </div>
                                                 <div class="col-md-3"></div>
                                             </div>
@@ -214,7 +211,6 @@
                     surname: null,
                     patronymic: null,
                     phone: null,
-                    email: null,
                     gender: null,
                     birth_date: null,
                     discount: null,
@@ -241,7 +237,6 @@
                         surname: self.newEvent.patient.surname,
                         patronymic: self.newEvent.patient.patronymic,
                         phone: self.newEvent.patient.phone,
-                        email: self.newEvent.patient.email,
                         gender: self.newEvent.patient.gender,
                         birth_date: self.newEvent.patient.birth_date,
                         discount: self.newEvent.patient.discount,
@@ -257,6 +252,7 @@
                     })
                     .catch(e => {
                         alert("some error");
+
                     })
             }
 
