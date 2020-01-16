@@ -260,11 +260,17 @@ const app = new Vue({
             })
         },
         checkCashBox:function(){
-            var chashBox = false;
-                axios.get('/checkCashBox').then(({data})=>chashBox = data);
-                if(!chashBox){
+            var check = "";
+            window.axios.get('/checkCashBox').then((response) => {
+                if(!response.data.cashBox){
                     alert("У вас нет кассы! Проверьте кассу!");
+                    window.location = '/cashBoxes/create';
                 }
+            }).catch(e => {
+                alert("some error while getting cashbox");
+            });
+            // alert(check);
+
         },
         getEmployees: function() {
             var self = this;

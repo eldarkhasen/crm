@@ -165,7 +165,6 @@
                 cal: null,
                 filterStatus: "all",
                 filterEmployee: "all",
-                cashBox:true,
                 config: {
                     header: {
                         left: 'agendaDay,agendaWeek',
@@ -269,7 +268,7 @@
             //     if(!cashBox){
             //         alert("У вас нет кассы! Проверьте кассу!");
             //     }
-            // }
+            // },
         },
         mounted() {
             const cal = $(this.$el),

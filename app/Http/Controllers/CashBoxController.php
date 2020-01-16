@@ -126,12 +126,12 @@ class CashBoxController extends Controller
     }
 
     public function checkCashBox(){
-        $cashBoxex = CashBox::all();
-        if($cashBoxex->isEmpty()){
-            return false;
-        }else{
-            return true;
+        $cashBoxes = CashBox::all();
+        $check = false;
+        if(count($cashBoxes)>0){
+            $check = true;
         }
+        return response()->json(['cashBox'=>$check]);
     }
 
     /**
