@@ -26,6 +26,8 @@ class CreateCashFlowsTable extends Migration
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->unsignedInteger('user_created_id')->index()->nullable();
             $table->foreign('user_created_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedInteger('appointment_id')->index()->nullable();
+            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
             $table->integer('amount');
             $table->string('comments')->nullable();
             $table->timestamps();

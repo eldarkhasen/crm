@@ -19,7 +19,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
 
-                        <form method ="POST" action = "{{ URL::to('services') }}">
+                        <form method ="POST" action = "{{ URL::to('services') }}"  autocomplete="off" >
                             @csrf
                             <div class="card-body">
                                 <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
@@ -33,7 +33,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputDuration">Продолжительность</label>
+                                    <label for="inputDuration">Продолжительность (мин)</label>
                                     <input type="text" class="form-control" id="inputDuration" name = "duration">
                                     {!! $errors->first('duration', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
@@ -44,12 +44,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="inputPrice">Цена</label>
-                                    <input type="text" class="form-control" id="inputPrice" name = "price">
+                                    <input type="number" class="form-control" id="inputPrice" name = "price">
                                     {!! $errors->first('price', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
                                 <div class="form-group">
                                     <label for="inputMaxPrice">Максимальная цена</label>
-                                    <input type="text" class="form-control" id="inputDuration" name = "max_price">
+                                    <input type="number" class="form-control" id="inputDuration" name = "max_price">
                                     {!! $errors->first('max_price', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
                             </div>

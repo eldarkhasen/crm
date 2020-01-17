@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <full-calendar :events="events" :editable="true" :config="config" ref="calendar"></full-calendar>
+                <full-calendar :events="events"  :editable="true" :config="config" ref="calendar" nowindicator="true"></full-calendar>
             </div>
         </div>
 
@@ -38,13 +38,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-
                         <div class="container-fliud">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card card-primary">
                                         <div class="card-body">
-                                            <div class="form-group">
+                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
                                                 <label for="status">Статус</label>
                                                 <select class="form-control" v-model="selectedEvent.status" name="status" id="status">
                                                     <option value="pending">В ожидании</option>
@@ -52,15 +51,31 @@
                                                     <option value="client_miss">Клиент не пришел</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" v-else>
+                                                <label for="status">Статус</label>
+                                                <select class="form-control" v-model="selectedEvent.status" name="status" id="status" disabled>
+                                                    <option value="pending">В ожидании</option>
+                                                    <option value="success">Успешно прошла</option>
+                                                    <option value="client_miss">Клиент не пришел</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
                                                 <label for="status-comment">Комментарии</label>
                                                 <textarea class="form-control" v-model="selectedEvent.status_comment" id="status-comment"></textarea>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" v-else>
+                                                <label for="status-comment">Комментарии</label>
+                                                <textarea class="form-control" v-model="selectedEvent.status_comment" id="status-comment" disabled></textarea>
+                                            </div>
+                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
                                                 <label for="title">Заголовок</label>
                                                 <input type="text" class="form-control" v-model="selectedEvent.title" id="title">
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" v-else>
+                                                <label for="title">Заголовок</label>
+                                                <input type="text" class="form-control" v-model="selectedEvent.title" id="title" disabled>
+                                            </div>
+                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
                                                 <label for="employee">Сотрудник </label>
                                                 <select class="form-control" v-model="selectedEvent.employee_id" name="employee" id="employee">
                                                     <option value="">Выберите сотрудника</option>
@@ -68,13 +83,38 @@
                                                             :value="item.id">{{ item.name}}</option>
                                                 </select>
                                             </div>
+                                            <div class="form-group" v-else>
+                                                <label for="employee">Сотрудник </label>
+                                                <select class="form-control" disabled v-model="selectedEvent.employee_id" name="employee" id="employee">
+                                                    <option value="">Выберите сотрудника</option>
+                                                    <option v-for="item in employees"
+                                                            :value="item.id">{{ item.name}}</option>
+                                                </select>
+                                            </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
                                                 <label for="services">Услуги </label>
                                                 <multiselect v-model="selectedEvent.services"
                                                              id="services"
                                                              :options="services"
                                                              :multiple="true"
+                                                             :close-on-select="true"
+                                                             :clear-on-select="true"
+                                                             taggable = "true"
+                                                             placeholder="Выбери Услуги"
+                                                             label="name" track-by="name" :preselect-first="true"
+                                                             selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано"
+                                                             deselectLabel="Нажмите чтобы убрать">
+                                                </multiselect>
+                                            </div>
+                                            <div class="form-group" v-else>
+                                                <label for="services">Услуги </label>
+                                                <multiselect v-model="selectedEvent.services"
+                                                             id="services"
+                                                             disabled = "true"
+                                                             :options="services"
+                                                             :multiple="true"
+                                                             taggable = "true"
                                                              :close-on-select="true"
                                                              :clear-on-select="true"
                                                              placeholder="Выбери Услуги"
@@ -85,9 +125,17 @@
                                                 </multiselect>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
                                                 <label for="patient">Пациент</label>
                                                 <select class="form-control" v-model="selectedEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
+                                                    <option value="">Выберите пациента</option>
+                                                    <option v-for="item in patients"
+                                                            :value="item.id">{{ item.name}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" v-else>
+                                                <label for="patient">Пациент</label>
+                                                <select disabled class="form-control" v-model="selectedEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
                                                     <option value="">Выберите пациента</option>
                                                     <option v-for="item in patients"
                                                             :value="item.id">{{ item.name}}</option>
@@ -97,27 +145,51 @@
                                             <div class="form-group mt-2" v-if="selectedEvent.price >= 0">
                                                 <hr>
                                                 <h5>Счет</h5>
-                                                <p v-for="service in selectedEvent.services">
-                                                    <strong>{{ service.name }}:</strong> {{service.price }} тг.
-                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered table-hover dataTable materialsTables"  role="grid">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Наименование</th>
+                                                                <th>Количество</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody v-for="service in selectedEvent.services">
+                                                                <tr>
+                                                                    <td>
+                                                                        {{ service.name }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{service.price}} тг
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <!--<p v-for="service in selectedEvent.services">-->
+                                                    <!--<strong>{{ service.name }}:</strong> {{service.price }} тг.-->
+                                                <!--</p>-->
                                                 <p v-if="selectedEvent.patient.discount > 0"><strong>Скидка: </strong>{{ selectedEvent.patient.discount }}%</p>
 
-                                                <input type="number" class="form-control" v-model="selectedEvent.price" >
+                                                <input type="number" class="form-control" v-model="selectedEvent.price" v-if="selectedEvent.status=='pending' && eventSuccess">
                                                 <hr>
                                                 <h4>
-                                                    Итого: {{selectedEvent.price}} тг.</h4>
+                                                Итого: {{selectedEvent.price}} тг.</h4>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer" v-if="selectedEvent.status=='pending' || eventPending">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                         <button type="button" class="btn btn-primary" @click="updateSelectedAppointment">Сохранить изменения</button>
+                        <button type="button" class="btn btn-danger" @click="deleteAppointment">Удалить запись</button>
+                    </div>
+                    <div class="modal-footer" v-else>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                         <button type="button" class="btn btn-danger" @click="deleteAppointment">Удалить запись</button>
                     </div>
                 </div>
@@ -158,6 +230,7 @@
             services: Array,
             patients: Array,
             getPatientById: Function
+
         },
         data(){
             var self = this;
@@ -165,11 +238,13 @@
                 cal: null,
                 filterStatus: "all",
                 filterEmployee: "all",
+                eventPending:true,
                 config: {
                     header: {
                         left: 'agendaDay,agendaWeek',
                         center: 'prev title next today'
                     },
+                    nowIndicator:true,
                     locale: 'ru',
                     minTime: '09:00:00',
                     maxTime: '21:00:00',
@@ -275,4 +350,15 @@
                 self = this;
         },
     }
+
+    $(document).ready(function () {
+        $('.servicesTable').DataTable({
+            "processing": true,
+            "responsive": true,
+            "paging": false,
+            "searching": false,
+            "ordering": false,
+            "info": false,
+        });//capital "D"
+    });
 </script>

@@ -82,10 +82,6 @@
                                                     <input class="form-control" v-model="newPatient.phone" v-mask="'+7(999)999 99 99'"  name="phone" type="text">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="email">Email</label>
-                                                    <input class="form-control" v-model="newPatient.email" name="email" type="text">
-                                                </div>
-                                                <div class="col-md-3">
                                                     <label for="birth_date">Дата рождения</label>
                                                     <input class="form-control" v-model="newPatient.birth_date" v-mask="'##/##/####'" placeholder="ДД/ММ/ГГГГ"  name="birth_date" type="text">
                                                 </div>
@@ -118,31 +114,31 @@
                                             <div class="row mt-1">
                                                 <div class="col-md-3">
                                                     <label for="firstname">Имя</label>
-                                                    <input class="form-control" id="firstname" type="text" v-model="newEvent.patient.name">
+                                                    <input class="form-control" id="firstname" type="text" v-model="newEvent.patient.name" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="lastname">Фамилия</label>
-                                                    <input class="form-control" id="lastname" type="text" v-model="newEvent.patient.surname">
+                                                    <input class="form-control" id="lastname" type="text" v-model="newEvent.patient.surname" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="patronymic">Отчество</label>
-                                                    <input class="form-control" id="patronymic" type="text" v-model="newEvent.patient.patronymic">
+                                                    <input class="form-control" id="patronymic" type="text" v-model="newEvent.patient.patronymic" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="phone">Телефон</label>
-                                                    <input class="form-control" id="phone" type="text" v-model="newEvent.patient.phone" v-mask="'+7(999)999 99 99'">
+                                                    <input class="form-control" id="phone" type="text" v-model="newEvent.patient.phone" v-mask="'+7(999)999 99 99'" autocomplete="off">
                                                 </div>
                                             </div>
 
                                             <div class="row mt-3" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-4">
                                                     <label for="birth_date">Дата рождения</label>
-                                                    <input class="form-control" id="birth_date" type="text" v-model="newEvent.patient.birth_date" v-mask="'##/##/####'" placeholder="ДД/ММ/ГГГГ">
+                                                    <input class="form-control" id="birth_date" type="text" v-model="newEvent.patient.birth_date" v-mask="'##/##/####'" placeholder="ДД/ММ/ГГГГ" autocomplete="off">
                                                 </div>
 
                                                 <div class="col-md-4">
                                                     <label for="discount">Процент скидки</label>
-                                                    <input id="discount" class="form-control" v-model="newEvent.patient.discount" name="discount" type="text">
+                                                    <input id="discount" class="form-control" v-model="newEvent.patient.discount" name="discount" type="number" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="new-patronymic">Пол</label>
@@ -157,11 +153,11 @@
                                             <div class="row mt-1" v-if="newEvent.patient_id == 0">
                                                 <div class="col-md-3">
                                                     <label for="iin">ИИН</label>
-                                                    <input id="iin" class="form-control" name="iin" type="text" v-model="newEvent.patient.iin">
+                                                    <input id="iin" class="form-control" name="iin" type="text" v-model="newEvent.patient.iin" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="id_card">Уд. личности</label>
-                                                    <input id="id_card" class="form-control" name="id_card" type="text" v-model="newEvent.patient.id_card">
+                                                    <input id="id_card" class="form-control" name="id_card" type="text" v-model="newEvent.patient.id_card" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-3"></div>
                                             </div>
@@ -249,6 +245,8 @@
                     .then((response) => {
                         self.newEvent.patient_id = response.data.patient.id;
                         self.patients.push(response.data.patient);
+                        toastr.success("Клиент был добавлен");
+                        toastr.options.closeButton = true;
                     })
                     .catch(e => {
                         alert("some error");

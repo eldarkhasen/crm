@@ -185,6 +185,7 @@ class AppointmentController extends Controller
         $appoint->patient_id = $request->patient_id;
         $appoint->price = $request->price;
         $appoint->status = $request->status;
+        $appoint->color = $request->color;
         $appoint->status_comment = $request->status_comment;
         $success = $appoint->save();
 
@@ -199,19 +200,27 @@ class AppointmentController extends Controller
         $cashbox_success = null;
 
         if( $appoint->status === "success" ){
-
             $cashBox = CashBox::first();
-
-            $cashflow = CashFlow::create([
-                'cash_flow_date'=>date('Y-m-d'),
-                'payment_item_id'=>\StaticPaymentItems::$paymentItems['services'],
-                'cash_box_id'=>$cashBox->id,
-                'employee_id'=>$request->employee_id,
-                'patient_id'=>$request->patient_id,
-                'user_created_id'=>Auth::user()->id,
-                'amount'=>$request->price,
-                'comments'=>"Оплата записи"
-            ]);
+            $cashflow = CashFlow::where('appointment_id','=',$appoint->id)->first();
+            if(isset($cashflow)){
+                if($cashflow->amount!=$request->price) {
+                    $cashflow->amount = $request->price;
+                    $cashflow->comments= "Запись была обновлена";
+                    $cashflow->save();
+                }
+            }else{
+                $cashflow = CashFlow::create([
+                    'cash_flow_date'=>date('Y-m-d'),
+                    'payment_item_id'=>\StaticPaymentItems::$paymentItems['services'],
+                    'cash_box_id'=>$cashBox->id,
+                    'employee_id'=>$request->employee_id,
+                    'patient_id'=>$request->patient_id,
+                    'user_created_id'=>Auth::user()->id,
+                    'amount'=>$request->price,
+                    'comments'=>"Оплата записи",
+                    "appointment_id"=>$appoint->id
+                ]);
+            }
 
             if(isset($cashflow)){
                 $cashBox->current_balance = $cashBox->current_balance + intval($request->price);

@@ -21,4 +21,8 @@ class Appointment extends Model
     public function patient(){
         return $this->belongsTo(Patient::class,'patient_id');
     }
+
+    public function cashflow(){
+        return $this->hasOne(CashFlow::class,"appointment_id");
+    }
 }

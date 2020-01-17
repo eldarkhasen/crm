@@ -1,5 +1,6 @@
 <?php
 
+use App\CashBox;
 use App\PaymentItem;
 use App\PaymentType;
 use App\Position;
@@ -35,7 +36,7 @@ class UsersTableSeeder extends Seeder
 
         PaymentItem::create(['name'=>'Перевод из кассы','payment_type_id'=>'2']);
         PaymentItem::create(['name'=>'Перевод в кассу','payment_type_id'=>'1']);
-        PaymentItem::create(['name'=>'Снятие с депозите','payment_type_id'=>'2']);
+        PaymentItem::create(['name'=>'Снятие с депозита','payment_type_id'=>'2']);
         PaymentItem::create(['name'=>'Начисление в депозит','payment_type_id'=>'1']);
         PaymentItem::create(['name'=>'Возврат средств','payment_type_id'=>'2']);
         PaymentItem::create(['name'=>'Оказание услуг','payment_type_id'=>'1']);
@@ -47,6 +48,7 @@ class UsersTableSeeder extends Seeder
         Position::create(['name'=>'Врач-терапевт','description'=>'Просто лечит людей']);
         Position::create(['name'=>'Хирург','description'=>'Умеет делать операции']);
         Position::create(['name'=>'Администратор','description'=>'Следит за порядком в клинике']);
+        CashBox::create(['name'=>'Основная касса','initial_balance'=>'0']);
 //        $role = factory(Role::class,'role',1)->create();
 //        $permission_users = factory(Permission::class,'permission_users',1)->create();
 //        $permission_roles = factory(Permission::class,'permission_roles',1)->create();

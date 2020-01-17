@@ -18,6 +18,7 @@ class UpdateAppointmentsTable extends Migration
             $table->integer('price');
             $table->enum('status', ['pending', 'success', 'client_miss']);
             $table->text('status_comment')->nullable();
+            $table->string('color')->default("#1ABC9C");
         });
     }
 
