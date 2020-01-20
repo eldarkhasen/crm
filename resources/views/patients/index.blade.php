@@ -40,6 +40,9 @@
                                 </thead>
                                 <tbody>
                                 @foreach ($patients as $patient)
+                                    <?php
+                                        $lastVisit = $patient->appointments->last();
+                                    ?>
                                     <tr>
                                         <td><a href="{{ route('patients.show', $patient->id) }}">{{ $patient->name }} {{ $patient->surname }} {{ $patient->patronymic }}</a></td>
                                         <td>{{$patient->phone}}</td>
@@ -50,8 +53,13 @@
                                         @else
                                             <td>Нет данных </td>
                                         @endif
-                                        <td>Нет данных </td>
-                                        <td>Нет данных </td>
+                                        @if(isset($lastVisit))
+                                            <td>{{$lastVisit['start']}} </td>
+                                        @else
+                                            <td>Нет данных</td>
+                                        @endif
+
+                                        <td>{{$patient->sumOfServices()}}тг</td>
                                         <td>
                                         <a href="{{ route('patients.edit', $patient->id) }}"><i class="fa fa-edit"></i></a>
 

@@ -59,7 +59,6 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <strong><i class="fa fa-book mr-1"></i>Телефон</strong>
-
                             <p class="text-muted">
                                 {{$patient->phone}}
                             </p>
@@ -68,20 +67,10 @@
 
                             <strong><i class="fa fa-map-marker mr-1"></i>Адрес</strong>
                             @if($patient->city==null && $patient->address==null)
-                            <p class="text-muted">нет данных</p>
-
+                                <p class="text-muted">нет данных</p>
                             @else
                                 <p class="text-muted">{{$patient->city}}, {{$patient->address}}</p>
-                                @endif
-                            <hr>
-
-                            <strong><i class="fa fa-envelope mr-1"></i>Почта</strong>
-
-                            <hr>
-
-                            <strong><i class="fa fa-inbox mr-1"></i> Заметки</strong>
-
-                            <p class="text-muted">Нет данных</p>
+                            @endif
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -100,37 +89,55 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="tab-pane  active show " id="activity">
-                                    @if(count($patient->appointments)>0)
-                                        @foreach($patient->appointments as $appointment)
-                                            @foreach($appointment->services as $service)
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <strong>{{$service->name}}</strong>
-                                                        <p>
+                                    <table class="table table-bordered table-hover dataTable appointmentsTable"  role="grid">
+                                        <thead>
+                                        <tr>
+                                            <th>Дата посещения</th>
+                                            <th>Услуги</th>
+                                            <th>Доктор</th>
+                                            <th>Цена</th>
+                                            <th>Действия</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @if(count($patient->appointments)>0)
+                                            @foreach($patient->appointments as $appointment)
+                                                @if($appointment->status=="success")
+                                                    <tr>
+                                                        <td>
                                                             {{$appointment->start}}
-                                                        </p>
-                                                    </div>
+                                                        </td>
+                                                        <td>
+                                                            @foreach($appointment->services as $service)
+                                                                {{$service->name}}
+                                                            @endforeach
+                                                        </td>
+                                                        <td>
+                                                            <b>{{$appointment->employee->name}} {{$appointment->employee->surname}}</b>
+                                                        </td>
+                                                        <td>
+                                                            <b>{{$appointment->price}}тг</b>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#"  type = "button" class = "btn btn-block btn-outline-primary btn-sm">Детали</a>
+                                                        </td>
 
-                                                    <div class="col-sm-4">
-                                                        <b>{{$appointment->employee->name}} {{$appointment->employee->surname}}</b>
-                                                    </div>
-                                                    <!-- /.col -->
-                                                    <div class="col-sm-4 ">
-                                                        <b>{{$service->price}}тг</b>
-                                                    </div>
-                                                    <!-- /.col -->
-                                                </div>
+                                                    </tr>
+                                                @endif
                                             @endforeach
+                                        @endif
+                                        </tbody>
+                                        </table>
 
-                                        @endforeach
-                                    @else
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <strong>Нет визитов</strong>
-                                            </div>
 
-                                        </div>
-                                    @endif
+                                    {{--@else--}}
+                                        {{--<div class="row">--}}
+                                            {{--<div class="col-sm-4">--}}
+                                                {{--<strong>Нет визитов</strong>--}}
+                                            {{--</div>--}}
+
+                                        {{--</div>--}}
+                                    {{--@endif--}}
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="timeline">
@@ -294,4 +301,36 @@
         </div>
     </section>
 
+@endsection
+@section('script')
+    <script type="text/javascript" >
+        $(document).ready(function () {
+            $('.appointmentsTable').DataTable({
+                "processing": true,
+                "responsive": true,
+                "language": {
+                    "processing": "Подождите...",
+                    "search": "Поиск:",
+                    "lengthMenu": "Показать _MENU_ записей",
+                    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "infoPostFix": "",
+                    "loadingRecords": "Загрузка записей...",
+                    "zeroRecords": "Записи отсутствуют.",
+                    "emptyTable": "В таблице отсутствуют данные",
+                    "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                    },
+                    "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                    }
+                }
+            });     //capital "D"
+        });
+    </script>
 @endsection

@@ -35,18 +35,34 @@
                                                             :value="item.id">{{ item.name}}</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-12 form-group">
-                                                <label for="services">Услуги </label>
+                                            <div class="col-md-12 form-group" v-if="has_problem">
+                                                <label for="patient_problems">Жалобы <a href="#" @click="patientHasNotProblem()"  type = "button" class = "btn btn-block btn-outline-primary btn-sm mt-2">Выбрать услуги</a></label>
+                                                <textarea class="form-control" v-model="newEvent.patient_problems" id="patient_problems"></textarea>
+                                                <!--<multiselect v-model="newEvent.services"-->
+                                                <!--id="services"-->
+                                                <!--:options="services"-->
+                                                <!--:multiple="true"-->
+                                                <!--:close-on-select="true"-->
+                                                <!--:clear-on-select="true"-->
+                                                <!--placeholder="Выбери Услуги"-->
+                                                <!--label="name" track-by="name" :preselect-first="true"-->
+                                                <!--selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано"-->
+                                                <!--deselectLabel="Нажмите чтобы убрать">-->
+
+                                                <!--</multiselect>-->
+                                            </div>
+                                            <div class="col-md-12 form-group" v-else>
+                                                <label for="services">Выбрать услуги  <a href="#" @click="patientHasProblem()"  type = "button" class = "btn btn-block btn-outline-primary btn-sm mt-2">Имеются жалобы</a></label>
                                                 <multiselect v-model="newEvent.services"
-                                                             id="services"
-                                                             :options="services"
-                                                             :multiple="true"
-                                                             :close-on-select="true"
-                                                             :clear-on-select="true"
-                                                             placeholder="Выбери Услуги"
-                                                             label="name" track-by="name" :preselect-first="true"
-                                                             selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано"
-                                                             deselectLabel="Нажмите чтобы убрать">
+                                                id="services"
+                                                :options="services"
+                                                :multiple="true"
+                                                :close-on-select="true"
+                                                :clear-on-select="true"
+                                                placeholder="Выбери Услуги"
+                                                label="name" track-by="name" :preselect-first="true"
+                                                selectLabel="Нажмите чтобы выбрать" selectedLabel="Выбрано"
+                                                deselectLabel="Нажмите чтобы убрать">
 
                                                 </multiselect>
                                             </div>
@@ -214,7 +230,8 @@
                     id_card: null,
                     city: null,
                     address: null
-                }
+                },
+                has_problem:true
             }
         },
         methods: {
@@ -222,7 +239,12 @@
                 this.addNewPatient = false;
                 this.newEvent.patient = this.getPatientById(this.newEvent.patient_id);
             },
-
+            patientHasNotProblem(){
+                this.has_problem = false;
+            },
+            patientHasProblem(){
+                this.has_problem=true;
+            },
             submitNewPatient() {
                 var self = this;
                 window.axios.post('/patients',

@@ -120,12 +120,10 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($id);
         $sumOfServices = 0;
         foreach ($patient->appointments as $appointment){
-            foreach ($appointment->services as $service){
-                $sumOfServices= $sumOfServices+$service->price;
+            if($appointment->status=="success"){
+                $sumOfServices = $sumOfServices+$appointment->price;
             }
         }
-
-
 
         return view('patients.show',compact('patient','sumOfServices'));
     }

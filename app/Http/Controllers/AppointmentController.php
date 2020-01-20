@@ -89,7 +89,9 @@ class AppointmentController extends Controller
             $appoint->price = $request->price;
             $appoint->status = $request->status;
             $appoint->status_comment = $request->status_comment ?? null;
-
+            $appoint->patient_problems=$request->patient_problems ?? null;
+            $appoint->diagnosis=$request->diagnosis ?? null;
+            $appoint->work_done=$request->work_done ?? null;
 
             if(isset($patient->email)){
                 $name = $request->patient['name'];
@@ -187,6 +189,9 @@ class AppointmentController extends Controller
         $appoint->status = $request->status;
         $appoint->color = $request->color;
         $appoint->status_comment = $request->status_comment;
+        $appoint->patient_problems=$request->patient_problems;
+        $appoint->diagnosis=$request->diagnosis;
+        $appoint->work_done=$request->work_done;
         $success = $appoint->save();
 
         $services = [];
@@ -226,7 +231,6 @@ class AppointmentController extends Controller
                 $cashBox->current_balance = $cashBox->current_balance + intval($request->price);
                 $cashBox->income = $cashBox->income + intval($request->price);
                 $cashBox->save();
-
                 $cashbox_success = true;
             }else{
                 $cashbox_success = false;

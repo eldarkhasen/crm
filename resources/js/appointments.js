@@ -328,12 +328,13 @@ const app = new Vue({
                 if(event.id === ev.id){
                     id = index;
                     $('#editAppointmentForm').modal('hide');
+                    $('#calendar').fullCalendar('rerenderEvents');
                 }
             });
 
             self.events[id] = Object.assign({}, event);
             self.setSelectedEvent({});
-            $('#calendar').fullCalendar('rerenderEvents');
+
         },
 
         setDefaultNewEvent: function(){
@@ -351,6 +352,9 @@ const app = new Vue({
                 price: 0,
                 status: 'pending',
                 status_comment: null,
+                patient_problems:null,
+                diagnosis:null,
+                work_done:null,
                 patient: {}
             };
         },
@@ -384,41 +388,41 @@ const app = new Vue({
         },
 
         updateAppointment: function(event){
-            var self = this;
-            if(self.selectedEvent.status=="success"){
-                window.axios.put('/appointments/update', // + event.id,
-                    {
-                        id: event.id,
-                        title: event.title,
-                        employee_id: event.employee_id,
-                        services: event.services,
-                        patient_id: event.patient_id,
-                        price: event.price,
-                        status: event.status,
-                        status_comment: event.status_comment,
-                        color:"#808080",
-                        start: event.start.format('Y-MM-DD') + ' ' + event.start.format('HH:mm:ss'),
-                        end: event.end.format('Y-MM-DD') + ' ' + event.end.format('HH:mm:ss')
-                    })
-                    .then((response) => {
-                        if (event.status =="success"){
-                            event.color = "#808080"
-                        }
-                        toastr.success("Запись обновлена");
-                        toastr.options.closeButton = true;
-                        var msg = new SpeechSynthesisUtterance("Запись обновлена");
-                    })
-                    .catch(e => {
-                        alert("some error");
-                    })
+            var color = "#1ABC9C";
+            if(event.status==="success"){
+                color = "#808080";
             }
+            window.axios.put('/appointments/update', // + event.id,
+                {
+                    id: event.id,
+                    title: event.title,
+                    employee_id: event.employee_id,
+                    services: event.services,
+                    patient_id: event.patient_id,
+                    price: event.price,
+                    status: event.status,
+                    status_comment: event.status_comment,
+                    color:color,
+                    start: event.start.format('Y-MM-DD') + ' ' + event.start.format('HH:mm:ss'),
+                    end: event.end.format('Y-MM-DD') + ' ' + event.end.format('HH:mm:ss')
+                })
+                .then((response) => {
+                    toastr.success("Запись\n"+event.title+"\nобновлена");
+                    toastr.options.closeButton = true;
+                    $('#calendar').fullCalendar('rerenderEvents');
+                })
+                .catch(e => {
+                    alert("some error");
+                })
 
         },
 
         updateSelectedAppointment: function(){
             var self = this;
-            if(self.selectedEvent.status=="success"){
+            var color = "#1ABC9C";
+            if(self.selectedEvent.status==="success"){
                 self.eventPending=false;
+                color = "#808080";
             }
             window.axios.put('/appointments/update',
                 {
@@ -429,7 +433,7 @@ const app = new Vue({
                     patient_id: self.selectedEvent.patient_id,
                     price: self.selectedEvent.price,
                     status: self.selectedEvent.status,
-                    color:"#808080",
+                    color:color,
                     status_comment: self.selectedEvent.status_comment,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,
@@ -440,7 +444,7 @@ const app = new Vue({
 
                     if(response.data.cashbox_success !== null){
                         if(response.data.cashbox_success){
-                            toastr.success("Оплата записи успешно зафиксирована");
+                            toastr.success("Оплата записи\n"+self.selectedEvent.title+"\nуспешно зафиксирована");
                             toastr.options.closeButton = true;
                             var msg = new SpeechSynthesisUtterance("Оплата записи успешно зафиксирована");
                             // window.speechSynthesis.speak(msg);
@@ -450,7 +454,14 @@ const app = new Vue({
                             var msg = new SpeechSynthesisUtterance("Ошибка фиксации оплаты");
                             // self.notify("Ошибка фиксации оплаты.");
                         }
+                    }else{
+                        if(response.data.success){
+                            // toastr.success("Запись обновлена");
+                            // toastr.options.closeButton = true;
+                            location.reload();
+                        }
                     }
+                    $('#calendar').fullCalendar('rerenderEvents');
                 })
                 .catch(e => {
                     alert("some error");
@@ -464,7 +475,7 @@ const app = new Vue({
             window.axios.delete('/appointments/' + event.id)
                 .then((response) => {
                     self.deleteEvent(event.id);
-                    toastr.info("Запись удалена");
+                    toastr.info("Запись "+self.selectedEvent.title+"удалена");
                     toastr.options.closeButton = true;
                 })
                 .catch(e => {
@@ -494,7 +505,8 @@ const app = new Vue({
             if(sum > 0 && event.patient.discount > 0){
                 sum = sum - parseInt(event.patient.discount) / 100 * sum;
             }
-            if(event.price!==sum &&event.price!==0){
+
+            if(event.status==="success" && event.price!==0){
                 sum = event.price;
             }
 
