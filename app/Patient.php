@@ -21,7 +21,10 @@ class Patient extends Model
     public  function sumOfServices(){
         $sum = 0;
         foreach($this->appointments as $appointment){
-            $sum = $sum + $appointment->price;
+            if($appointment->status=="success"){
+                $sum = $sum + $appointment->price;
+            }
+
         }
         return $sum;
     }

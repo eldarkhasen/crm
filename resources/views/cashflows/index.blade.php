@@ -45,7 +45,6 @@
                                     <th>Создано</th>
                                     <th>Сумма</th>
                                     <th>Комментарии</th>
-                                    {{--<th></th>--}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -61,17 +60,22 @@
                                         <td>{{$cashFlow->paymentItem->name}}</td>
                                         <td> <a href="{{ route('cashBoxes.show', $cashFlow->cashBox->id) }}">{{$cashFlow->cashBox->name}}</a> </td>
                                         @if(isset($cashFlow->employee))
-                                            <td>{{$cashFlow->employee->name}}</td>
+                                            <td>{{$cashFlow->employee->surname}} {{$cashFlow->employee->name}} {{$cashFlow->employee->patronymic}}</td>
                                         @else
                                             <td>Не указано</td>
                                         @endif
                                         @if(isset($cashFlow->patient))
-                                            <td>{{$cashFlow->patient->name}}</td>
+                                            <td><a href="{{route('patients.show',$cashFlow->patient->id)}}">{{$cashFlow->patient->surname}} {{$cashFlow->patient->name}}</a></td>
                                         @else
                                             <td>Не указано</td>
                                         @endif
                                         <td>{{$cashFlow->userCreated->name}} <br> {{$cashFlow->created_at->formatLocalized('%d %B %Y %H:%M')}}</td>
-                                        <td>{{$cashFlow->amount}} тг</td>
+
+                                        @if($cashFlow->paymentItem->paymentType->id==1)
+                                            <td>{{$cashFlow->amount}}тг</td>
+                                        @else
+                                            <td>-{{$cashFlow->amount}}тг</td>
+                                        @endif
                                         @if(isset($cashFlow->comments))
                                             <td>{{$cashFlow->comments}}</td>
                                         @else
@@ -88,6 +92,13 @@
                                     </tr>
                                 @endforeach
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th colspan="7" style="text-align:right;font-size: 21px" class="text-uppercase">Итого:</th>
+                                    <th style="font-size: 21px"></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -129,7 +140,39 @@
                         "sortAscending": ": активировать для сортировки столбца по возрастанию",
                         "sortDescending": ": активировать для сортировки столбца по убыванию"
                     }
-                }
+                },
+                "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\тг,]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                total = api
+                    .column( 7 )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                // Total over this page
+                pageTotal = api
+                    .column( 7, { page: 'current'} )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                // Update footer
+                $( api.column( 7 ).footer() ).html(
+                    ''+pageTotal +'тг'
+                );
+            }
             });     //capital "D"
         });
     </script>

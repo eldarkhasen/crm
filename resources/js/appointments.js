@@ -371,6 +371,9 @@ const app = new Vue({
                     price: this.newEvent.price,
                     status: this.newEvent.status,
                     status_comment: this.newEvent.status_comment,
+                    patient_problems: this.newEvent.patient_problems,
+                    diagnosis: this.newEvent.diagnosis,
+                    work_done: this.newEvent.work_done,
                     start: this.newEvent.start.format('Y-MM-DD') + ' ' + this.newEvent.start.format('HH:mm:ss'),
                     end: this.newEvent.end.format('Y-MM-DD') + ' ' + this.newEvent.end.format('HH:mm:ss')
                 })
@@ -402,6 +405,9 @@ const app = new Vue({
                     price: event.price,
                     status: event.status,
                     status_comment: event.status_comment,
+                    patient_problems: event.patient_problems,
+                    diagnosis: event.diagnosis,
+                    work_done:event.work_done,
                     color:color,
                     start: event.start.format('Y-MM-DD') + ' ' + event.start.format('HH:mm:ss'),
                     end: event.end.format('Y-MM-DD') + ' ' + event.end.format('HH:mm:ss')
@@ -435,6 +441,9 @@ const app = new Vue({
                     status: self.selectedEvent.status,
                     color:color,
                     status_comment: self.selectedEvent.status_comment,
+                    patient_problems: self.selectedEvent.patient_problems,
+                    diagnosis: self.selectedEvent.diagnosis,
+                    work_done:self.selectedEvent.work_done,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,
                 })
@@ -444,15 +453,12 @@ const app = new Vue({
 
                     if(response.data.cashbox_success !== null){
                         if(response.data.cashbox_success){
-                            toastr.success("Оплата записи\n"+self.selectedEvent.title+"\nуспешно зафиксирована");
+                            toastr.success("Оплата записи успешно зафиксирована");
                             toastr.options.closeButton = true;
-                            var msg = new SpeechSynthesisUtterance("Оплата записи успешно зафиксирована");
                             // window.speechSynthesis.speak(msg);
                         }else{
                             toastr.error("Ошибка фиксации оплаты");
                             toastr.options.closeButton = true;
-                            var msg = new SpeechSynthesisUtterance("Ошибка фиксации оплаты");
-                            // self.notify("Ошибка фиксации оплаты.");
                         }
                     }else{
                         if(response.data.success){

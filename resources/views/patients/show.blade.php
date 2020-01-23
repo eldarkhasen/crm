@@ -82,7 +82,7 @@
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link  active show" href="#activity" data-toggle="tab">Визиты</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Лечения</a></li>
+                                {{--<li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Лечения</a></li>--}}
                                 {{--<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Документы</a></li>--}}
                             </ul>
                         </div><!-- /.card-header -->
@@ -119,7 +119,7 @@
                                                             <b>{{$appointment->price}}тг</b>
                                                         </td>
                                                         <td>
-                                                            <a href="#"  type = "button" class = "btn btn-block btn-outline-primary btn-sm">Детали</a>
+                                                            <a href="{{ route('appointments.show', $appointment->id) }}"  type = "button" class = "btn btn-block btn-outline-primary btn-sm">Детали</a>
                                                         </td>
 
                                                     </tr>

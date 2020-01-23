@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CashBox;
 use App\CashFlow;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,8 @@ class CashBoxController extends Controller
     public function index()
     {
         $cashBoxes = CashBox::latest()->get();
-        return view('cashboxes.index',compact('cashBoxes'));
+        $cashFlows = CashFlow::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('created_at','desc')->get();
+        return view('cashboxes.index',compact('cashBoxes','cashFlows'));
     }
 
     /**

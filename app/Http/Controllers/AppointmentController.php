@@ -156,7 +156,7 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-        //
+        return view('appointments.show',compact('appointment'));
     }
 
     /**
@@ -204,14 +204,25 @@ class AppointmentController extends Controller
 
         $cashbox_success = null;
 
-        if( $appoint->status === "success" ){
+        if($appoint->status === "success"){
             $cashBox = CashBox::first();
             $cashflow = CashFlow::where('appointment_id','=',$appoint->id)->first();
             if(isset($cashflow)){
                 if($cashflow->amount!=$request->price) {
+                    $cashBox->current_balance = $cashBox->current_balance + (intval($request->price)-intval($cashflow->amount));
+                    $cashBox->income = $cashBox->income + (intval($request->price)-intval($cashflow->amount));
+                    $cashBox->save();
+
+                    if($cashflow->amount<$request->price){
+                        $cashflow->comments= "Запись была обновлена. Цена была повышена на: ".(intval($request->price)-intval($cashflow->amount))."тг";
+                    }else{
+                        $cashflow->comments= "Запись была обновлена. Цена была снижена на: ".(intval($request->price)-intval($cashflow->amount))."тг";
+                    }
+
                     $cashflow->amount = $request->price;
-                    $cashflow->comments= "Запись была обновлена";
                     $cashflow->save();
+                }else{
+
                 }
             }else{
                 $cashflow = CashFlow::create([
@@ -228,9 +239,6 @@ class AppointmentController extends Controller
             }
 
             if(isset($cashflow)){
-                $cashBox->current_balance = $cashBox->current_balance + intval($request->price);
-                $cashBox->income = $cashBox->income + intval($request->price);
-                $cashBox->save();
                 $cashbox_success = true;
             }else{
                 $cashbox_success = false;
