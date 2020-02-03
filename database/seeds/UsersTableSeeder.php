@@ -4,6 +4,7 @@ use App\CashBox;
 use App\PaymentItem;
 use App\PaymentType;
 use App\Position;
+use App\Service;
 use Illuminate\Database\Seeder;
 //Importing laravel-permission models
 use Spatie\Permission\Models\Role;
@@ -49,7 +50,9 @@ class UsersTableSeeder extends Seeder
         Position::create(['name'=>'Хирург','description'=>'Умеет делать операции']);
         Position::create(['name'=>'Администратор','description'=>'Следит за порядком в клинике']);
         CashBox::create(['name'=>'Основная касса','initial_balance'=>'0']);
-//        $role = factory(Role::class,'role',1)->create();
+        Service::create(['name'=>'Первичный осмотр','description'=>'Простой осмотр','duration'=>'30','category'=>'Категория','price'=>'1000','max_price'=>'3000']);
+
+        //        $role = factory(Role::class,'role',1)->create();
 //        $permission_users = factory(Permission::class,'permission_users',1)->create();
 //        $permission_roles = factory(Permission::class,'permission_roles',1)->create();
 

@@ -59,6 +59,9 @@ class AppointmentController extends Controller
             $appoint->start = $request->start;
             $appoint->end = $request->end;
             $appoint->employee_id = $request->employee_id;
+            $emp = Employee::findOrFail($request->employee_id);
+            $appoint->color = $emp->color;
+            $appoint->active = $request->active;
 
             if (isset($request->patient_id)) {
                 $appoint->patient_id = $request->patient_id;
@@ -92,7 +95,9 @@ class AppointmentController extends Controller
             $appoint->patient_problems=$request->patient_problems ?? null;
             $appoint->diagnosis=$request->diagnosis ?? null;
             $appoint->work_done=$request->work_done ?? null;
-
+            $appoint->anamnesis_vitae=$request->anamnesis_vitae ?? null;
+            $appoint->anamnesis_morbi=$request->anamnesis_morbi ?? null;
+            $appoint->objective_evaluation=$request->objective_evaluation ?? null;
             if(isset($patient->email)){
                 $name = $request->patient['name'];
                 $to_email = $request->patient['email'];
@@ -191,7 +196,11 @@ class AppointmentController extends Controller
         $appoint->status_comment = $request->status_comment;
         $appoint->patient_problems=$request->patient_problems;
         $appoint->diagnosis=$request->diagnosis;
+        $appoint->anamnesis_vitae=$request->anamnesis_vitae;
+        $appoint->anamnesis_morbi=$request->anamnesis_morbi;
+        $appoint->objective_evaluation=$request->objective_evaluation;
         $appoint->work_done=$request->work_done;
+        $appoint->active = $request->active;
         $success = $appoint->save();
 
         $services = [];
@@ -209,6 +218,7 @@ class AppointmentController extends Controller
             $cashflow = CashFlow::where('appointment_id','=',$appoint->id)->first();
             if(isset($cashflow)){
                 if($cashflow->amount!=$request->price) {
+
                     $cashBox->current_balance = $cashBox->current_balance + (intval($request->price)-intval($cashflow->amount));
                     $cashBox->income = $cashBox->income + (intval($request->price)-intval($cashflow->amount));
                     $cashBox->save();
@@ -221,8 +231,7 @@ class AppointmentController extends Controller
 
                     $cashflow->amount = $request->price;
                     $cashflow->save();
-                }else{
-
+                    $cashbox_success = true;
                 }
             }else{
                 $cashflow = CashFlow::create([
@@ -236,13 +245,17 @@ class AppointmentController extends Controller
                     'comments'=>"Оплата записи",
                     "appointment_id"=>$appoint->id
                 ]);
+                $cashBox->current_balance = $cashBox->current_balance+$request->price;
+                $cashBox->income = $cashBox->income+$request->price;
+                $cashBox->save();
+                $cashbox_success = true;
             }
 
-            if(isset($cashflow)){
-                $cashbox_success = true;
-            }else{
-                $cashbox_success = false;
-            }
+//            if(isset($cashflow)){
+//                $cashbox_success = true;
+//            }else{
+//                $cashbox_success = false;
+//            }
 
         }
 

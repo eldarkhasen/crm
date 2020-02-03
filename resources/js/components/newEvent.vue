@@ -23,7 +23,7 @@
                                                 <select class="form-control" v-model="newEvent.employee_id" name="employee" id="employee">
                                                     <option value="">Выберите сотрудника</option>
                                                     <option v-for="item in employees"
-                                                            :value="item.id">{{ item.name}}</option>
+                                                            :value="item.id">{{ item.surname}} {{ item.name}} </option>
                                                 </select>
                                             </div>
 
@@ -32,7 +32,7 @@
                                                 <select class="form-control" v-model="newEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
                                                     <option value="0" selected>Новый пациент</option>
                                                     <option v-for="item in patients"
-                                                            :value="item.id">{{ item.name}}</option>
+                                                            :value="item.id">{{ item.surname}} {{ item.name}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-12 form-group" v-if="has_problem">

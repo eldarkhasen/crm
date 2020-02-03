@@ -44,4 +44,8 @@ class Employee extends Model
     public function cashFlow(){
         return $this->hasMany(CashFlow::class,'employee_id');
     }
+
+    public function appointments(){
+        return $this->hasMany(Appointment::class,'employee_id');
+    }
 }

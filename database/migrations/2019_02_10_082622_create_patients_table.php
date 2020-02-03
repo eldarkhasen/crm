@@ -29,6 +29,8 @@ class CreatePatientsTable extends Migration
             $table->string('photoname')->nullable();
             $table->string('mime')->nullable();
             $table->string('original_photoname')->nullable();
+            $table->text('special_conditions')->nullable();
+            $table->text('anamnesis_vitae')->nullable();
             $table->timestamps();
         });
     }

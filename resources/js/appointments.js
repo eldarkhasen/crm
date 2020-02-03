@@ -355,13 +355,27 @@ const app = new Vue({
                 patient_problems:null,
                 diagnosis:null,
                 work_done:null,
-                patient: {}
+                anamnesis_vitae:null,
+                anamnesis_morbi:null,
+                objective_evaluation:null,
+                patient: {},
+                active:true
             };
         },
 
         addAppointment: function(){
             var self = this;
-            this.newEvent.title = this.newEvent.patient.name + " " + this.newEvent.patient.surname + " " + this.newEvent.patient.phone;
+            this.newEvent.title = this.newEvent.patient.name + " " + this.newEvent.patient.surname + "\n" +
+                this.newEvent.patient.phone;
+
+            for(var i = 0;i<this.employees.length;i++){
+                if(this.employees[i].id===this.newEvent.employee_id){
+                    this.newEvent.title = this.newEvent.title+"\n"+this.employees[i].name+" "+this.employees[i].surname;
+                    break;
+                }
+            }
+
+
             window.axios.post('/appointments',
                 {
                     title: this.newEvent.title,
@@ -374,6 +388,10 @@ const app = new Vue({
                     patient_problems: this.newEvent.patient_problems,
                     diagnosis: this.newEvent.diagnosis,
                     work_done: this.newEvent.work_done,
+                    anamnesis_vitae:this.newEvent.anamnesis_vitae,
+                    anamnesis_morbi:this.newEvent.anamnesis_morbi,
+                    objective_evaluation:this.newEvent.objective_evaluation,
+                    active:true,
                     start: this.newEvent.start.format('Y-MM-DD') + ' ' + this.newEvent.start.format('HH:mm:ss'),
                     end: this.newEvent.end.format('Y-MM-DD') + ' ' + this.newEvent.end.format('HH:mm:ss')
                 })
@@ -381,19 +399,29 @@ const app = new Vue({
                     self.newEvent.id = response.data.id;
                     self.addEvent();
                     self.setDefaultNewEvent();
-                    toastr.success("Запись добавлена");
-                    toastr.options.closeButton = true;
-                    var msg = new SpeechSynthesisUtterance("Запись добавлена");
+                    const notification = {
+                        "message":"Запись добавлена",
+                        'alert-type':"success"
+                    };
+                    location.reload();
+                    //ДОБАВИТЬ ФУНКЦИЮ ВЫВОДА УВЕДОМЛЕНИЯ ДО ИЛИ ПОСЛЕ ПЕРЕЗАГРУЗКИ СТРАНИЦЫ
+
+                    // toastr.success("Запись добавлена");
+                    // toastr.options.closeButton = true;
+                    // window.location.href = "{{ route('appointments.index')->with('flash_message','Сотрудник успешно добавлен')}}"
                 })
                 .catch(e => {
                     alert(e.name+":"+e.message+"\n"+e.stack);
                 })
         },
-
         updateAppointment: function(event){
-            var color = "#1ABC9C";
             if(event.status==="success"){
-                color = "#808080";
+                event.color = "#808080";
+                event.active = false;
+            }
+            if(event.status==="client_miss"){
+                event.color = "#FF0000";
+                event.active = false;
             }
             window.axios.put('/appointments/update', // + event.id,
                 {
@@ -408,7 +436,11 @@ const app = new Vue({
                     patient_problems: event.patient_problems,
                     diagnosis: event.diagnosis,
                     work_done:event.work_done,
-                    color:color,
+                    anamnesis_vitae:event.anamnesis_vitae,
+                    anamnesis_morbi:event.anamnesis_morbi,
+                    objective_evaluation:event.objective_evaluation,
+                    color:event.color,
+                    active:event.active,
                     start: event.start.format('Y-MM-DD') + ' ' + event.start.format('HH:mm:ss'),
                     end: event.end.format('Y-MM-DD') + ' ' + event.end.format('HH:mm:ss')
                 })
@@ -425,10 +457,15 @@ const app = new Vue({
 
         updateSelectedAppointment: function(){
             var self = this;
-            var color = "#1ABC9C";
+
             if(self.selectedEvent.status==="success"){
                 self.eventPending=false;
-                color = "#808080";
+                self.selectedEvent.color = "#808080";
+                self.selectedEvent.active = false;
+            }
+            if(self.selectedEvent.status==="client_miss"){
+                self.selectedEvent.color = "#FF0000";
+                self.selectedEvent.active = false;
             }
             window.axios.put('/appointments/update',
                 {
@@ -439,13 +476,17 @@ const app = new Vue({
                     patient_id: self.selectedEvent.patient_id,
                     price: self.selectedEvent.price,
                     status: self.selectedEvent.status,
-                    color:color,
+                    color:self.selectedEvent.color,
                     status_comment: self.selectedEvent.status_comment,
                     patient_problems: self.selectedEvent.patient_problems,
                     diagnosis: self.selectedEvent.diagnosis,
                     work_done:self.selectedEvent.work_done,
+                    anamnesis_vitae:self.selectedEvent.anamnesis_vitae,
+                    anamnesis_morbi:self.selectedEvent.anamnesis_morbi,
+                    objective_evaluation:self.selectedEvent.objective_evaluation,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,
+                    active:self.selectedEvent.active,
                 })
                 .then((response) => {
                     if(response.data.success)
@@ -462,8 +503,8 @@ const app = new Vue({
                         }
                     }else{
                         if(response.data.success){
-                            // toastr.success("Запись обновлена");
-                            // toastr.options.closeButton = true;
+                            toastr.info("Запись обновлена");
+                            toastr.options.closeButton = true;
                             location.reload();
                         }
                     }

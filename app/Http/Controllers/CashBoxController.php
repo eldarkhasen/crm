@@ -15,7 +15,7 @@ class CashBoxController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','hasPerToFinance']);
+        $this->middleware(['auth','hasPerToFinance'],['except' => ['checkCashBox']]);
     }
 
     /**

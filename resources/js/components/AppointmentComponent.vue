@@ -41,27 +41,39 @@
                         <div class="container-fliud">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card card-primary">
-                                        <div class="card-body">
-                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
-                                                <label for="status">Статус</label>
-                                                <select class="form-control" v-model="selectedEvent.status" name="status" id="status">
-                                                    <option value="pending">В ожидании</option>
-                                                    <option value="success">Успешно прошла</option>
-                                                    <option value="client_miss">Клиент не пришел</option>
-                                                </select>
+                                    <div>
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-md-6 form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'" >
+                                                    <label for="color">Цвет</label>
+                                                    <input class = "form-control" type="color" v-model="selectedEvent.color" name = color id = "color">
+                                                </div>
+                                                <div class="col-md-6 form-group" v-else>
+                                                    <label for="color">Цвет</label>
+                                                    <input class = "form-control" type="color" v-model="selectedEvent.color" name = color id = "color" disabled>
+                                                </div>
+                                                <div class="col-md-6 form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'">
+                                                    <label for="status">Статус</label>
+                                                    <select class="form-control" v-model="selectedEvent.status" name="status" id="status">
+                                                        <option value="pending">В ожидании</option>
+                                                        <option value="success">Успешно прошла</option>
+                                                        <option value="client_miss">Клиент не пришел</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 form-group" v-else>
+                                                    <label for="status">Статус</label>
+                                                    <select class="form-control" v-model="selectedEvent.status" name="status" id="status" disabled>
+                                                        <option value="pending">В ожидании</option>
+                                                        <option value="success">Успешно прошла</option>
+                                                        <option value="client_miss">Клиент не пришел</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="form-group" v-else>
-                                                <label for="status">Статус</label>
-                                                <select class="form-control" v-model="selectedEvent.status" name="status" id="status" disabled>
-                                                    <option value="pending">В ожидании</option>
-                                                    <option value="success">Успешно прошла</option>
-                                                    <option value="client_miss">Клиент не пришел</option>
-                                                </select>
-                                            </div>
+
+
                                             <div class="row mt-4">
 
-                                                <div class=" col-md-6 form-group" v-if="selectedEvent.status=='pending' || eventPending">
+                                                <div class=" col-md-6 form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                                                     <label for="patient">Пациент</label>
                                                     <select class="form-control" v-model="selectedEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
                                                         <option value="">Выберите пациента</option>
@@ -80,7 +92,7 @@
                                                     </select>
 
                                                 </div>
-                                                <div class=" col-md-6 form-group" v-if="selectedEvent.status=='pending' || eventPending">
+                                                <div class=" col-md-6 form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                                                     <label for="employee">Сотрудник </label>
                                                     <select class="form-control" v-model="selectedEvent.employee_id" name="employee" id="employee">
                                                         <option value="">Выберите сотрудника</option>
@@ -101,30 +113,76 @@
 
                                             <hr>
 
-                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
+                                            <div class="form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                                                 <label for="patient_problems">Жалобы пациента</label>
                                                 <textarea class="form-control" v-model="selectedEvent.patient_problems" id="patient_problems" required></textarea>
+
                                             </div>
                                             <div class="form-group" v-else>
                                                 <label for="patient_problems">Жалобы пациента</label>
                                                 <textarea class="form-control" v-model="selectedEvent.patient_problems" id="patient_problems" disabled></textarea>
                                             </div>
-                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
-                                                <label for="diagnosis">Поставленный диагноз</label>
-                                                <textarea class="form-control" v-model="selectedEvent.diagnosis" id="diagnosis" required></textarea>
+                                            <div class="row" v-if="selectedEvent.active || selectedEvent.status==='pending'">
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="patient_problems">Anamnesis vitae</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.anamnesis_vitae" id="anamnesis_vitae" required></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="patient_problems">Anamnesis morbi</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.anamnesis_morbi" id="anamnesis_morbi" required></textarea>
+                                                </div>
                                             </div>
-                                            <div class="form-group" v-else>
-                                                <label for="diagnosis">Поставленный диагноз</label>
-                                                <textarea class="form-control" v-model="selectedEvent.diagnosis" id="diagnosis" disabled></textarea>
+                                            <div class="row" v-else>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="patient_problems">Anamnesis vitae</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.anamnesis_vitae" id="anamnesis_vitae" disabled></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="patient_problems">Anamnesis morbi</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.anamnesis_morbi" id="anamnesis_morbi" disabled></textarea>
+                                                </div>
                                             </div>
-                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
-                                                <label for="work_done">Проделанная работа</label>
-                                                <textarea class="form-control" v-model="selectedEvent.work_done" id="work_done" required></textarea>
+                                            <div class="row" v-if="selectedEvent.active || selectedEvent.status==='pending'">
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="objective_evaluation">Объективная оценка</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.objective_evaluation" id="objective_evaluation" required></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="diagnosis">Поставленный диагноз</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.diagnosis" id="diagnosis" required></textarea>
+                                                </div>
                                             </div>
-                                            <div class="form-group" v-else>
-                                                <label for="work_done">Проделанная работа</label>
-                                                <textarea class="form-control" v-model="selectedEvent.work_done" id="work_done" disabled></textarea>
+                                            <div class="row" v-else>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="objective_evaluation">Объективная оценка</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.objective_evaluation" id="objective_evaluation" disabled></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="diagnosis">Поставленный диагноз</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.diagnosis" id="diagnosis" disabled></textarea>
+                                                </div>
                                             </div>
+                                            <div class="row" v-if="selectedEvent.active || selectedEvent.status==='pending'">
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="work_done">Проделанная работа</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.work_done" id="work_done" required></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="diagnosis">Комментарии</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.status_comment" id="comment" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row" v-else>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="work_done">Проделанная работа</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.work_done" id="work_done" disabled></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="diagnosis">Комментарии</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.status_comment" id="comment" disabled></textarea>
+                                                </div>
+                                            </div>
+
                                             <!--<div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">-->
                                                 <!--<label for="title">Заголовок</label>-->
                                                 <!--<input type="text" class="form-control" v-model="selectedEvent.title" id="title">-->
@@ -134,7 +192,7 @@
                                                 <!--<input type="text" class="form-control" v-model="selectedEvent.title" id="title" disabled>-->
                                             <!--</div>-->
 
-                                            <div class="form-group" v-if="selectedEvent.status=='pending' || eventPending">
+                                            <div class="form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                                                 <label for="services">Услуги </label>
                                                 <multiselect v-model="selectedEvent.services"
                                                              id="services"
@@ -197,8 +255,10 @@
                                                     <li class="list-inline-item">
                                                         <h5 class = "mt-3">Вышло:</h5>
                                                     </li>
-                                                    <li class="list-inline-item">
-                                                        <input type="number" class="form-control" v-model="selectedEvent.price" v-if="selectedEvent.status=='pending'  || eventPending">
+                                                    <li class="list-inline-item" >
+
+                                                        <input type="number" class="form-control" v-model="selectedEvent.price" v-if="selectedEvent.status=='pending'  || selectedEvent.active">
+                                                        <input type="number" class="form-control" v-model="selectedEvent.price" disabled v-else >
                                                     </li>
                                                     <li class="list-inline-item">тг.</li>
                                                 </ul>
@@ -214,13 +274,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer" v-if="selectedEvent.status=='pending' || eventPending">
+                    <div class="modal-footer" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                         <button type="button" class="btn btn-primary" @click="updateSelectedAppointment">Сохранить изменения</button>
                         <button type="button" class="btn btn-danger" @click="deleteAppointment">Удалить запись</button>
                     </div>
                     <div class="modal-footer" v-else>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-primary" @click="openEvent">Открыть запись</button>
                         <button type="button" class="btn btn-danger" @click="deleteAppointment">Удалить запись</button>
                     </div>
                 </div>
@@ -262,7 +323,6 @@
             getPatientById: Function,
             eventPending:{
                 type: Boolean,
-                required: false,
                 default: true
             }
 
@@ -281,8 +341,8 @@
                     nowIndicator:true,
                     locale: 'ru',
                     minTime: '09:00:00',
-                    maxTime: '21:00:00',
-                    slotDuration:'00:30:00',
+                    maxTime: '20:00:00',
+                    slotDuration:'00:15:00',
                     slotLabelFormat: [
                         'H:mm'        // lower level of text
                     ],
@@ -379,6 +439,10 @@
             },
             getPatientInfo(){
                 location.href="/patients/"+this.selectedEvent.patient_id;
+            },
+            openEvent(){
+                this.selectedEvent.active = true;
+                this.selectedEvent.status = "pending";
             }
         },
         mounted() {

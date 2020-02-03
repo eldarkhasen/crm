@@ -79844,6 +79844,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -80240,6 +80244,32 @@ var render = function() {
                 ],
                 1
               ),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "color" } }, [_vm._v("Цвет")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.employee.color,
+                      expression: "employee.color"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "color", name: "color", id: "color" },
+                  domProps: { value: _vm.employee.color },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.employee, "color", $event.target.value)
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "inputEmail" } }, [

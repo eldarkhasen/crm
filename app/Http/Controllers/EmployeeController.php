@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Appointment;
 use App\Employee;
 use App\Position;
 use App\Service;
@@ -68,7 +69,8 @@ class EmployeeController extends Controller
             'surname'=>'required|max:120',
             'patronymic'=>'required|max:120',
             'phone'=>'required|',
-            'birth_date'=>'required'
+            'birth_date'=>'required',
+            'color'=>'required'
         ]);
 
         $employee = Employee::create([
@@ -77,7 +79,8 @@ class EmployeeController extends Controller
             'patronymic'=>request()->patronymic,
             'phone'=>request()->phone,
             'birth_date'=>request()->birth_date,
-            'gender'=> $gender[request()->gender]
+            'gender'=> $gender[request()->gender],
+            'color'=>request()->color
         ]);
 
         $positions = $request['positions'];
@@ -124,10 +127,14 @@ class EmployeeController extends Controller
 
         }
 
+        $notification = array(
+            'message' => 'Сотрудник добавлен',
+            'alert-type' => 'success'
+        );
+
         //Redirect to the employees.index view and display message
         return redirect()->route('employees.index')
-            ->with('flash_message',
-                'User successfully added.');
+            ->with($notification);
 
 
     }
@@ -187,6 +194,14 @@ class EmployeeController extends Controller
              $employee->services()->attach($serv['id']);
           }
 
+//        ItemTable::where('item_type_id', '=', 1)->update(['color' => 'black']);
+
+//          $appointments = $employee->appointments;
+//          foreach ($appointments as $app){
+//              $app->color = $employee->color;
+//              $employee->appoinments()->attach($app['id']);
+//          }
+//
           if($hasAccount){
               $permissions = $request['permissions'];
               $user = null;
@@ -229,6 +244,8 @@ class EmployeeController extends Controller
               }
               $employee->save();
           }
+
+          Appointment::where('employee_id','=',$employee->id)->update(['color'=>$employee->color]);
 
 
     }

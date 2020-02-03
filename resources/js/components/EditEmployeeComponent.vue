@@ -40,6 +40,10 @@
 
                         </div>
                         <div class="form-group" >
+                            <label for="color">Цвет</label>
+                            <input class = "form-control" type="color" name = color id = "color" v-model="employee.color">
+                        </div>
+                        <div class="form-group" >
                             <label for="inputEmail">Дата рождения</label>
                             <input class = "form-control" type="tel" v-mask="'##/##/####'"  name = "birth_date" placeholder="ДД/ММ/ГГГГ" v-model="employee.birth_date"/>
                         </div>

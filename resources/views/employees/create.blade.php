@@ -73,10 +73,16 @@
                                         @endif
                                     </select>
                                 </div>
+                                <div class="form-group" >
+                                    <label for="color">Цвет</label>
+                                    <input class = "form-control" type="color" name = color id = "color" value = "#1ABC9C">
+                                </div>
 
                                 <div class="form-group" >
+
                                     <input type="checkbox" id="checkbox"  v-model="checked" name = "createUser">
                                     <label for="checkbox">Дать доступ к системе</label>
+
                                     <transition name = "fade">
                                         <div class="form-group" v-if="checked">
                                             <label for="inputEmail">Почта</label>
@@ -109,6 +115,7 @@
                                         </div>
                                     </transition>
                                 </div>
+
 
                                     {{--<div class="form-group">--}}
                                         {{--<label for="#inputRoles">Задать должность</label>--}}

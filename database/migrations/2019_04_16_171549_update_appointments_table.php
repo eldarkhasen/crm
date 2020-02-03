@@ -20,7 +20,11 @@ class UpdateAppointmentsTable extends Migration
             $table->text('status_comment')->nullable();
             $table->text('patient_problems')->nullable();
             $table->text('diagnosis')->nullable();
+            $table->text('anamnesis_vitae')->nullable();
+            $table->text('anamnesis_morbi')->nullable();
+            $table->text('objective_evaluation')->nullable();
             $table->text('work_done')->nullable();
+            $table->boolean('active');
             $table->string('color')->default("#1ABC9C");
         });
     }

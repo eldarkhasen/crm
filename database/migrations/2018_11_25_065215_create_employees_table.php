@@ -25,6 +25,7 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->string("birth_date");
             $table->string('gender');
+            $table->string('color')->default("#1ABC9C");
             $table->timestamps();
         });
     }
