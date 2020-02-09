@@ -74,7 +74,10 @@ class PatientController extends Controller
                 'id_number'=>request()->id_number,
                 'address'=>request()->address,
                 'city'=>request()->city,
+                'workplace'=>request()->workplace,
+                'position'=>request()->position,
                 'discount'=>request()->discount,
+                'nationality'=>request()->nationality,
                 'photoname'=>$photo->getFilename().'.'.$extension,
                 'mime'=>$photo->getClientMimeType(),
                 'original_photoname'=>$photo->getClientOriginalExtension()
@@ -92,6 +95,9 @@ class PatientController extends Controller
                 'id_number'=>request()->id_number,
                 'address'=>request()->address,
                 'city'=>request()->city,
+                'workplace'=>request()->workplace,
+                'position'=>request()->position,
+                'nationality'=>request()->nationality,
                 'discount'=>request()->discount,
             ]);
         }
@@ -177,6 +183,9 @@ class PatientController extends Controller
             'id_number'=>request()->id_number,
             'address'=>request()->address,
             'city'=>request()->city,
+            'workplace'=>request()->workplace,
+            'position'=>request()->position,
+            'nationality'=>request()->nationality,
             'discount'=>request()->discount
         ])->save();
         return redirect()->route('patients.index')

@@ -238,6 +238,7 @@
             patientSelected() {
                 this.addNewPatient = false;
                 this.newEvent.patient = this.getPatientById(this.newEvent.patient_id);
+                this.newEvent.anamnesis_vitae = this.getPatientById(this.newEvent.patient_id).anamnesis_vitae;
             },
             patientHasNotProblem(){
                 this.has_problem = false;

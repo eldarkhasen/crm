@@ -84,7 +84,10 @@
                                         <label for="inputIdNumber">Уд.личности №</label>
                                         <input type="text" v-mask="'999999999'" class="form-control"  id = "inputIdNumber" name = "id_number" value="{{$patient->id_number}}"/>
                                     </div>
-
+                                    <div class="form-group" >
+                                        <label for="nationality">Национальность</label>
+                                        <input type="text" class="form-control"  id = "nationality" name = "nationality" value = "{{$patient->nationality}}" />
+                                    </div>
                                     <div class="form-group" >
                                         <label for="inputCity">Город</label>
                                         <input type="text"  class="form-control"  id = "inputCity" name = "city" value = "{{$patient->city}}" />
@@ -92,6 +95,14 @@
                                     <div class="form-group" >
                                         <label for="inputAddress">Адрес</label>
                                         <input type="text" class="form-control"  id = "inputAddress" name = "address"  value="{{$patient->address}}" />
+                                    </div>
+                                    <div class="form-group" >
+                                        <label for="inputWorkplace">Место работы</label>
+                                        <input type="text" class="form-control"  id = "inputWorkplace" name = "workplace"  value="{{$patient->workplace}}" />
+                                    </div>
+                                    <div class="form-group" >
+                                        <label for="inputPosition">Должность</label>
+                                        <input type="text" class="form-control"  id = "inputPosition" name = "position"  value="{{$patient->position}}" />
                                     </div>
 
                                 </fieldset>

@@ -351,13 +351,17 @@ const app = new Vue({
                 color: '#1ABC9C',
                 price: 0,
                 status: 'pending',
-                status_comment: null,
+                xray_data: null,
                 patient_problems:null,
                 diagnosis:null,
                 work_done:null,
+                recommendations:null,
+                bite:null,
                 anamnesis_vitae:null,
                 anamnesis_morbi:null,
-                objective_evaluation:null,
+                visual_inspection:null,
+                treatment_plan:null,
+                mucous_membrane:null,
                 patient: {},
                 active:true
             };
@@ -384,14 +388,18 @@ const app = new Vue({
                     patient_id: this.newEvent.patient_id,
                     price: this.newEvent.price,
                     status: this.newEvent.status,
-                    status_comment: this.newEvent.status_comment,
+                    xray_data: this.newEvent.xray_data,
                     patient_problems: this.newEvent.patient_problems,
                     diagnosis: this.newEvent.diagnosis,
                     work_done: this.newEvent.work_done,
                     anamnesis_vitae:this.newEvent.anamnesis_vitae,
                     anamnesis_morbi:this.newEvent.anamnesis_morbi,
-                    objective_evaluation:this.newEvent.objective_evaluation,
+                    visual_inspection:this.newEvent.visual_inspection,
                     active:true,
+                    bite:this.newEvent.bite,
+                    recommendations:this.newEvent.recommendations,
+                    treatment_plan:this.newEvent.treatment_plan,
+                    mucous_membrane:this.newEvent.mucous_membrane,
                     start: this.newEvent.start.format('Y-MM-DD') + ' ' + this.newEvent.start.format('HH:mm:ss'),
                     end: this.newEvent.end.format('Y-MM-DD') + ' ' + this.newEvent.end.format('HH:mm:ss')
                 })
@@ -399,13 +407,8 @@ const app = new Vue({
                     self.newEvent.id = response.data.id;
                     self.addEvent();
                     self.setDefaultNewEvent();
-                    const notification = {
-                        "message":"Запись добавлена",
-                        'alert-type':"success"
-                    };
-                    location.reload();
                     //ДОБАВИТЬ ФУНКЦИЮ ВЫВОДА УВЕДОМЛЕНИЯ ДО ИЛИ ПОСЛЕ ПЕРЕЗАГРУЗКИ СТРАНИЦЫ
-
+                    location.reload();
                     // toastr.success("Запись добавлена");
                     // toastr.options.closeButton = true;
                     // window.location.href = "{{ route('appointments.index')->with('flash_message','Сотрудник успешно добавлен')}}"
@@ -432,17 +435,21 @@ const app = new Vue({
                     patient_id: event.patient_id,
                     price: event.price,
                     status: event.status,
-                    status_comment: event.status_comment,
+                    xray_data: event.xray_data,
                     patient_problems: event.patient_problems,
                     diagnosis: event.diagnosis,
                     work_done:event.work_done,
                     anamnesis_vitae:event.anamnesis_vitae,
                     anamnesis_morbi:event.anamnesis_morbi,
-                    objective_evaluation:event.objective_evaluation,
+                    visual_inspection:event.visual_inspection,
                     color:event.color,
                     active:event.active,
-                    start: event.start.format('Y-MM-DD') + ' ' + event.start.format('HH:mm:ss'),
-                    end: event.end.format('Y-MM-DD') + ' ' + event.end.format('HH:mm:ss')
+                    recommendations:event.recommendations,
+                    bite:event.bite,
+                    treatment_plan:event.treatment_plan,
+                    mucous_membrane:event.mucous_membrane,
+                    start: this.newEvent.start.format('Y-MM-DD') + ' ' + this.newEvent.start.format('HH:mm:ss'),
+                    end: this.newEvent.end.format('Y-MM-DD') + ' ' + this.newEvent.end.format('HH:mm:ss')
                 })
                 .then((response) => {
                     toastr.success("Запись\n"+event.title+"\nобновлена");
@@ -477,13 +484,17 @@ const app = new Vue({
                     price: self.selectedEvent.price,
                     status: self.selectedEvent.status,
                     color:self.selectedEvent.color,
-                    status_comment: self.selectedEvent.status_comment,
+                    xray_data: self.selectedEvent.xray_data,
                     patient_problems: self.selectedEvent.patient_problems,
                     diagnosis: self.selectedEvent.diagnosis,
                     work_done:self.selectedEvent.work_done,
                     anamnesis_vitae:self.selectedEvent.anamnesis_vitae,
                     anamnesis_morbi:self.selectedEvent.anamnesis_morbi,
-                    objective_evaluation:self.selectedEvent.objective_evaluation,
+                    visual_inspection:self.selectedEvent.visual_inspection,
+                    recommendations:self.selectedEvent.recommendations,
+                    bite:self.selectedEvent.bite,
+                    treatment_plan:self.selectedEvent.treatment_plan,
+                    mucous_membrane:self.selectedEvent.mucous_membrane,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,
                     active:self.selectedEvent.active,
@@ -496,6 +507,7 @@ const app = new Vue({
                         if(response.data.cashbox_success){
                             toastr.success("Оплата записи успешно зафиксирована");
                             toastr.options.closeButton = true;
+                            location.reload();
                             // window.speechSynthesis.speak(msg);
                         }else{
                             toastr.error("Ошибка фиксации оплаты");

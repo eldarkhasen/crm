@@ -58,18 +58,33 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <strong><i class="fa fa-book mr-1"></i>Телефон</strong>
+                            <strong><i class="fa fa-book mr-1"></i> Телефон</strong>
                             <p class="text-muted">
                                 {{$patient->phone}}
                             </p>
 
                             <hr>
 
-                            <strong><i class="fa fa-map-marker mr-1"></i>Адрес</strong>
+                            <strong><i class="fa fa-map-marker mr-1"></i> Адрес</strong>
                             @if($patient->city==null && $patient->address==null)
                                 <p class="text-muted">нет данных</p>
                             @else
                                 <p class="text-muted">{{$patient->city}}, {{$patient->address}}</p>
+                            @endif
+                            <hr>
+
+                            <strong><i class="fas fa-id-card"></i> ИИН</strong>
+                            @if($patient->id_card==null)
+                                <p class="text-muted">нет данных</p>
+                            @else
+                                <p class="text-muted">{{$patient->id_card}}</p>
+                            @endif
+                            <hr>
+                            <strong><i class="fas fa-pills"></i>  История болезни </strong>
+                            @if($patient->anamnesis_vitae==null)
+                                <p class="text-muted">нет данных</p>
+                            @else
+                                <p class="text-muted">{{$patient->anamnesis_vitae}}</p>
                             @endif
                         </div>
                         <!-- /.card-body -->
@@ -94,6 +109,7 @@
                                         <tr>
                                             <th>Дата посещения</th>
                                             <th>Услуги</th>
+                                            <th>Диагноз</th>
                                             <th>Доктор</th>
                                             <th>Цена</th>
                                             <th>Действия</th>
@@ -111,6 +127,13 @@
                                                             @foreach($appointment->services as $service)
                                                                 {{$service->name}}
                                                             @endforeach
+                                                        </td>
+                                                        <td>
+                                                            @if(isset($appointment->diagnosis))
+                                                            {{$appointment->diagnosis}}
+                                                            @else
+                                                                Нет данных
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             <b>{{$appointment->employee->name}} {{$appointment->employee->surname}}</b>

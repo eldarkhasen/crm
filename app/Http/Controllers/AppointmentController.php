@@ -91,13 +91,17 @@ class AppointmentController extends Controller
 
             $appoint->price = $request->price;
             $appoint->status = $request->status;
-            $appoint->status_comment = $request->status_comment ?? null;
             $appoint->patient_problems=$request->patient_problems ?? null;
             $appoint->diagnosis=$request->diagnosis ?? null;
             $appoint->work_done=$request->work_done ?? null;
             $appoint->anamnesis_vitae=$request->anamnesis_vitae ?? null;
             $appoint->anamnesis_morbi=$request->anamnesis_morbi ?? null;
-            $appoint->objective_evaluation=$request->objective_evaluation ?? null;
+            $appoint->visual_inspection=$request->visual_inspection ?? null;
+            $appoint->xray_data=$request->xray_data ?? null;
+            $appoint->bite=$request->bite ?? null;
+            $appoint->recommendations=$request->recommendations ?? null;
+            $appoint->treatment_plan=$request->treatment_plan ?? null;
+            $appoint->mucous_membrane=$request->mucous_membrane ?? null;
             if(isset($patient->email)){
                 $name = $request->patient['name'];
                 $to_email = $request->patient['email'];
@@ -193,15 +197,22 @@ class AppointmentController extends Controller
         $appoint->price = $request->price;
         $appoint->status = $request->status;
         $appoint->color = $request->color;
-        $appoint->status_comment = $request->status_comment;
         $appoint->patient_problems=$request->patient_problems;
         $appoint->diagnosis=$request->diagnosis;
         $appoint->anamnesis_vitae=$request->anamnesis_vitae;
         $appoint->anamnesis_morbi=$request->anamnesis_morbi;
-        $appoint->objective_evaluation=$request->objective_evaluation;
+        $appoint->visual_inspection=$request->visual_inspection;
         $appoint->work_done=$request->work_done;
+        $appoint->bite=$request->bite;
         $appoint->active = $request->active;
+        $appoint->xray_data=  $request->xray_data;
+        $appoint->recommendations=$request->recommendations;
+        $appoint->treatment_plan=$request->treatment_plan;
+        $appoint->mucous_membrane=$request->mucous_membrane;
         $success = $appoint->save();
+        $patient = Patient::findOrFail($request->patient_id);
+        $patient->anamnesis_vitae = $request->anamnesis_vitae;
+        $patient->save();
 
         $services = [];
         foreach ($request->services as $service)
@@ -257,6 +268,15 @@ class AppointmentController extends Controller
 //                $cashbox_success = false;
 //            }
 
+        }else if($appoint->status === "client_miss"){
+            $cashBox = CashBox::first();
+            $cashflow = CashFlow::where('appointment_id','=',$appoint->id)->first();
+            $cashBox->current_balance = $cashBox->current_balance-$cashflow->amount;
+            $cashBox->income = $cashBox->income-$cashflow->amount;
+            $cashflow->amount = 0;
+            $cashflow->comments = "Клиент не пришел!";
+            $cashflow->save();
+            $cashBox->save();
         }
 
         return response()->json([

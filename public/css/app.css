@@ -127,11 +127,11 @@ ul ol {
 }
 
 dt {
-  font-weight: 700;
+  /*font-weight: 500;*/
 }
 
 dd {
-  margin-bottom: .5rem;
+  margin-bottom: 1rem;
   margin-left: 0;
 }
 

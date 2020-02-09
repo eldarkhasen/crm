@@ -79,7 +79,10 @@
                                         <label for="inputIdNumber">Уд.личности №</label>
                                         <input type="text" v-mask="'999999999'" class="form-control"  id = "inputIdNumber" name = "id_number" />
                                     </div>
-
+                                    <div class="form-group" >
+                                        <label for="inputAddress">Национальность</label>
+                                        <input type="text" class="form-control"  id = "inputAddress" name = "nationality" />
+                                    </div>
                                     <div class="form-group" >
                                         <label for="inputCity">Город</label>
                                         <input type="text"  class="form-control"  id = "inputCity" name = "city" />
@@ -87,6 +90,14 @@
                                     <div class="form-group" >
                                         <label for="inputAddress">Адрес</label>
                                         <input type="text" class="form-control"  id = "inputAddress" name = "address" />
+                                    </div>
+                                    <div class="form-group" >
+                                        <label for="inputAddress">Место работы</label>
+                                        <input type="text" class="form-control"  id = "inputAddress" name = "workplace" />
+                                    </div>
+                                    <div class="form-group" >
+                                        <label for="inputAddress">Должность</label>
+                                        <input type="text" class="form-control"  id = "inputAddress" name = "position" />
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPhoto">Фото</label>

@@ -78,7 +78,7 @@
                                                     <select class="form-control" v-model="selectedEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
                                                         <option value="">Выберите пациента</option>
                                                         <option v-for="item in patients"
-                                                                :value="item.id">{{ item.name}} {{ item.surname}}</option>
+                                                                :value="item.id">{{ item.surname}} {{ item.name}} {{ item.patronymic}} </option>
                                                     </select>
 
                                                     <a href = "#" type="button" class="btn btn-block btn-outline-primary btn-sm mt-3" @click="getPatientInfo()">Посмотреть подробную информацию</a>
@@ -88,7 +88,7 @@
                                                     <select disabled class="form-control" v-model="selectedEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
                                                         <option value="">Выберите пациента</option>
                                                         <option v-for="item in patients"
-                                                                :value="item.id">{{ item.name}} {{ item.surname}}</option>
+                                                                :value="item.id">{{ item.surname}} {{ item.name}} {{ item.patronymic}}</option>
                                                     </select>
 
                                                 </div>
@@ -97,7 +97,7 @@
                                                     <select class="form-control" v-model="selectedEvent.employee_id" name="employee" id="employee">
                                                         <option value="">Выберите сотрудника</option>
                                                         <option v-for="item in employees"
-                                                                :value="item.id">{{ item.name}} {{ item.surname}}</option>
+                                                                :value="item.id">{{ item.surname}} {{ item.name}} {{ item.patronymic}}</option>
                                                     </select>
                                                 </div>
                                                 <div class=" col-md-6 form-group" v-else>
@@ -105,7 +105,7 @@
                                                     <select class="form-control" disabled v-model="selectedEvent.employee_id" name="employee" id="employee">
                                                         <option value="">Выберите сотрудника</option>
                                                         <option v-for="item in employees"
-                                                                :value="item.id">{{ item.name}}</option>
+                                                                :value="item.id">{{ item.surname}} {{ item.name}} {{ item.patronymic}}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -122,6 +122,7 @@
                                                 <label for="patient_problems">Жалобы пациента</label>
                                                 <textarea class="form-control" v-model="selectedEvent.patient_problems" id="patient_problems" disabled></textarea>
                                             </div>
+                                            <hr>
                                             <div class="row" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                                                 <div class=" col-md-6 form-group">
                                                     <label for="patient_problems">Anamnesis vitae</label>
@@ -142,10 +143,11 @@
                                                     <textarea class="form-control" rows="5" v-model="selectedEvent.anamnesis_morbi" id="anamnesis_morbi" disabled></textarea>
                                                 </div>
                                             </div>
+                                            <hr>
                                             <div class="row" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                                                 <div class=" col-md-6 form-group">
-                                                    <label for="objective_evaluation">Объективная оценка</label>
-                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.objective_evaluation" id="objective_evaluation" required></textarea>
+                                                    <label for="visual_inspection">Внешний осмотр</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.visual_inspection" id="visual_inspection" required></textarea>
                                                 </div>
                                                 <div class=" col-md-6 form-group">
                                                     <label for="diagnosis">Поставленный диагноз</label>
@@ -154,32 +156,82 @@
                                             </div>
                                             <div class="row" v-else>
                                                 <div class=" col-md-6 form-group">
-                                                    <label for="objective_evaluation">Объективная оценка</label>
-                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.objective_evaluation" id="objective_evaluation" disabled></textarea>
+                                                    <label for="visual_inspection">Внешний осмотр</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.visual_inspection" id="visual_inspection" disabled></textarea>
                                                 </div>
                                                 <div class=" col-md-6 form-group">
                                                     <label for="diagnosis">Поставленный диагноз</label>
                                                     <textarea class="form-control" rows="5" v-model="selectedEvent.diagnosis" id="diagnosis" disabled></textarea>
                                                 </div>
                                             </div>
+                                            <hr>
                                             <div class="row" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                                                 <div class=" col-md-6 form-group">
-                                                    <label for="work_done">Проделанная работа</label>
-                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.work_done" id="work_done" required></textarea>
+                                                    <label for="mucous_membrane">Состояние слизистой</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.mucous_membrane" id="mucous_membrane" required></textarea>
                                                 </div>
                                                 <div class=" col-md-6 form-group">
-                                                    <label for="diagnosis">Комментарии</label>
-                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.status_comment" id="comment" required></textarea>
+                                                    <label for="treatment_plan">План лечения
+                                                    </label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.treatment_plan" id="treatment_plan" required></textarea>
                                                 </div>
                                             </div>
                                             <div class="row" v-else>
                                                 <div class=" col-md-6 form-group">
-                                                    <label for="work_done">Проделанная работа</label>
+                                                    <label for="mucous_membrane">Состояние слизистой</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.mucous_membrane" id="mucous_membrane" disabled></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="treatment_plan">План лечения
+                                                    </label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.treatment_plan" id="treatment_plan" disabled></textarea>
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row" v-if="selectedEvent.active || selectedEvent.status==='pending'">
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="work_done">Описание результатов лечения</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.work_done" id="work_done" required></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="xray_data">Рентгенологические исследования
+                                                    </label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.xray_data" id="xray_data" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row" v-else>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="work_done">Описание результатов лечения</label>
                                                     <textarea class="form-control" rows="5" v-model="selectedEvent.work_done" id="work_done" disabled></textarea>
                                                 </div>
                                                 <div class=" col-md-6 form-group">
-                                                    <label for="diagnosis">Комментарии</label>
-                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.status_comment" id="comment" disabled></textarea>
+                                                    <label for="xray_data">Рентгенологические исследования
+                                                    </label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.xray_data" id="xray_data" disabled></textarea>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row" v-if="selectedEvent.active || selectedEvent.status==='pending'">
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="bite">Прикус</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.bite" id="bite" required></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="xray_data">Рекомендации
+                                                    </label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.recommendations" id="recommendations" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row" v-else>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="bite">Прикус</label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.bite" id="bite" disabled></textarea>
+                                                </div>
+                                                <div class=" col-md-6 form-group">
+                                                    <label for="recommendations">Рекомендации
+                                                    </label>
+                                                    <textarea class="form-control" rows="5" v-model="selectedEvent.recommendations" id="recommendations" disabled></textarea>
                                                 </div>
                                             </div>
 
