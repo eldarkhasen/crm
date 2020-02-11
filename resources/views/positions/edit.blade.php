@@ -34,7 +34,13 @@
                         <!-- /.card-body -->
                         <div class="card-body">
                             <button type="submit" class="btn btn-primary">Сохранить</button>
+                            <a href="" onclick="event.preventDefault();
+                                    document.getElementById('delete-form').submit();" class="btn btn-danger">Удалить</a>
+
                         </div>
+                        {{ Form::close() }}
+                        {{ Form::open(array('route' => array('positions.destroy', $position->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
+                        <button type="submit" class="btn btn-danger">Удалить</button>
                         {{ Form::close() }}
                     </div>
                 </div>

@@ -111,8 +111,11 @@
                             <!-- /.card-body -->
                             <div class="card-body ">
                                 <button type="submit" class="btn btn-primary">Сохранить</button>
-                                {{--@include('errors.list')--}}
+                                <a href="" onclick="event.preventDefault();
+                                    document.getElementById('delete-form').submit();" class="btn btn-danger">Удалить</a>
                             </div>
+                        {{ Form::close() }}
+                        {{ Form::open(array('route' => array('patients.destroy', $patient->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
                         {{ Form::close() }}
                     </div>
                 </div>

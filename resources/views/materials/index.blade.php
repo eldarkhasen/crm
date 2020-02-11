@@ -66,13 +66,7 @@
                                                             <td>{{$material->price}}тг</td>
                                                             <td>{{$material->producer }}</td>
                                                             <td>
-                                                                <a href="{{ route('materials.edit', $material->id) }}"><i class="fa fa-edit"></i></a>
-                                                                /
-                                                                <a href="" onclick="event.preventDefault();
-                                                                     document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>
-                                                                    {{ Form::open(array('route' => array('materials.destroy', $material->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
-                                                                    <button type="submit" ><i class="fa fa-trash-alt"></i></button>
-                                                                    {{ Form::close() }}
+                                                                <a href="{{ route('materials.edit', $material->id) }}" class="btn btn-block btn-outline-primary btn-sm">Редактировать</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach

@@ -40,13 +40,12 @@
                                         <td>{{ $paymentItem->name }}</td>
                                         <td>{{$paymentItem->paymentType->name}}</td>
                                         <td>
-                                            <a href="{{ URL::to('paymentItems/'.$paymentItem->id.'/edit') }}"><i class="fa fa-edit"></i></a>
-                                            /
-                                            <a href="" onclick="event.preventDefault();
-                                                     document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>
-                                            {{ Form::open(array('route' => array('paymentItems.destroy', $paymentItem->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
-                                            <button type="submit" ><i class="fa fa-trash-alt"></i></button>
-                                            {{ Form::close() }}
+                                            <a href="{{ URL::to('paymentItems/'.$paymentItem->id.'/edit') }}" class="btn btn-block btn-outline-primary btn-sm">Редактировать</a>
+                                            {{--<a href="" onclick="event.preventDefault();--}}
+                                                     {{--document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>--}}
+                                            {{--{{ Form::open(array('route' => array('paymentItems.destroy', $paymentItem->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}--}}
+                                            {{--<button type="submit" ><i class="fa fa-trash-alt"></i></button>--}}
+                                            {{--{{ Form::close() }}--}}
                                         </td>
                                     </tr>
                                 @endforeach

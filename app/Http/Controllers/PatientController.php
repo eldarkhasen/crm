@@ -200,9 +200,16 @@ class PatientController extends Controller
      * @param  \App\Patient  $patients
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Patient $patients)
+    public function destroy($id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        $patient->delete();
+        $notification = array(
+            'message' => 'Пациент удален',
+            'alert-type' => 'info'
+        );
+        return redirect()->route('patients.index')
+            ->with($notification);
     }
 
     public function get(){

@@ -61,13 +61,9 @@
 
                                         <td>{{$patient->sumOfServices()}}тг</td>
                                         <td>
-                                        <a href="{{ route('patients.edit', $patient->id) }}"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ route('patients.edit', $patient->id) }}" class="btn btn-block btn-outline-primary btn-sm">Редактировать</a>
 
-                                            {{--<a href="" onclick="event.preventDefault();--}}
-                                            {{--document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>--}}
-                                            {{--{{ Form::open(array('route' => array('employees.destroy', $emp->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}--}}
-                                            {{--<button type="submit" ><i class="fa fa-trash-alt"></i></button>--}}
-                                            {{--{{ Form::close() }}--}}
+
                                         </td>
                                     </tr>
                                 @endforeach

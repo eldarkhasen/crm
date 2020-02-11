@@ -26,8 +26,9 @@
                             <table class="table table-hover dataTable" id = "services" role="grid">
                                 <thead>
                                 <tr>
-                                    <th>Доступ</th>
+                                    <th>Наименование</th>
                                     <th>Описание</th>
+                                    <th>Категория</th>
                                     <th>Действия</th>
                                 </tr>
                                 </thead>
@@ -43,13 +44,11 @@
                                             <td>Нет данных </td>
                                         @endif
                                         <td>
-                                            <a href="{{ URL::to('services/'.$service->id.'/edit') }}"><i class="fa fa-edit"></i></a>
-                                            /
-                                            <a href="" onclick="event.preventDefault();
-                                                     document.getElementById('delete-form').submit();"><i class="fa fa-trash-alt"></i></a>
-                                            {{ Form::open(array('route' => array('services.destroy', $service->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
-                                            <button type="submit" ><i class="fa fa-trash-alt"></i></button>
-                                            {{ Form::close() }}
+                                            {{$service->category}}
+                                        </td>
+                                        <td>
+                                            <a href="{{ URL::to('services/'.$service->id.'/edit') }}" class="btn btn-block btn-outline-primary btn-sm">Редактировать</a>
+
                                         </td>
                                     </tr>
                                 @endforeach
