@@ -394,7 +394,7 @@
                     locale: 'ru',
                     minTime: '09:00:00',
                     maxTime: '20:00:00',
-                    slotDuration:'00:15:00',
+                    slotDuration:'00:10:00',
                     slotLabelFormat: [
                         'H:mm'        // lower level of text
                     ],
