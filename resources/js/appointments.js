@@ -361,7 +361,7 @@ const app = new Vue({
                 anamnesis_morbi:null,
                 visual_inspection:null,
                 treatment_plan:null,
-                mucous_membrane:null,
+                objective_data:null,
                 patient: {},
                 active:true
             };
@@ -399,7 +399,7 @@ const app = new Vue({
                     bite:this.newEvent.bite,
                     recommendations:this.newEvent.recommendations,
                     treatment_plan:this.newEvent.treatment_plan,
-                    mucous_membrane:this.newEvent.mucous_membrane,
+                    objective_data:this.newEvent.objective_data,
                     start: this.newEvent.start.format('Y-MM-DD') + ' ' + this.newEvent.start.format('HH:mm:ss'),
                     end: this.newEvent.end.format('Y-MM-DD') + ' ' + this.newEvent.end.format('HH:mm:ss')
                 })
@@ -447,7 +447,7 @@ const app = new Vue({
                     recommendations:event.recommendations,
                     bite:event.bite,
                     treatment_plan:event.treatment_plan,
-                    mucous_membrane:event.mucous_membrane,
+                    objective_data:event.objective_data,
                     start: event.start.format('Y-MM-DD') + ' ' + event.start.format('HH:mm:ss'),
                     end: event.end.format('Y-MM-DD') + ' ' + event.end.format('HH:mm:ss')
                 })
@@ -493,7 +493,7 @@ const app = new Vue({
                     recommendations:self.selectedEvent.recommendations,
                     bite:self.selectedEvent.bite,
                     treatment_plan:self.selectedEvent.treatment_plan,
-                    mucous_membrane:self.selectedEvent.mucous_membrane,
+                    objective_data:self.selectedEvent.objective_data,
                     start: self.selectedEvent.start,
                     end: self.selectedEvent.end,
                     active:self.selectedEvent.active,

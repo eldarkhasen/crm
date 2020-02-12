@@ -33,7 +33,7 @@ class CreateAppointmentsTable extends Migration
             $table->text('work_done')->nullable();
             $table->text('recommendations')->nullable();
             $table->text('treatment_plan')->nullable();
-            $table->text('mucous_membrane')->nullable();
+            $table->text('objective_data')->nullable();
             $table->boolean('active');
             $table->string('color')->default("#1ABC9C");
             $table->timestamps();

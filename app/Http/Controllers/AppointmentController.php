@@ -101,7 +101,7 @@ class AppointmentController extends Controller
             $appoint->bite=$request->bite ?? null;
             $appoint->recommendations=$request->recommendations ?? null;
             $appoint->treatment_plan=$request->treatment_plan ?? null;
-            $appoint->mucous_membrane=$request->mucous_membrane ?? null;
+            $appoint->objective_data=$request->objective_data ?? null;
             if(isset($patient->email)){
                 $name = $request->patient['name'];
                 $to_email = $request->patient['email'];
@@ -208,7 +208,7 @@ class AppointmentController extends Controller
         $appoint->xray_data=  $request->xray_data;
         $appoint->recommendations=$request->recommendations;
         $appoint->treatment_plan=$request->treatment_plan;
-        $appoint->mucous_membrane=$request->mucous_membrane;
+        $appoint->objective_data=$request->objective_data;
         $success = $appoint->save();
         $patient = Patient::findOrFail($request->patient_id);
         $patient->anamnesis_vitae = $request->anamnesis_vitae;
