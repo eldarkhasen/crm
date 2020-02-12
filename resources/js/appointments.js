@@ -448,16 +448,15 @@ const app = new Vue({
                     bite:event.bite,
                     treatment_plan:event.treatment_plan,
                     mucous_membrane:event.mucous_membrane,
-                    start: this.newEvent.start.format('Y-MM-DD') + ' ' + this.newEvent.start.format('HH:mm:ss'),
-                    end: this.newEvent.end.format('Y-MM-DD') + ' ' + this.newEvent.end.format('HH:mm:ss')
+                    start: event.start.format('Y-MM-DD') + ' ' + event.start.format('HH:mm:ss'),
+                    end: event.end.format('Y-MM-DD') + ' ' + event.end.format('HH:mm:ss')
                 })
                 .then((response) => {
                     toastr.success("Запись\n"+event.title+"\nобновлена");
                     toastr.options.closeButton = true;
-                    $('#calendar').fullCalendar('rerenderEvents');
                 })
                 .catch(e => {
-                    alert("some error");
+                    alert(e);
                 })
 
         },
