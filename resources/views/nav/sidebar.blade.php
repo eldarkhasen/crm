@@ -55,7 +55,7 @@
                 @if(Auth::user()->hasPermissionTo('patients') || Auth::user()->hasRole('admin') )
                     <li class="nav-item">
                         <a href="/protocols" class="nav-link  {{ Request::is('protocols*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-dolly"></i>
+                            <i class="nav-icon fas fa-file-alt"></i>
                             <p>
                                 Шаблоны протоколов
                             </p>
