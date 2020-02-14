@@ -21,6 +21,7 @@
                                 :value="item.id">{{ item.name}}</option>
                     </select>
                 </div>
+
             </div>
             <div class="card-body">
                 <full-calendar :events="events"  :editable="true" :config="config" ref="calendar" nowindicator="true"></full-calendar>
@@ -72,7 +73,6 @@
 
 
                                             <div class="row mt-4">
-
                                                 <div class=" col-md-6 form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'">
                                                     <label for="patient">Пациент</label>
                                                     <select class="form-control" v-model="selectedEvent.patient_id" @change="patientSelected()" name="patient" id="patient">
@@ -109,8 +109,16 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <hr>
+                                            <div class="form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'">
+                                                <label for="protocol">Шаблон протокола</label>
+                                                <select class="form-control"  name="protocol" id="protocol" @change="protocolSelected($event)">
+                                                    <option value="" selected>Выберите шаблон протокола</option>
+                                                    <option v-for="item in protocols"
+                                                            :value="item.id">{{ item.name}}</option>
+                                                </select>
 
-
+                                            </div>
                                             <hr>
 
                                             <div class="form-group" v-if="selectedEvent.active || selectedEvent.status==='pending'">
@@ -380,6 +388,7 @@
             employees: Array,
             services: Array,
             patients: Array,
+            protocols: Array,
             getPatientById: Function,
             eventPending:{
                 type: Boolean,
@@ -400,7 +409,7 @@
                     },
                     nowIndicator:true,
                     locale: 'ru',
-                    minTime: '09:00:00',
+                    minTime: '08:00:00',
                     maxTime: '20:00:00',
                     slotDuration:'00:10:00',
                     slotLabelFormat: [
@@ -503,6 +512,25 @@
             openEvent(){
                 this.selectedEvent.active = true;
                 this.selectedEvent.status = "pending";
+            },
+            protocolSelected(event){
+                var myProtocol = null;
+                for(var i = 0;i<this.protocols.length;i++){
+                    if(this.protocols[i].id==event.target.value){
+                        myProtocol = this.protocols[i];
+                    }
+                }
+                this.selectedEvent.patient_problems = myProtocol.patient_problems;
+                this.selectedEvent.visual_inspection = myProtocol.visual_inspection;
+                this.selectedEvent.bite = myProtocol.bite;
+                this.selectedEvent.objective_data = myProtocol.objective_data;
+                this.selectedEvent.xray_data = myProtocol.xray_data;
+                this.selectedEvent.diagnosis = myProtocol.diagnosis;
+                this.selectedEvent.treatment_plan = myProtocol.treatment_plan;
+                this.selectedEvent.work_done = myProtocol.work_done;
+                this.selectedEvent.recommendations = myProtocol.recommendations;
+
+
             }
         },
         mounted() {

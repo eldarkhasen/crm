@@ -232,7 +232,8 @@ const app = new Vue({
         events: [], // window.Laravel.appointments,
         newEvent: {},
         selectedEvent: {},
-        eventPending:true
+        eventPending:true,
+        protocols:[],
     },
     methods: {
         getPatientById: function(id) {
@@ -281,7 +282,14 @@ const app = new Vue({
                 alert("some error while getting employees");
             })
         },
-
+        getProtocols:function(){
+            var self = this;
+            window.axios.get('/getProtocols').then((response) => {
+                self.protocols = response.data.protocols;
+            }).catch(e => {
+                alert("some error while getting protocols");
+            })
+        },
         getServices: function() {
             var self = this;
             window.axios.get('/getServicesFront').then((response) => {
@@ -619,6 +627,7 @@ const app = new Vue({
         this.checkCashBox();
         this.getEvents();
         this.getEmployees();
+        this.getProtocols();
         this.getServices();
         this.getPatients();
         this.setDefaultNewEvent();

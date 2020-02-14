@@ -31,6 +31,7 @@ Route::resource('cashBoxes', 'CashBoxController');
 Route::resource('paymentItems', 'PaymentItemController');
 Route::resource('cashFlows', 'CashFlowController');
 Route::resource('appointments', 'AppointmentController');
+Route::resource('protocols', 'ProtocolController');
 Route::get('create-income','CashFlowController@createIncome');
 Route::get('create-expanse','CashFlowController@createExpanse');
 Route::post('create-income','CashFlowController@storeIncome');
@@ -51,6 +52,7 @@ Route::get('getServicesByEmpId/{id}',"EmployeeController@getServicesByEmpId");
 // front
 Route::get('getAppointments', "AppointmentController@get");
 Route::get('getEmployees',"EmployeeController@get");
+Route::get('getProtocols',"ProtocolController@getAllProtocols");
 Route::get('getServicesFront',"ServiceController@get");
 Route::get('getPatientsFront',"PatientController@get");
 Route::get('checkCashBox',"CashBoxController@checkCashBox");

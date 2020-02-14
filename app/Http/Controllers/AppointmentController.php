@@ -209,6 +209,10 @@ class AppointmentController extends Controller
         $appoint->recommendations=$request->recommendations;
         $appoint->treatment_plan=$request->treatment_plan;
         $appoint->objective_data=$request->objective_data;
+        if($request->status === "pending"){
+            $emp = Employee::findOrFail($request->employee_id);
+            $appoint->color = $emp->color;
+        }
         $success = $appoint->save();
         $patient = Patient::findOrFail($request->patient_id);
         $patient->anamnesis_vitae = $request->anamnesis_vitae;
@@ -278,6 +282,7 @@ class AppointmentController extends Controller
             $cashflow->save();
             $cashBox->save();
         }
+
 
         return response()->json([
             'success' => $success,

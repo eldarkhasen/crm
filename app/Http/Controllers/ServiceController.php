@@ -42,7 +42,12 @@ class ServiceController extends Controller
     {
         $this->validate($request, [
             'name'=>'required|max:120',
-            'duration'=>'required',
+            'duration'=>'required|numeric',
+            'category'=>'required',
+            'description'=>'required',
+            'price'=>'required|numeric',
+            'max_price'=>'required|numeric',
+
         ]);
 
         Service::create([
@@ -96,15 +101,26 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $service = Service::findOrFail($id);
         $this->validate($request, [
             'name'=>'required|max:120',
+            'duration'=>'required|numeric',
+            'category'=>'required',
+            'description'=>'required',
+            'price'=>'required|numeric',
+            'max_price'=>'required|numeric',
         ]);
 
+        $service = Service::findOrFail($id);
         $input = $request->all();
         $service->fill($input)->save();
 
-        return redirect()->route('services.index');
+        $notification = array(
+            'message' => 'Услуга обновлена',
+            'alert-type' => 'info'
+        );
+
+        return redirect()->route('services.index')
+            ->with($notification);
     }
 
     /**

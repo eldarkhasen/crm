@@ -27,27 +27,27 @@
                                     <input type="text" class="form-control" id="inputName" name = "name">
                                     {!! $errors->first('name', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group {{ $errors->has('description') ? 'has-error' : ''}}">
                                     <label for="exampleInputEmail1">Описание</label>
                                     <textarea class="form-control" id="inputName" name = "description" rows="4"></textarea>
-
+                                    {!! $errors->first('description', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group {{ $errors->has('duration') ? 'has-error' : ''}}">
                                     <label for="inputDuration">Продолжительность (мин)</label>
-                                    <input type="text" class="form-control" id="inputDuration" name = "duration">
+                                    <input type="number" class="form-control" id="inputDuration" name = "duration">
                                     {!! $errors->first('duration', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group {{ $errors->has('category') ? 'has-error' : ''}}">
                                     <label for="inputCategory">Категория</label>
                                     <input type="text" class="form-control" id="inputCategory" name = "category">
                                     {!! $errors->first('category', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group {{ $errors->has('price') ? 'has-error' : ''}}">
                                     <label for="inputPrice">Цена</label>
                                     <input type="number" class="form-control" id="inputPrice" name = "price">
                                     {!! $errors->first('price', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group {{ $errors->has('max_price') ? 'has-error' : ''}}">
                                     <label for="inputMaxPrice">Максимальная цена</label>
                                     <input type="number" class="form-control" id="inputDuration" name = "max_price">
                                     {!! $errors->first('max_price', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}

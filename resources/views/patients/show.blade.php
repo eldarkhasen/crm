@@ -124,9 +124,11 @@
                                                             {{$appointment->start}}
                                                         </td>
                                                         <td>
-                                                            @foreach($appointment->services as $service)
-                                                                {{$service->name}}
-                                                            @endforeach
+                                                            {{$appointment->services()->pluck('name')->implode(' | ')}}
+
+                                                            {{--@foreach($appointment->services as $service)--}}
+                                                                {{--{{$service->name}}--}}
+                                                            {{--@endforeach--}}
                                                         </td>
                                                         <td>
                                                             @if(isset($appointment->diagnosis))

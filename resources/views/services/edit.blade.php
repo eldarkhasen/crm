@@ -22,30 +22,32 @@
                         {{ Form::model($service, array('route' => array('services.update', $service->id), 'method' => 'PUT')) }}
 
                         <div class="card-body">
-                            <div class="form-group">
+                            <div class="form-group  {{ $errors->has('name') ? 'has-error' : ''}}">
                                 <label for="exampleInputEmail1">Наименование</label>
                                 <input type="text" class="form-control" id="inputName" name = "name" value = "{{$service->name}}">
+                                {!! $errors->first('name', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('description') ? 'has-error' : ''}}">
                                 <label for="exampleInputEmail1">Описание</label>
                                 <textarea class="form-control" id="inputName" name = "description" rows="4" >{{$service->description}}</textarea>
+                                {!! $errors->first('description', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('duration') ? 'has-error' : ''}}">
                                 <label for="inputDuration">Продолжительность</label>
-                                <input type="text" class="form-control" id="inputDuration" name = "duration" value = "{{$service->duration}}">
+                                <input type="number" class="form-control" id="inputDuration" name = "duration" value = "{{$service->duration}}">
                                 {!! $errors->first('duration', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('category') ? 'has-error' : ''}}">
                                 <label for="inputCategory">Категория</label>
                                 <input type="text" class="form-control" id="inputCategory" name = "category" value="{{$service->category}}">
                                 {!! $errors->first('category', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('price') ? 'has-error' : ''}}">
                                 <label for="inputPrice">Цена</label>
                                 <input type="number" class="form-control" id="inputPrice" name = "price" value="{{$service->price}}">
                                 {!! $errors->first('price', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}
                             </div>
-                            <div class="form-group">
+                            <div class="form-group  {{ $errors->has('max_price') ? 'has-error' : ''}}">
                                 <label for="inputMaxPrice">Максимальная цена</label>
                                 <input type="number" class="form-control" id="inputDuration" name = "max_price" value="{{$service->max_price}}">
                                 {!! $errors->first('max_price', '<span class="help-block" style = "color:red">Заполните данное поле</span>') !!}

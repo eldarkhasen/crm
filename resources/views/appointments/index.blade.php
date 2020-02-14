@@ -35,6 +35,7 @@
                                            :employees = "employees"
                                            :services = "services"
                                            :patients = "patients"
+                                           :protocols="protocols"
                                            :get-patient-by-id = "getPatientById"
                     >
                     </appointment-component>

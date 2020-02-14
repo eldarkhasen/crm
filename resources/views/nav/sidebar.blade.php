@@ -52,6 +52,16 @@
                         </a>
                     </li>
                 @endif
+                @if(Auth::user()->hasPermissionTo('patients') || Auth::user()->hasRole('admin') )
+                    <li class="nav-item">
+                        <a href="/protocols" class="nav-link  {{ Request::is('protocols*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-dolly"></i>
+                            <p>
+                                Шаблоны протоколов
+                            </p>
+                        </a>
+                    </li>
+                @endif
                 @if(Auth::user()->hasPermissionTo('finance') || Auth::user()->hasRole('admin') )
                 <li class="nav-item has-treeview {{ Request::is('cashBoxes*')||Request::is('paymentItems*')
                     || Request::is('cashFlows*') || Request::is('create-income*') || Request::is('create-expanse*') ? 'menu-open' : '' }}">

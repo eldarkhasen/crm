@@ -20,7 +20,6 @@ class Employee extends Model
     }
 
     public function hasAccount(){
-
         $account = $this->account()->count();
 
         if($account>=1){
