@@ -529,6 +529,10 @@
                 this.selectedEvent.treatment_plan = myProtocol.treatment_plan;
                 this.selectedEvent.work_done = myProtocol.work_done;
                 this.selectedEvent.recommendations = myProtocol.recommendations;
+                this.selectedEvent.anamnesis_morbi = myProtocol.anamnesis_morbi;
+                if(!this.selectedEvent.anamnesis_vitae){
+                    this.selectedEvent.anamnesis_vitae = myProtocol.anamnesis_vitae;
+                }
 
 
             }
