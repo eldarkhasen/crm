@@ -28,4 +28,8 @@ class Patient extends Model
         }
         return $sum;
     }
+
+    public function xray_images(){
+        return $this->hasMany(XrayImage::class,"patient_id");
+    }
 }

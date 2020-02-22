@@ -408,6 +408,7 @@
                         center: 'prev title next today'
                     },
                     nowIndicator:true,
+                    timeZone: 'local',
                     locale: 'ru',
                     minTime: '08:00:00',
                     maxTime: '20:00:00',

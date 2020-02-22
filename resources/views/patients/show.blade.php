@@ -97,13 +97,13 @@
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link  active show" href="#activity" data-toggle="tab">Визиты</a></li>
-                                {{--<li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Лечения</a></li>--}}
-                                {{--<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Документы</a></li>--}}
+                                <li class="nav-item"><a class="nav-link" href="#xray_images" data-toggle="tab">Снимки</a></li>
+                                {{--<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab"></a></li>--}}
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="tab-pane  active show " id="activity">
+                                <div class="tab-pane  active show" id="activity">
                                     <table class="table table-bordered table-hover dataTable appointmentsTable"  role="grid">
                                         <thead>
                                         <tr>
@@ -152,169 +152,117 @@
                                             @endforeach
                                         @endif
                                         </tbody>
-                                        </table>
+                                    </table>
 
-
-                                    {{--@else--}}
-                                        {{--<div class="row">--}}
-                                            {{--<div class="col-sm-4">--}}
-                                                {{--<strong>Нет визитов</strong>--}}
-                                            {{--</div>--}}
-
-                                        {{--</div>--}}
-                                    {{--@endif--}}
                                 </div>
                                 <!-- /.tab-pane -->
-                                <div class="tab-pane" id="timeline">
-                                    <!-- The timeline -->
-                                    <ul class="timeline timeline-inverse">
-                                        <!-- timeline time label -->
-                                        <li class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                                        </li>
-                                        <!-- /.timeline-label -->
-                                        <!-- timeline item -->
-                                        <li>
-                                            <i class="fa fa-envelope bg-primary"></i>
+                                <div class="tab-pane" id="xray_images">
+                                    <div class="row mb-4">
+                                        <div class="col-sm-3">
 
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                                            <a href="#"  type = "button" class = "btn btn-block btn-outline-primary float-lg-left" data-toggle="modal" data-target="#imageModal">Добавить снимки</a></li>
+                                        </div>
+                                    </div>
 
-                                                <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
 
-                                                <div class="timeline-body">
-                                                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                                    quora plaxo ideeli hulu weebly balihoo...
-                                                </div>
-                                                <div class="timeline-footer">
-                                                    <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- END timeline item -->
-                                        <!-- timeline item -->
-                                        <li>
-                                            <i class="fa fa-user bg-info"></i>
+                                    <table class="table table-bordered table-hover dataTable imagesTable"  role="grid">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Дата загрузки снимка</th>
+                                            <th>Дата визита</th>
+                                            <th>Комментарии</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(count($patient->xray_images)>0)
+                                                @foreach($patient->xray_images as $xray_image)
+                                                    <tr>
+                                                        <td>
+                                                            <a href="#"  data-toggle="modal" data-target="#imageModal-{{$xray_image->id}}">
+                                                                <img class="rounded mx-auto d-block" src="{{url('xray_data/'.$xray_image->photoname)}}" alt="User Image" style="max-height: 250px;max-width: 250px;">
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#"  data-toggle="modal" data-target="#imageModal-{{$xray_image->id}}">
+                                                            {{$xray_image->created_at}}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            @if(isset($xray_image->appointment_date))
+                                                                <a href="#"  data-toggle="modal" data-target="#imageModal-{{$xray_image->id}}">
+                                                                {{$xray_image->appointment_date}}
+                                                                </a>
+                                                            @else
+                                                                Нет данных
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if(isset($xray_image->comments))
+                                                                <a href="#"  data-toggle="modal" data-target="#imageModal-{{$xray_image->id}}">
+                                                                {{$xray_image->comments}}
+                                                                </a>
+                                                            @else
+                                                                Нет данных
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    <div class="modal fade bd-example-modal-lg" id="imageModal-{{$xray_image->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Информация по снимку</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                {{ Form::model($xray_image, array('route' => array('xrayimages.update', $xray_image->id), 'method' => 'PUT')) }}
+                                                                <div class="modal-body">
+                                                                        <div class="form-group">
+                                                                            <img class="rounded mx-auto d-block" src="{{url('xray_data/'.$xray_image->photoname)}}" alt="User Image" style="max-height: 500px;max-width: 500px;">
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div class="form-group mt-3">
+                                                                            <label for="appointment_date">Дата Записи</label>
+                                                                            <select  class="form-control" name = "appointment_date" id = "appointment_date">
+                                                                                @if(isset($xray_image->appointment_date))
+                                                                                    @foreach($patient->appointments as $appointment)
+                                                                                        <option value="{{$appointment->start}}" @if($xray_image->appointment_date==$appointment->start) selected="selected" @endif >{{$appointment->start}}</option>
+                                                                                    @endforeach
+                                                                                @else
+                                                                                        <option value=""></option>
+                                                                                        @foreach($patient->appointments as $appointment)
+                                                                                            <option value="{{$appointment->start}}">{{$appointment->start}}</option>
+                                                                                        @endforeach
+                                                                                @endif
 
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+                                                                            </select>
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div class="form-group">
+                                                                            <label for="xraycomments">Коментарии</label>
+                                                                            <textarea class = "form-control" name="xraycomments" id="xraycomments"
+                                                                                      rows="7">{{$xray_image->comments}}</textarea>
+                                                                        </div>
 
-                                                <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-                                                </h3>
-                                            </div>
-                                        </li>
-                                        <!-- END timeline item -->
-                                        <!-- timeline item -->
-                                        <li>
-                                            <i class="fa fa-comments bg-warning"></i>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                                                                    {{ Form::close() }}
+                                                                    {{ Form::open(array('route' => array('xrayimages.destroy', $xray_image->id), 'method' => 'delete', "style"=>"display: none;","id"=>"delete-form")) }}
+                                                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                                                    {{ Form::close() }}
+                                                                </div>
 
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-                                                <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                                                <div class="timeline-body">
-                                                    Take me to your leader!
-                                                    Switzerland is small and neutral!
-                                                    We are more like Germany, ambitious and misunderstood!
-                                                </div>
-                                                <div class="timeline-footer">
-                                                    <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- END timeline item -->
-                                        <!-- timeline time label -->
-                                        <li class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                                        </li>
-                                        <!-- /.timeline-label -->
-                                        <!-- timeline item -->
-                                        <li>
-                                            <i class="fa fa-camera bg-purple"></i>
-
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-
-                                                <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                                                <div class="timeline-body">
-                                                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                                    <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- END timeline item -->
-                                        <li>
-                                            <i class="fa fa-clock-o bg-gray"></i>
-                                        </li>
-                                    </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!-- /.tab-pane -->
 
-                                <div class="tab-pane" id="settings">
-                                    <form class="form-horizontal">
-                                        <div class="form-group">
-                                            <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                                            <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputName" placeholder="Name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                                            <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputName2" class="col-sm-2 control-label">Name</label>
-
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-2 col-sm-10">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-2 col-sm-10">
-                                                <button type="submit" class="btn btn-danger">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- /.tab-pane -->
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->
@@ -325,7 +273,22 @@
             </div>
         </div>
     </section>
-
+    <!-- Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Загрузить снимки</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id ="app">
+                    <upload-images-component :patient_id = "'{!! json_encode($patient->id) !!}'"></upload-images-component>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <script type="text/javascript" >
@@ -357,5 +320,37 @@
                 }
             });     //capital "D"
         });
+        $(document).ready(function () {
+            $('.imagesTable').DataTable({
+                "processing": true,
+                "responsive": true,
+                "searching": false,
+                "language": {
+                    "processing": "Подождите...",
+                    "search": "Поиск:",
+                    "lengthMenu": "Показать _MENU_ записей",
+                    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "infoPostFix": "",
+                    "loadingRecords": "Загрузка записей...",
+                    "zeroRecords": "Записи отсутствуют.",
+                    "emptyTable": "В таблице отсутствуют данные",
+                    "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                    },
+                    "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                    }
+                }
+            });     //capital "D"
+        });
     </script>
 @endsection
+<style lang="scss" scoped>
+
+</style>

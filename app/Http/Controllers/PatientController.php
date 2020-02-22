@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Patient;
+use App\XrayImage;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +23,7 @@ class PatientController extends Controller
     public function index()
     {
         $patients = Patient::all();
+
         return view('patients.index',compact('patients'));
     }
 
@@ -188,9 +190,14 @@ class PatientController extends Controller
             'nationality'=>request()->nationality,
             'discount'=>request()->discount
         ])->save();
+
+        $notification = array(
+            'message' => 'Пациент обновлен!',
+            'alert-type' => 'success',
+            'tab'=>'default'
+        );
         return redirect()->route('patients.index')
-            ->with('flash_message',
-                'Patient successfully added.');
+            ->with($notification);
 
     }
 

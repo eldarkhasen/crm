@@ -32,6 +32,7 @@ Route::resource('paymentItems', 'PaymentItemController');
 Route::resource('cashFlows', 'CashFlowController');
 Route::resource('appointments', 'AppointmentController');
 Route::resource('protocols', 'ProtocolController');
+Route::resource('xrayimages', 'XrayImageController');
 Route::get('create-income','CashFlowController@createIncome');
 Route::get('create-expanse','CashFlowController@createExpanse');
 Route::post('create-income','CashFlowController@storeIncome');
@@ -48,6 +49,7 @@ Route::get('getPermissionsByUserId/{id}',"PermissionController@getPermissionsByU
 
 Route::get('getServices',"ServiceController@getServices");
 Route::get('getServicesByEmpId/{id}',"EmployeeController@getServicesByEmpId");
+Route::post('xray-upload',"XrayImageController@store");
 
 // front
 Route::get('getAppointments', "AppointmentController@get");

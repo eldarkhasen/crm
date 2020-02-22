@@ -387,7 +387,6 @@ const app = new Vue({
                 }
             }
 
-
             window.axios.post('/appointments',
                 {
                     title: this.newEvent.title,
@@ -541,7 +540,7 @@ const app = new Vue({
             window.axios.delete('/appointments/' + event.id)
                 .then((response) => {
                     self.deleteEvent(event.id);
-                    toastr.info("Запись "+self.selectedEvent.title+"удалена");
+                    toastr.info("Запись удалена");
                     toastr.options.closeButton = true;
                 })
                 .catch(e => {

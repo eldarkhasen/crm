@@ -38,6 +38,7 @@ Vue.component('multiselect', Multiselect);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('edit-emp-component', require('./components/EditEmployeeComponent.vue'));
+Vue.component('upload-images-component', require('./components/UploadImagesComponents.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 
