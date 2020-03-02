@@ -298,10 +298,13 @@ class AppointmentController extends Controller
     public function destroy($id)
     {
         $cashflow = CashFlow::where('appointment_id','=',$id)->first();
-        $cashBox = $cashflow->cashBox;
-        $cashBox->current_balance = $cashBox->current_balance-$cashflow->amount;
-        $cashBox->income = $cashBox->income-$cashflow->amount;
-        $cashBox->save();
+        if(isset($cashflow)){
+            $cashBox = $cashflow->cashBox;
+            $cashBox->current_balance = $cashBox->current_balance-$cashflow->amount;
+            $cashBox->income = $cashBox->income-$cashflow->amount;
+            $cashBox->save();
+        }
+
         $appoint = Appointment::findOrFail($id);
         $success = $appoint->delete();
 

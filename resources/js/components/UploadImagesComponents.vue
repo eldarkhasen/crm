@@ -2,12 +2,15 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                <div class="spinner-border text-primary" role="status" v-if="progress">
+                    <span class="sr-only">Loading...</span>
+                </div>
                 <div class="uploader"
                      @dragenter="OnDragEnter"
                      @dragleave="OnDragLeave"
                      @dragover.prevent
                      @drop="onDrop"
-                     :class="{ dragging: isDragging }">
+                     :class="{ dragging: isDragging }" v-else>
 
                     <div class="upload-control" v-show="images.length">
                         <label for="file">Выбрать еще снимки</label>
@@ -45,7 +48,8 @@
             isDragging: false,
             dragCount: 0,
             files: [],
-            images: []
+            images: [],
+            progress:false,
         }),
         props:['patient_id'],
         methods: {
@@ -95,6 +99,8 @@
                 return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
             },
             upload() {
+                // this.progress=true;
+                this.progress=true;
                 const formData = new FormData();
 
                 this.files.forEach(file => {
@@ -107,6 +113,7 @@
                         // this.$toastr.s('Снимки были загружены');
                         this.images = [];
                         this.files = [];
+                        this.progress=false;
                         location.reload();
                     })
             }
