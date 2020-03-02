@@ -87,7 +87,7 @@ class CashFlowController extends Controller
         $paymentItems = PaymentItem::where("payment_type_id","2")->get();
         $cashBoxes = CashBox::all();
 
-        return view('cashFlows.createexpanse',compact('paymentItems','cashBoxes','id'));
+        return view('cashflows.createexpanse',compact('paymentItems','cashBoxes','id'));
     }
 
     /**
@@ -252,6 +252,6 @@ class CashFlowController extends Controller
      */
     public function destroy(CashFlow $cashFlow)
     {
-
+        //
     }
 }
