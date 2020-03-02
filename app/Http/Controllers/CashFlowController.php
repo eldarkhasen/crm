@@ -252,6 +252,6 @@ class CashFlowController extends Controller
      */
     public function destroy(CashFlow $cashFlow)
     {
-        //
+
     }
 }

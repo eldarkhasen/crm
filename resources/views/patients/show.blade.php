@@ -219,7 +219,7 @@
                                                                 {{ Form::model($xray_image, array('route' => array('xrayimages.update', $xray_image->id), 'method' => 'PUT')) }}
                                                                 <div class="modal-body">
                                                                         <div class="form-group">
-                                                                            <img class="rounded mx-auto d-block" src="{{url('xray_data/'.$xray_image->photoname)}}" alt="User Image" style="max-height: 500px;max-width: 500px;">
+                                                                            <img class="img-responsive rounded mx-auto d-block" src="{{url('xray_data/'.$xray_image->photoname)}}" alt="User Image" style="max-height: 650px;max-width: 650px;">
                                                                         </div>
                                                                         <hr>
                                                                         <div class="form-group mt-3">
