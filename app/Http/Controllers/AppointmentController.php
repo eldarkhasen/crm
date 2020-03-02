@@ -300,6 +300,7 @@ class AppointmentController extends Controller
         $cashflow = CashFlow::where('appointment_id','=',$id)->first();
         $cashBox = $cashflow->cashBox;
         $cashBox->current_balance = $cashBox->current_balance-$cashflow->amount;
+        $cashBox->income = $cashBox->income-$cashflow->amount;
         $cashBox->save();
         $appoint = Appointment::findOrFail($id);
         $success = $appoint->delete();
