@@ -69,7 +69,7 @@
                                         @else
                                             <td>Не указано</td>
                                         @endif
-                                        <td>{{$cashFlow->userCreated->name}} <br> {{$cashFlow->created_at->formatLocalized('%d %B %Y %H:%M')}}</td>
+                                        <td>{{$cashFlow->userCreated->name}} <br> {{$cashFlow->created_at->formatLocalized('%d %B %Y')}}</td>
 
                                         @if($cashFlow->paymentItem->paymentType->id==1)
                                             <td>{{$cashFlow->amount}}тг</td>
