@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
-@section('title', '| Редатировать должность')
+@section('title', '| Редатировать протокол')
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Редактировать должность</h1>
+                    <h1>Редактировать протокол</h1>
                 </div>
 
             </div>

@@ -26,7 +26,7 @@ class MaterialController extends Controller
         $materials = Material::all();
 
 //        dd($materialsUsages->material->name);
-        return view('materials.index',compact('materials','materialsUsages'));
+        return view('materials.index',compact('materials','materials'));
     }
 
     /**

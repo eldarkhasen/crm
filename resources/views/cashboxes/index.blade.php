@@ -134,8 +134,6 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
-
-
 @endsection
 
 @section('script')

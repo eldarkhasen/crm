@@ -234,7 +234,6 @@ class EmployeeController extends Controller
               $user->save();
               $user->employee()->save($employee);
 
-
           }else{
               $employee->fill($request['employee']);
               if($employee->user_id!=null){
